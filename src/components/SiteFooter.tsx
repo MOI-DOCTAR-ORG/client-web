@@ -29,30 +29,14 @@ export default function SiteFooter() {
             </button>
           </div>
           <div className="mt-10 grid grid-cols-3 gap-6">
-            {[
-              [
-                ["Home", "/"],
-                ["How It Works", "/how-it-works"],
-                ["Privacy", "/"],
-              ],
-              [
-                ["Features", "/features"],
-                ["Support", "/contact"],
-                ["Terms of Service", "/"],
-              ],
-              [
-                ["Contact", "/contact"],
-                ["Medical Disclaimer", "/"],
-                ["ISO", "/"],
-              ],
-            ].map((column) => (
-              <div key={column[0][0]} className="grid gap-4 text-[10px] text-slate-600">
-                {column.map(([item, to]) => (
-                  <Link key={item} className="transition hover:text-clinical" to={to}>
-                    {item}
-                  </Link>
-                ))}
-              </div>
+            {([
+              ["Home", "/"],
+              ["How It Works", "/how-it-works"],
+              ["Download App", "/download"],
+            ] as const).map(([item, to]) => (
+              <Link key={item} className="block text-[10px] text-slate-600 transition hover:text-clinical" to={to}>
+                {item}
+              </Link>
             ))}
           </div>
         </div>

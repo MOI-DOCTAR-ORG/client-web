@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Download, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Download, ExternalLink, X } from "lucide-react";
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
@@ -40,6 +41,13 @@ export default function InstallPrompt() {
       >
         Install
       </button>
+      <Link
+        to="/download"
+        className="ml-1 grid h-7 w-7 place-items-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"
+        aria-label="Learn more about installing"
+      >
+        <ExternalLink size={12} />
+      </Link>
       <button
         onClick={() => setShow(false)}
         className="ml-1 grid h-7 w-7 place-items-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"

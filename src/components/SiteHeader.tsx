@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 
@@ -30,6 +30,19 @@ export default function SiteHeader() {
             {item.label}
           </NavLink>
         ))}
+        <NavLink
+          className={({ isActive }) =>
+            `inline-flex items-center gap-1.5 text-[11px] font-semibold transition ${
+              isActive
+                ? "text-clinical"
+                : "text-clinical/80 hover:text-clinical"
+            }`
+          }
+          to="/download"
+        >
+          <Download size={12} />
+          Download App
+        </NavLink>
       </nav>
       <div className="flex items-center gap-3">
         <button

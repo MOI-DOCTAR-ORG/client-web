@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
 import ReminderBanner from '../components/ReminderBanner'
 import SessionGrid from '../components/SessionGrid'
 import QuickActions from '../components/QuickActions'
+
+const greeting = () => {
+  const h = new Date().getHours()
+  if (h < 12) return 'Good morning'
+  if (h < 17) return 'Good afternoon'
+  return 'Good evening'
+}
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -19,6 +26,28 @@ export default function Dashboard() {
     { label: 'Okay', icon: 'sentiment_neutral', color: 'text-amber-500' },
     { label: 'Unwell', icon: 'sentiment_dissatisfied', color: 'text-error' },
   ]
+
+  const medCount = useMemo(() => {
+    try {
+      const data = localStorage.getItem('doctarr_prescriptions')
+      return data ? JSON.parse(data).length : 0
+    } catch { return 0 }
+  }, [])
+
+  const daysSinceFirstSession = useMemo(() => {
+    if (sessions.length === 0) return 0
+    const dates = sessions.map(s => new Date(s.date).getTime()).filter(t => !isNaN(t))
+    if (dates.length === 0) return 0
+    const first = Math.min(...dates)
+    return Math.max(1, Math.floor((Date.now() - first) / 86400000))
+  }, [sessions])
+
+  const wellnessScore = useMemo(() => {
+    if (sessions.length === 0) return null
+    const severityValues: Record<string, number> = { Urgent: 30, Moderate: 60, Stable: 90 }
+    const scores = sessions.map(s => severityValues[s.severity] || 50)
+    return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+  }, [sessions])
 
   const saveCheckIn = () => {
     if (!mood) return
@@ -39,14 +68,13 @@ export default function Dashboard() {
     <main className="min-h-screen p-4 md:p-gutter max-w-[1400px] mx-auto flex flex-col gap-6">
       <header className="flex justify-between items-center">
         <div>
-          <h2 className="font-headline-lg text-headline-lg text-on-surface">Good morning</h2>
+          <h2 className="font-headline-lg text-headline-lg text-on-surface">{greeting()}</h2>
           <p className="font-body-md text-secondary">Here is your health overview for today.</p>
         </div>
       </header>
 
       <ReminderBanner />
 
-      {/* Quick Check-in */}
       {!savedToday ? (
         <div className="bg-surface-container-lowest rounded-[20px] p-6 border border-outline-variant/30 shadow-level-1">
           <div className="flex items-center gap-3 mb-4">
@@ -64,7 +92,7 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="flex gap-3">
-            <input className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-5 py-3 font-body-md outline-none focus:border-primary" placeholder="Any notes about how you feel?" value={feeling} onChange={e => setFeeling(e.target.value)} />
+            <input className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-5 py-3 font-body-md outline-none focus:border-primary" placeholder="Any notes about how you feel?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
             <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-2">
               <Icon icon="check" />
               Save
@@ -80,7 +108,6 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Hero + Wellness Score */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-gradient-to-br from-primary to-primary-container rounded-[24px] p-8 md:p-10 text-on-primary shadow-level-2 relative overflow-hidden flex flex-col justify-between min-h-[260px]">
           <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-white/10 rounded-full blur-[40px]" />
@@ -103,18 +130,18 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-[24px] p-6 border border-[#E5E7EB] shadow-level-1 flex flex-col justify-between min-h-[260px]">
+        <div className="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/30 shadow-level-1 flex flex-col justify-between min-h-[260px]">
           <div className="flex justify-between items-start mb-6">
             <div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Wellness Score</h3>
-              <p className="text-sm text-secondary mt-1">{sessions.length > 0 ? 'Based on your logs' : '7-Day Trend'}</p>
+              <p className="text-sm text-secondary mt-1">{wellnessScore !== null ? 'Average across all sessions' : '7-Day Trend'}</p>
             </div>
             <div className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
-              <Icon icon="trending_up" />
+              <Icon icon={wellnessScore !== null && wellnessScore >= 70 ? 'trending_up' : wellnessScore !== null ? 'trending_flat' : 'trending_up'} />
             </div>
           </div>
           <div className="flex items-end gap-2 mb-4">
-            <span className="text-4xl font-extrabold text-on-surface tracking-tight">{sessions.length > 0 ? sessions.length * 10 : '--'}</span>
+            <span className="text-4xl font-extrabold text-on-surface tracking-tight">{wellnessScore !== null ? wellnessScore : '--'}</span>
           </div>
           <div className="w-full h-24 mt-auto relative">
             <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
@@ -145,9 +172,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-[#E5E7EB] shadow-level-1 flex items-center gap-4">
+        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-outline-variant/30 shadow-level-1 flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
             <Icon icon="forum" className="icon-fill" />
           </div>
@@ -156,27 +182,26 @@ export default function Dashboard() {
             <p className="text-2xl font-bold text-on-surface">{sessions.length}</p>
           </div>
         </div>
-        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-[#E5E7EB] shadow-level-1 flex items-center gap-4">
+        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-outline-variant/30 shadow-level-1 flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
             <Icon icon="vaccines" className="icon-fill" />
           </div>
           <div>
             <p className="text-sm font-medium text-secondary">Active Medications</p>
-            <p className="text-2xl font-bold text-on-surface">0</p>
+            <p className="text-2xl font-bold text-on-surface">{medCount}</p>
           </div>
         </div>
-        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-[#E5E7EB] shadow-level-1 flex items-center gap-4">
+        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-outline-variant/30 shadow-level-1 flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
             <Icon icon="calendar_today" className="icon-fill" />
           </div>
           <div>
             <p className="text-sm font-medium text-secondary">Days Monitored</p>
-            <p className="text-2xl font-bold text-on-surface">{sessions.length > 0 ? Math.min(sessions.length, 365) : 0}</p>
+            <p className="text-2xl font-bold text-on-surface">{daysSinceFirstSession}</p>
           </div>
         </div>
       </div>
 
-      {/* Recent Sessions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <h3 className="font-headline-md text-headline-md text-on-surface">Recent Sessions</h3>
         {sessions.length > 0 && (

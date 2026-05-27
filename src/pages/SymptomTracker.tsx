@@ -25,7 +25,7 @@ export default function SymptomTracker() {
   }
 
   return (
-    <main className="min-h-screen p-4 md:p-6 max-w-[1200px] mx-auto font-body-md bg-[#F7F8FF]">
+    <main className="min-h-screen p-4 md:p-6 max-w-[1200px] mx-auto font-body-md bg-surface">
       <div className="bg-gradient-blob bg-primary/15 w-[500px] h-[500px] fixed -top-64 -right-64 rounded-full blur-[80px] -z-10" />
       <div className="bg-gradient-blob bg-secondary/15 w-[400px] h-[400px] fixed bottom-0 -left-48 rounded-full blur-[80px] -z-10" />
 

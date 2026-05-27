@@ -6,19 +6,36 @@ import { useAuth } from '../context/AuthContext'
 export default function SignIn() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
-  const [hasError, setHasError] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
+
+  const validate = () => {
+    const e: { email?: string; password?: string } = {}
+    if (!email.trim()) {
+      e.email = 'Email or phone is required'
+    } else if (!/\S+@\S+/.test(email) && !/^\+?[\d\s()-]{7,}$/.test(email)) {
+      e.email = 'Enter a valid email or phone number'
+    }
+    if (!password) {
+      e.password = 'Password is required'
+    } else if (password.length < 6) {
+      e.password = 'Password must be at least 6 characters'
+    }
+    setErrors(e)
+    return Object.keys(e).length === 0
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validate()) return
     signIn(email)
     navigate('/otp-verification')
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#F7F8FF' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-surface">
       <div className="w-full max-w-md bg-white rounded-xl shadow-level-1 border border-secondary-fixed p-8 flex flex-col gap-6 relative z-10">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
@@ -30,32 +47,28 @@ export default function SignIn() {
           </div>
         </div>
 
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-2">
             <label className="font-label-md text-label-md text-on-surface" htmlFor="email">Email or Phone</label>
-            <div
-              className={`relative flex items-center border rounded-lg transition-all duration-200 ${
-                hasError
-                  ? 'bg-error-container border-error'
-                  : 'bg-surface-container-low border-secondary-fixed'
-              }`}
-            >
-              <Icon icon="mail" className={`ml-3 absolute ${hasError ? 'text-error' : 'text-secondary'}`} />
+            <div className={`relative flex items-center border rounded-lg transition-all duration-200 ${
+              errors.email ? 'bg-error-container border-error' : 'bg-surface-container-low border-secondary-fixed'
+            }`}>
+              <Icon icon="mail" className={`ml-3 absolute ${errors.email ? 'text-error' : 'text-secondary'}`} />
               <input
                 className={`w-full bg-transparent border-none py-3 pl-10 pr-4 font-body-md text-body-md focus:ring-0 rounded-lg ${
-                  hasError ? 'text-on-error-container placeholder-secondary-fixed-dim' : 'text-on-surface placeholder-secondary-fixed-dim'
+                  errors.email ? 'text-on-error-container placeholder-secondary-fixed-dim' : 'text-on-surface placeholder-secondary-fixed-dim'
                 }`}
                 id="email"
                 placeholder="name@example.com"
                 type="text"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); setErrors(p => ({ ...p, email: undefined })) }}
               />
             </div>
-            {hasError && (
+            {errors.email && (
               <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
                 <Icon icon="error" className="text-[16px]" />
-                Invalid credentials
+                {errors.email}
               </p>
             )}
           </div>
@@ -65,15 +78,19 @@ export default function SignIn() {
               <label className="font-label-md text-label-md text-on-surface" htmlFor="password">Password</label>
               <Link className="font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant transition-colors" to="/forgot-password">Forgot password?</Link>
             </div>
-            <div className="relative flex items-center bg-surface-container-low border border-secondary-fixed rounded-lg transition-all duration-200">
-              <Icon icon="lock" className="text-secondary ml-3 absolute" />
+            <div className={`relative flex items-center border rounded-lg transition-all duration-200 ${
+              errors.password ? 'bg-error-container border-error' : 'bg-surface-container-low border-secondary-fixed'
+            }`}>
+              <Icon icon="lock" className={`ml-3 absolute ${errors.password ? 'text-error' : 'text-secondary'}`} />
               <input
-                className="w-full bg-transparent border-none py-3 pl-10 pr-10 font-body-md text-body-md text-on-surface placeholder-secondary-fixed-dim focus:ring-0 rounded-lg"
+                className={`w-full bg-transparent border-none py-3 pl-10 pr-10 font-body-md text-body-md focus:ring-0 rounded-lg ${
+                  errors.password ? 'text-on-error-container' : 'text-on-surface'
+                } placeholder-secondary-fixed-dim`}
                 id="password"
                 placeholder="••••••••"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => { setPassword(e.target.value); setErrors(p => ({ ...p, password: undefined })) }}
               />
               <button
                 className="absolute right-3 text-secondary hover:text-on-surface transition-colors"
@@ -83,11 +100,18 @@ export default function SignIn() {
                 <Icon icon={showPassword ? 'visibility' : 'visibility_off'} />
               </button>
             </div>
+            {errors.password && (
+              <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
+                <Icon icon="error" className="text-[16px]" />
+                {errors.password}
+              </p>
+            )}
           </div>
 
           <button
-            className="w-full bg-primary hover:bg-[#1A2AC2] text-on-primary font-label-md text-label-md py-3 rounded-full transition-colors duration-200 mt-2"
+            className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3 rounded-full transition-colors duration-200 mt-2 disabled:opacity-40 disabled:cursor-not-allowed"
             type="submit"
+            disabled={!email.trim() || !password}
           >
             Continue
           </button>

@@ -46,7 +46,7 @@ export default function SymptomTrackerBodyMap() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-        <section className="lg:col-span-12 bg-white rounded-[16px] border border-[#E5E7EB] shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg">
+        <section className="lg:col-span-12 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
               <Icon icon="edit_note" />
@@ -95,7 +95,7 @@ export default function SymptomTrackerBodyMap() {
           </div>
         </section>
 
-        <section className="lg:col-span-8 bg-white rounded-[16px] border border-[#E5E7EB] shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg flex flex-col">
+        <section className="lg:col-span-8 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg flex flex-col">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-headline-md text-headline-md">30-Day Severity Trend</h2>
             <div className="flex gap-2">
@@ -121,7 +121,7 @@ export default function SymptomTrackerBodyMap() {
           </div>
         </section>
 
-        <section className="lg:col-span-4 bg-white rounded-[16px] border border-[#E5E7EB] shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col h-full">
+        <section className="lg:col-span-4 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col h-full">
           <div className="p-stack-lg border-b border-outline-variant/30">
             <h2 className="font-headline-md text-headline-md">Past Entries</h2>
           </div>

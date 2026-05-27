@@ -62,7 +62,7 @@ export default function AgeSelection() {
             <button className="flex-1 py-3 px-6 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-surface-container-low transition-colors duration-200 text-center" onClick={() => navigate('/splash')}>
               Back
             </button>
-            <button className="flex-1 py-3 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-[#1A2AC2] transition-colors duration-200 text-center shadow-sm" onClick={() => navigate('/body-map')}>
+            <button className="flex-1 py-3 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary/90 transition-colors duration-200 text-center shadow-sm" onClick={() => navigate('/body-map')}>
               Continue
             </button>
           </div>

@@ -20,7 +20,7 @@ export default function SessionHistory() {
   const urgentCount = sessions.filter((s) => s.severity === 'Urgent').length
 
   return (
-    <main className="min-h-screen flex flex-col relative bg-[#F7F8FF] p-4 md:p-6">
+    <main className="min-h-screen flex flex-col relative bg-surface p-4 md:p-6">
       <div className="bg-blob bg-primary/10 fixed top-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
       <div className="bg-blob bg-secondary-container/10 fixed bottom-[-100px] left-[-100px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
 

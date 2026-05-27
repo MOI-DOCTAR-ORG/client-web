@@ -24,6 +24,10 @@ export default function OtpVerification() {
     return () => clearInterval(timer)
   }, [timeLeft])
 
+  useEffect(() => {
+    inputRefs.current[0]?.focus()
+  }, [])
+
   const focusInput = useCallback((index: number) => {
     if (index >= 0 && index < 6) {
       inputRefs.current[index]?.focus()
@@ -52,6 +56,8 @@ export default function OtpVerification() {
         newOtp[index] = ''
         setOtp(newOtp)
       }
+    } else if (e.key === 'Enter') {
+      if (otp.every(d => d !== '')) handleVerify()
     }
   }
 
@@ -75,11 +81,16 @@ export default function OtpVerification() {
     setOtp(Array(6).fill(''))
     setIsVerified(false)
     setIsError(false)
-    focusInput(0)
+    setTimeout(() => focusInput(0), 50)
   }
 
   const handleVerify = () => {
-    const ok = verifyOtp(otp.join(''))
+    const code = otp.join('')
+    if (code.length !== 6) {
+      setIsError(true)
+      return
+    }
+    const ok = verifyOtp(code)
     if (ok) {
       setIsVerified(true)
       setTimeout(() => navigate('/'), 1500)
@@ -95,7 +106,7 @@ export default function OtpVerification() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface" style={{ backgroundColor: '#F7F8FF' }}>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface bg-surface">
       <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[80px] opacity-30 pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(0,27,212,0.15) 0%, rgba(249,249,255,0) 70%)' }}
       />
@@ -103,7 +114,7 @@ export default function OtpVerification() {
         style={{ background: 'radial-gradient(circle, rgba(43,62,240,0.1) 0%, rgba(249,249,255,0) 70%)' }}
       />
       <main className="w-full max-w-[480px] px-margin-mobile md:px-0 relative z-10">
-        <div className="bg-surface-container-lowest rounded-card border border-[#E5E7EB] shadow-level-1 p-8 md:p-10 flex flex-col items-center relative overflow-hidden transition-all duration-300">
+        <div className="bg-surface-container-lowest rounded-card border border-outline-variant shadow-level-1 p-8 md:p-10 flex flex-col items-center relative overflow-hidden transition-all duration-300">
           {!isVerified ? (
             <>
               <div className="mb-8 flex flex-col items-center">
@@ -123,10 +134,10 @@ export default function OtpVerification() {
                     <input
                       key={i}
                       ref={(el) => { inputRefs.current[i] = el }}
-                      autoComplete="off"
+                      autoComplete="one-time-code"
                       autoFocus={i === 0}
-                      className={`w-12 h-14 md:w-14 md:h-16 text-center font-headline-md text-headline-md rounded-input border bg-[#F7F8FF] text-on-surface transition-all duration-200 outline-none ${
-                        isError && !digit ? 'border-error' : 'border-[#E5E7EB]'
+                      className={`w-12 h-14 md:w-14 md:h-16 text-center font-headline-md text-headline-md rounded-input border bg-surface text-on-surface transition-all duration-200 outline-none ${
+                        isError && !digit ? 'border-error' : 'border-outline-variant'
                       } ${isError && !digit ? '' : 'focus:border-primary focus:shadow-[0_0_0_2px_rgba(0,27,212,0.2)]'}`}
                       maxLength={1}
                       type="text"
@@ -139,10 +150,18 @@ export default function OtpVerification() {
                   ))}
                 </div>
 
+                {isError && (
+                  <p className="font-caption text-caption text-error mb-4 flex items-center gap-1 -mt-4">
+                    <Icon icon="error" className="text-[16px]" />
+                    Invalid code. Please try again.
+                  </p>
+                )}
+
                 <button
-                  className="w-full bg-primary hover:bg-[#1A2AC2] text-on-primary font-label-md text-label-md py-4 rounded-full transition-colors duration-200 flex justify-center items-center gap-2"
+                  className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-4 rounded-full transition-colors duration-200 flex justify-center items-center gap-2 disabled:opacity-40"
                   type="button"
                   onClick={handleVerify}
+                  disabled={otp.some(d => !d)}
                 >
                   Verify Account
                 </button>
@@ -151,7 +170,7 @@ export default function OtpVerification() {
               <div className="mt-6 flex items-center justify-center gap-1 font-body-md">
                 <span className="text-secondary">Didn't receive the code?</span>
                 <button
-                  className={`text-primary hover:text-[#1A2AC2] font-semibold transition-colors duration-200 ${
+                  className={`text-primary hover:text-primary/90 font-semibold transition-colors duration-200 ${
                     !canResend ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   disabled={!canResend}
@@ -163,8 +182,8 @@ export default function OtpVerification() {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-8">
-              <div className="w-20 h-20 bg-[#E8F5E9] rounded-full flex items-center justify-center mb-6">
-                <Icon icon="check_circle" className="text-[#2E7D32] text-[48px]" />
+              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                <Icon icon="check_circle" className="text-green-700 text-[48px]" />
               </div>
               <h2 className="font-headline-md text-headline-md text-on-surface mb-2">Verified Successfully</h2>
               <p className="text-secondary font-body-md text-center">Redirecting to your dashboard...</p>

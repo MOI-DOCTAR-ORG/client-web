@@ -28,9 +28,8 @@ export default function SplashScreen() {
           <img
             alt="Moidoctar Brand Logo"
             className="w-32 h-32 md:w-40 md:h-40 object-contain mb-stack-md"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBttJ1V3NM_DpwWYy7JHdmTFcnypTqxS5wtqtUnw74IQjEsLI7DkA5TtB2_ViQA20LtVSQPAzRTwfd24eDqEtHEHiEPhX8n0NoUxOEynRpUBIOcEB8xIVyFEIwCp4aKYoJ25BRkaIKQLfRDq37d36dpGUuce8Uzg0uCcAxhSVtkNx64pZ0y4E9bqCseigFFIQlI2Bw3lJaqEldi_Sp4BJEdko8wFhZnFVHUsN2etDR9KsuB85aeIbz4ronT3K8Ulvsn3yCUlI5YgOk"
+            src="/doctarr.jpeg"
           />
-          <Icon icon="medical_services" className="text-[48px] text-on-primary opacity-90 drop-shadow-sm" />
         </div>
         <h1 className="font-headline-xl text-headline-xl text-on-primary tracking-tight mb-stack-sm">
           moidoctar

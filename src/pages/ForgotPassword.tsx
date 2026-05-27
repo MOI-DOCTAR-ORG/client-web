@@ -12,7 +12,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#F7F8FF' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-surface">
       <div className="w-full max-w-md bg-white rounded-xl shadow-level-1 border border-secondary-fixed p-8 flex flex-col gap-6 relative z-10">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
               </div>
             </div>
             <button
-              className="w-full bg-primary hover:bg-[#1A2AC2] text-on-primary font-label-md text-label-md py-3 rounded-full transition-colors duration-200"
+              className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3 rounded-full transition-colors duration-200"
               type="submit"
             >
               Send Reset Link
@@ -52,8 +52,8 @@ export default function ForgotPassword() {
           </form>
         ) : (
           <div className="flex flex-col items-center gap-5 py-4">
-            <div className="w-16 h-16 bg-[#E8F5E9] rounded-full flex items-center justify-center">
-              <Icon icon="check_circle" className="text-[#2E7D32] text-4xl" />
+            <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center">
+              <Icon icon="check_circle" className="text-green-700 text-4xl" />
             </div>
             <p className="font-body-md text-body-md text-secondary text-center">
               If an account with <strong className="text-on-surface">{email}</strong> exists, you will receive a password reset link shortly.

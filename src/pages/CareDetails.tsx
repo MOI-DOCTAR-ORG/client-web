@@ -65,11 +65,11 @@ export default function CareDetails() {
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
         </div>
-        <div className="inline-flex items-center gap-3 px-6 py-4 bg-[#FFF4E5] border border-[#FFD699] rounded-xl">
-          <div className={`w-4 h-4 rounded-full animate-pulse ${reports.some(r => r.severity === 'Severe') ? 'bg-error' : reports.length > 0 ? 'bg-primary' : 'bg-[#F57C00]'}`} />
+        <div className="inline-flex items-center gap-3 px-6 py-4 bg-amber-50 border border-amber-200 rounded-xl">
+          <div className={`w-4 h-4 rounded-full animate-pulse ${reports.some(r => r.severity === 'Severe') ? 'bg-error' : reports.length > 0 ? 'bg-primary' : 'bg-amber-600'}`} />
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#F57C00]">Status</span>
-            <span className="font-headline-md text-headline-md text-[#F57C00]">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600">Status</span>
+            <span className="font-headline-md text-headline-md text-amber-600">
               {reports.length === 0 ? 'No Reports' : reports.some(r => r.severity === 'Severe') ? 'Needs Attention' : 'Active Monitoring'}
             </span>
           </div>

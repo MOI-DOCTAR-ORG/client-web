@@ -22,6 +22,8 @@ export default function MedicalHistory() {
   const [medications, setMedications] = usePersistState<Medication[]>('doctarr_medications', [])
   const [emergencyContact, setEmergencyContact] = usePersistState('doctarr_emergency_contact', '')
   const [pastSurgeries, setPastSurgeries] = usePersistState('doctarr_surgeries', '')
+  const [dob, setDob] = usePersistState('doctarr_dob', '')
+  const [bloodType, setBloodType] = usePersistState('doctarr_blood_type', '')
   const [showCustomCondition, setShowCustomCondition] = useState(false)
   const [customConditionInput, setCustomConditionInput] = useState('')
   const [saved, setSaved] = useState(false)
@@ -97,7 +99,7 @@ export default function MedicalHistory() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden" method="POST">
+        <form onSubmit={handleSubmit} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
           <div className="p-6 md:p-8 space-y-12">
             <section>
               <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
@@ -116,13 +118,21 @@ export default function MedicalHistory() {
                     id="dob"
                     name="dob"
                     type="date"
+                    value={dob}
+                    onChange={e => setDob(e.target.value)}
                     required
                   />
                 </div>
                 <div>
                   <label className="block font-label-md text-label-md text-on-surface-variant mb-2" htmlFor="blood_type">Blood Type</label>
-                  <select className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none" id="blood_type" name="blood_type" defaultValue="">
-                    <option disabled value="">Select Blood Type</option>
+                  <select
+                    className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none"
+                    id="blood_type"
+                    name="blood_type"
+                    value={bloodType}
+                    onChange={e => setBloodType(e.target.value)}
+                  >
+                    <option value="">Select Blood Type</option>
                     <option value="a+">A+</option>
                     <option value="a-">A-</option>
                     <option value="b+">B+</option>
@@ -294,7 +304,7 @@ export default function MedicalHistory() {
             </div>
             <div className="flex gap-4 w-full sm:w-auto">
               <button onClick={() => navigate('/')} className="flex-1 sm:flex-none px-6 py-3 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary-fixed/30 transition-colors text-center" type="button">Cancel</button>
-              <button className="flex-1 sm:flex-none px-8 py-3 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-[#1A2AC2] shadow-sm transition-all text-center" type="submit">Save Medical History</button>
+              <button className="flex-1 sm:flex-none px-8 py-3 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-primary/90 shadow-sm transition-all text-center" type="submit">Save Medical History</button>
             </div>
           </div>
         </form>

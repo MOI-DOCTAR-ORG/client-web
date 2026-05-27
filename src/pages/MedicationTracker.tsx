@@ -5,12 +5,11 @@ import Icon from '../components/Icon'
 import { usePersistState } from '../hooks/usePersistState'
 
 interface MedSchedule {
+  id: string
   name: string
   dosage: string
   time: string
-  note?: string
   taken: boolean
-  missed?: boolean
 }
 
 interface Prescription {
@@ -22,9 +21,6 @@ interface Prescription {
   supplyTotal: number
   supplyLabel: string
   icon: string
-  error?: boolean
-  refillCta?: string
-  barOpacity?: boolean
 }
 
 export default function MedicationTracker() {
@@ -40,12 +36,16 @@ export default function MedicationTracker() {
   const [medFrequency, setMedFrequency] = useState('Morning')
   const [medSupply, setMedSupply] = useState('30')
 
-  const toggleTaken = (index: number) => {
+  const toggleTaken = (id: string) => {
     setSchedule((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, taken: !item.taken } : item
+      prev.map((item) =>
+        item.id === id ? { ...item, taken: !item.taken } : item
       )
     )
+  }
+
+  const isAM = (timeStr: string) => {
+    return timeStr.includes('AM') || timeStr.endsWith('AM')
   }
 
   const addMedication = () => {
@@ -55,8 +55,9 @@ export default function MedicationTracker() {
     const supplyCurrent = supplyTotal
     const freqIcon: Record<string, string> = { Morning: 'light_mode', Afternoon: 'wb_sunny', Night: 'bedtime' }
     const freqLabel = medFrequency
+    const id = crypto.randomUUID()
 
-    setSchedule(prev => [...prev, { name: medName, dosage: medDosage, time: timeDisplay, taken: false }])
+    setSchedule(prev => [...prev, { id, name: medName, dosage: medDosage, time: timeDisplay, taken: false }])
     setPrescriptions(prev => [...prev, {
       name: medName,
       dosage: medDosage,
@@ -77,7 +78,7 @@ export default function MedicationTracker() {
   }
 
   return (
-    <main className="flex-1 flex flex-col h-full min-h-screen overflow-y-auto relative z-10 w-full bg-[#F7F8FF] font-body-md text-on-surface antialiased">
+    <main className="flex-1 flex flex-col h-full min-h-screen overflow-y-auto relative z-10 w-full bg-surface font-body-md text-on-surface antialiased">
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none top-[-10%] left-[20%] w-[40vw] h-[40vw] bg-[radial-gradient(circle,#001bd4_0%,transparent_70%)]" />
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none bottom-[-20%] right-[10%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,#2b3ef0_0%,transparent_70%)]" />
 
@@ -108,7 +109,7 @@ export default function MedicationTracker() {
             <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface tracking-tight">Medication Tracker</h2>
             <p className="font-body-md text-body-md text-secondary mt-1">Manage your prescriptions and daily schedule.</p>
           </div>
-          <button onClick={() => setShowForm(!showForm)} className="bg-primary text-on-primary hover:bg-[#1A2AC2] font-label-md text-label-md py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm self-start md:self-auto">
+          <button onClick={() => setShowForm(!showForm)} className="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm self-start md:self-auto">
             <Icon icon={showForm ? 'close' : 'add'} className="text-[20px]" />
             {showForm ? 'Cancel' : 'Add Medication'}
           </button>
@@ -170,10 +171,10 @@ export default function MedicationTracker() {
                       <Icon icon="light_mode" className="text-[16px]" /> Morning
                     </h4>
                     <div className="flex flex-col gap-3">
-                      {schedule.filter(m => m.time.includes('AM')).map((item, i) => (
-                        <label key={i} onClick={() => toggleTaken(i)} className="flex items-start gap-3 p-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
+                      {schedule.filter(m => isAM(m.time)).map(item => (
+                        <label key={item.id} onClick={() => toggleTaken(item.id)} className="flex items-start gap-3 p-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
                           <div className="pt-0.5">
-                            <input type="checkbox" checked={item.taken} onChange={() => {}} className="w-5 h-5 rounded border-outline text-[#10B981] focus:ring-primary transition-colors" />
+                            <input type="checkbox" checked={item.taken} onChange={() => {}} className="w-5 h-5 rounded border-outline text-green-500 focus:ring-primary transition-colors" />
                           </div>
                           <div className="flex-1">
                             <p className="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">{item.name}</p>
@@ -189,10 +190,10 @@ export default function MedicationTracker() {
                       <Icon icon="wb_sunny" className="text-[16px]" /> Afternoon
                     </h4>
                     <div className="flex flex-col gap-3">
-                      {schedule.filter(m => m.time.includes('PM')).map((item, i) => (
-                        <label key={i} onClick={() => toggleTaken(i)} className="flex items-start gap-3 p-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
+                      {schedule.filter(m => !isAM(m.time)).map(item => (
+                        <label key={item.id} onClick={() => toggleTaken(item.id)} className="flex items-start gap-3 p-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-colors cursor-pointer group">
                           <div className="pt-0.5">
-                            <input type="checkbox" checked={item.taken} onChange={() => {}} className="w-5 h-5 rounded border-outline text-[#10B981] focus:ring-primary transition-colors" />
+                            <input type="checkbox" checked={item.taken} onChange={() => {}} className="w-5 h-5 rounded border-outline text-green-500 focus:ring-primary transition-colors" />
                           </div>
                           <div className="flex-1">
                             <p className="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">{item.name}</p>

@@ -30,17 +30,17 @@ export default function SignUp() {
 
   const getBarColor = (index: number) => {
     const score = [hasLength, hasLetter, hasNumber].filter(Boolean).length
-    if (index === 0 && score >= 1) return score === 1 ? 'bg-error' : score === 2 ? 'bg-[#EAB308]' : 'bg-[#22C55E]'
-    if (index === 1 && score >= 2) return score === 2 ? 'bg-[#EAB308]' : 'bg-[#22C55E]'
-    if (index === 2 && score >= 3) return 'bg-[#22C55E]'
+    if (index === 0 && score >= 1) return score === 1 ? 'bg-error' : score === 2 ? 'bg-amber-500' : 'bg-green-500'
+    if (index === 1 && score >= 2) return score === 2 ? 'bg-amber-500' : 'bg-green-500'
+    if (index === 2 && score >= 3) return 'bg-green-500'
     return 'bg-secondary-fixed-dim'
   }
 
   const getStrengthColor = () => {
     if (strength === 'Weak' && password.length === 0) return 'text-secondary'
     if (strength === 'Weak') return 'text-error'
-    if (strength === 'Medium') return 'text-[#EAB308]'
-    return 'text-[#22C55E]'
+    if (strength === 'Medium') return 'text-amber-500'
+    return 'text-green-500'
   }
 
   const requirements = useCallback(() => {
@@ -155,7 +155,7 @@ export default function SignUp() {
                   <li
                     key={i}
                     className={`flex items-center gap-2 font-caption text-caption transition-colors ${
-                      req.met ? 'text-[#22C55E]' : 'text-secondary'
+                       req.met ? 'text-green-500' : 'text-secondary'
                     }`}
                   >
                     <Icon icon="check_circle" className="text-[16px]" />
@@ -166,7 +166,7 @@ export default function SignUp() {
             </div>
 
             <button
-              className="w-full bg-primary hover:bg-[#1A2AC2] text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm"
+              className="w-full bg-primary hover:bg-primary/90 text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm"
               type="submit"
             >
               Create Account

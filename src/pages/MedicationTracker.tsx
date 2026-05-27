@@ -46,7 +46,7 @@ export default function MedicationTracker() {
   }
 
   return (
-    <main className="md:ml-[var(--spacing-sidebar-width,280px)] flex-1 flex flex-col h-full min-h-screen overflow-y-auto relative z-10 w-full bg-[#F7F8FF] font-body-md text-on-surface antialiased">
+    <main className="flex-1 flex flex-col h-full min-h-screen overflow-y-auto relative z-10 w-full bg-[#F7F8FF] font-body-md text-on-surface antialiased">
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none top-[-10%] left-[20%] w-[40vw] h-[40vw] bg-[radial-gradient(circle,#001bd4_0%,transparent_70%)]" />
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none bottom-[-20%] right-[10%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,#2b3ef0_0%,transparent_70%)]" />
 

@@ -7,7 +7,7 @@ export default function Profile() {
   const [twoFactor, setTwoFactor] = useState(true)
 
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] min-h-screen flex flex-col items-center">
+    <main className="min-h-screen flex flex-col items-center">
       <header className="flex justify-between items-center w-full px-gutter h-16 sticky top-0 bg-surface/80 backdrop-blur-md z-30">
         <h2 className="font-headline-md text-headline-md text-primary font-bold">Profile</h2>
         <div className="flex items-center gap-stack-md">
@@ -18,9 +18,9 @@ export default function Profile() {
         </div>
       </header>
 
-      <div className="max-w-container-max-width w-full px-gutter py-stack-lg flex flex-col gap-gutter">
+      <div className="max-w-container-max-width w-full px-4 md:px-gutter py-stack-lg flex flex-col gap-gutter">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-          <div className="md:col-span-8 bg-white border border-outline-variant rounded-xl p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
+          <div className="md:col-span-8 bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
             <div className="relative">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold shadow-sm border-4 border-white overflow-hidden">
                 <span className="z-10">AD</span>
@@ -40,7 +40,7 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="md:col-span-4 bg-primary-container text-white rounded-xl p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between relative overflow-hidden">
+          <div className="md:col-span-4 bg-primary-container text-white rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between relative overflow-hidden">
             <div className="relative z-10">
               <Icon icon="verified_user" className="text-4xl mb-4" />
               <h4 className="font-headline-md text-headline-md mb-2">Health Passport</h4>
@@ -54,7 +54,7 @@ export default function Profile() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-          <section className="md:col-span-7 bg-white border border-outline-variant rounded-xl p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+          <section className="md:col-span-7 bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
             <div className="flex items-center gap-2 mb-6">
               <Icon icon="monitor_heart" className="text-primary" />
               <h3 className="font-headline-md text-headline-md">Health Profile</h3>
@@ -104,7 +104,7 @@ export default function Profile() {
           </section>
 
           <section className="md:col-span-5 flex flex-col gap-gutter">
-            <div className="bg-white border border-outline-variant rounded-xl p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+            <div className="bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
               <div className="flex items-center gap-2 mb-6">
                 <Icon icon="settings" className="text-primary" />
                 <h3 className="font-headline-md text-headline-md">Preferences</h3>
@@ -158,7 +158,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="bg-error-container/20 border border-error/10 rounded-xl p-8 shadow-sm flex flex-col items-center">
+            <div className="bg-error-container/20 border border-error/10 rounded-xl p-6 md:p-8 shadow-sm flex flex-col items-center">
               <p className="font-label-md text-on-surface mb-2">Manage Account Privacy</p>
               <a className="text-error font-label-md hover:underline flex items-center gap-1 group" href="#">
                 Delete Account

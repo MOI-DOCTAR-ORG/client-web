@@ -42,7 +42,7 @@ export default function MedicalHistory() {
   }
 
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] min-h-screen pb-8">
+    <main className="min-h-screen pb-8">
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter pt-8">
         <div className="mb-8">
           <div className="flex items-center gap-2 text-secondary mb-2">

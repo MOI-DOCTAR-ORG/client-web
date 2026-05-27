@@ -5,7 +5,7 @@ export default function NewTriageInterface() {
   const [inputValue, setInputValue] = useState('')
 
   return (
-    <div className="ml-[var(--spacing-sidebar-width,280px)] flex flex-col h-full relative z-10">
+    <div className="flex flex-col h-full relative z-10">
       <header className="flex justify-between items-center w-full px-margin-mobile md:px-gutter h-16 max-w-container-max-width mx-auto bg-surface/80 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-4 md:hidden">
           <button className="text-on-surface p-2 rounded-full hover:bg-surface-variant transition-colors">

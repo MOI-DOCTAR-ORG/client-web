@@ -77,7 +77,7 @@ export default function PinpointPain() {
   return (
     <div className="fixed inset-0 bg-on-background/40 backdrop-blur-[4px] z-50 flex items-center justify-center p-4 md:p-gutter">
       <div
-        className="bg-surface w-full max-w-container-max-width md:w-11/12 h-[972px] md:h-[870px] rounded-[24px] shadow-2xl flex flex-col overflow-hidden relative border border-outline-variant/50"
+        className="bg-surface w-full max-w-container-max-width md:w-11/12 h-auto min-h-[500px] md:h-[870px] rounded-[24px] shadow-2xl flex flex-col overflow-hidden relative border border-outline-variant/50"
         style={{ animation: 'modalEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
       >
         <style>{`

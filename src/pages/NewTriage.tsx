@@ -19,6 +19,7 @@ const messages = [
 export default function NewTriage() {
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>('Moderate')
   const [inputValue, setInputValue] = useState('')
+  const [showPanel, setShowPanel] = useState(true)
 
   const severityOptions: { label: Severity; dot: string; border: string; hover: string }[] = [
     { label: 'Mild', dot: 'bg-blue-400', border: 'border-blue-400', hover: 'hover:border-blue-400 hover:bg-blue-50' },
@@ -27,9 +28,12 @@ export default function NewTriage() {
   ]
 
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] h-screen flex overflow-hidden">
+    <main className="h-screen flex overflow-hidden relative">
       {/* Left Info Panel */}
-      <aside className="w-80 bg-gradient-to-br from-primary to-primary-container p-stack-lg text-on-primary flex flex-col shrink-0 relative overflow-hidden">
+      {showPanel && (
+        <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
+      )}
+      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-80 bg-gradient-to-br from-primary to-primary-container p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
@@ -79,6 +83,12 @@ export default function NewTriage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              className="md:hidden p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary"
+              onClick={() => setShowPanel(!showPanel)}
+            >
+              <Icon icon={showPanel ? 'close' : 'info'} />
+            </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
               <Icon icon="history" />
             </button>
@@ -90,7 +100,7 @@ export default function NewTriage() {
 
         <div className="flex-grow overflow-y-auto p-gutter space-y-8 chat-container pb-32">
           {/* AI Message */}
-          <div className="flex gap-4 max-w-2xl">
+          <div className="flex gap-4 max-w-full md:max-w-2xl">
             <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
               <Icon icon="smart_toy" className="text-primary text-[20px]" />
             </div>
@@ -104,7 +114,7 @@ export default function NewTriage() {
 
           {/* User Message */}
           <div className="flex gap-4 justify-end">
-            <div className="bg-primary text-on-primary rounded-2xl rounded-tr-none px-6 py-4 shadow-lg max-w-xl">
+            <div className="bg-primary text-on-primary rounded-2xl rounded-tr-none px-6 py-4 shadow-lg max-w-full md:max-w-xl">
               <p className="font-body-md">
                 I have a sharp pain in my upper abdomen. It started about two hours after lunch. It feels quite intense.
               </p>
@@ -116,7 +126,7 @@ export default function NewTriage() {
           </div>
 
           {/* AI Message with Severity Triage */}
-          <div className="flex gap-4 max-w-2xl">
+          <div className="flex gap-4 max-w-full md:max-w-2xl">
             <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
               <Icon icon="smart_toy" className="text-primary text-[20px]" />
             </div>
@@ -144,7 +154,7 @@ export default function NewTriage() {
           </div>
 
           {/* Triage Result Card */}
-          <div className="flex gap-4 max-w-2xl">
+          <div className="flex gap-4 max-w-full md:max-w-2xl">
             <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
               <Icon icon="smart_toy" className="text-primary text-[20px]" />
             </div>

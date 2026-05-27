@@ -7,12 +7,12 @@ import Icon from '../components/Icon'
 
 export default function Dashboard() {
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] min-h-screen px-gutter pt-8 pb-stack-lg max-w-[1400px] mx-auto">
+    <main className="min-h-screen p-4 md:p-gutter max-w-[1400px] mx-auto">
       <Header />
       <ReminderBanner />
       <HeroSection />
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
         <h3 className="font-headline-md text-headline-md text-on-surface">
           Recent Sessions
         </h3>

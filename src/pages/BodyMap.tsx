@@ -78,7 +78,7 @@ export default function BodyMap() {
       style={{ backgroundColor: darkMode ? '#0F1117' : 'rgba(21,28,39,0.4)' }}
     >
       <div
-        className="bg-surface w-full max-w-[1200px] h-[90vh] min-h-[600px] max-h-[850px] rounded-[16px] shadow-2xl flex flex-col overflow-hidden relative border border-outline-variant/50"
+        className="bg-surface w-full max-w-[1200px] h-[90vh] min-h-0 md:min-h-[600px] max-h-[850px] rounded-[16px] shadow-2xl flex flex-col overflow-hidden relative border border-outline-variant/50"
         style={{
           animation: 'modalEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
@@ -121,7 +121,7 @@ export default function BodyMap() {
               style={darkMode ? { background: 'radial-gradient(circle, rgba(43,62,240,0.15) 0%, rgba(15,17,23,0) 70%)' } : {}}
             />
 
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-surface/80 backdrop-blur-md p-2 rounded-full border border-outline-variant/30 shadow-sm z-10">
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-1 md:gap-2 bg-surface/80 backdrop-blur-md p-2 rounded-full border border-outline-variant/30 shadow-sm z-10">
               {views.map((view) => (
                 <button
                   key={view}

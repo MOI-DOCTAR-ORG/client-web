@@ -51,7 +51,7 @@ export default function Notifications() {
   const tabs = ['All', 'Unread', 'Important']
 
   return (
-    <main className="md:ml-[var(--spacing-sidebar-width,280px)] min-h-screen bg-surface text-on-background">
+    <main className="min-h-screen bg-surface text-on-background">
       <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-margin-mobile md:px-gutter h-16 flex justify-between items-center border-b border-outline-variant md:border-none">
         <div className="flex items-center gap-4">
           <button className="md:hidden p-2 text-secondary">
@@ -74,7 +74,7 @@ export default function Notifications() {
       </header>
 
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter py-stack-lg">
-        <div className="flex gap-2 mb-8">
+        <div className="overflow-x-auto mb-8"><div className="flex gap-2">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -88,8 +88,8 @@ export default function Notifications() {
             >
               {tab}
             </button>
-          ))}
-        </div>
+            ))}
+          </div></div>
 
         <div className="flex flex-col gap-10">
           {Object.entries(grouped).map(([category, items]) => {

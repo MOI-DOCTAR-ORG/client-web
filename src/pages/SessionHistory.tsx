@@ -16,7 +16,7 @@ export default function SessionHistory() {
   const [currentPage, setCurrentPage] = useState(1)
 
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] min-h-screen flex flex-col relative bg-[#F7F8FF]">
+    <main className="min-h-screen flex flex-col relative bg-[#F7F8FF] p-4 md:p-6">
       <div className="bg-blob bg-primary/10 fixed top-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
       <div className="bg-blob bg-secondary-container/10 fixed bottom-[-100px] left-[-100px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
 
@@ -38,7 +38,7 @@ export default function SessionHistory() {
 
       <section className="max-w-container-max-width w-full mx-auto px-gutter py-stack-lg">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-          <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30">
+          <div className="overflow-x-auto w-full md:w-auto"><div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max">
             {filters.map((f) => (
               <button
                 key={f}
@@ -52,8 +52,8 @@ export default function SessionHistory() {
                 {f}
               </button>
             ))}
-          </div>
-          <div className="flex gap-4">
+          </div></div>
+          <div className="flex gap-4 flex-wrap">
             <div className="px-5 py-3 bg-surface-container-high rounded-xl border border-outline-variant/30 flex flex-col">
               <span className="font-caption text-caption text-secondary uppercase tracking-wider">Total Triage</span>
               <span className="font-headline-md text-headline-md text-primary">24</span>

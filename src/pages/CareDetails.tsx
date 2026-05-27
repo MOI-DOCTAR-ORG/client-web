@@ -5,7 +5,7 @@ export default function CareDetails() {
   const [followUp, setFollowUp] = useState(true)
 
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] min-h-screen p-margin-mobile md:p-stack-lg max-w-container-max-width mx-auto bg-surface text-on-surface font-body-md">
+    <main className="min-h-screen p-4 md:p-6 max-w-container-max-width mx-auto bg-surface text-on-surface font-body-md">
       <div className="blob bg-primary/15 w-[400px] h-[400px] fixed -top-20 -right-20 rounded-full blur-[80px] -z-10" />
       <div className="blob bg-tertiary-container/15 w-[300px] h-[300px] fixed bottom-10 -left-10 rounded-full blur-[80px] -z-10" />
 
@@ -27,7 +27,7 @@ export default function CareDetails() {
         </div>
       </header>
 
-      <section className="flex flex-wrap gap-2 mb-stack-lg">
+      <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
         <span className="px-4 py-2 bg-surface-container rounded-full text-label-md font-label-md text-primary flex items-center gap-2">
           <Icon icon="thermostat" className="text-[18px]" /> High Fever
         </span>

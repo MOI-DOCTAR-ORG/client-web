@@ -44,8 +44,8 @@ const sessions = [
 
 export default function Dashboard2() {
   return (
-    <main className="ml-[var(--spacing-sidebar-width,280px)] pt-24 pb-12 px-margin-mobile md:px-gutter max-w-container-max-width mx-auto flex flex-col gap-8">
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start sm:items-center gap-4 shadow-sm relative overflow-hidden">
+    <main className="pt-6 md:pt-24 pb-12 p-4 md:px-gutter max-w-container-max-width mx-auto flex flex-col gap-8">
+      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm relative overflow-hidden">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-400" />
         <div className="flex-shrink-0 text-amber-600 bg-amber-100 rounded-full p-2">
           <Icon icon="assignment_late" className="icon-fill" />

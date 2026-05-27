@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 interface BodyRegion {
@@ -27,6 +28,7 @@ const bodyRegions: BodyRegion[] = [
 ]
 
 export default function PinpointPain() {
+  const navigate = useNavigate()
   const [selected, setSelected] = useState<string[]>(['chest'])
 
   const toggleRegion = (id: string) => {
@@ -98,7 +100,7 @@ export default function PinpointPain() {
               Tap the regions on the body map to specify the location of your symptoms.
             </p>
           </div>
-          <button className="p-3 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors group">
+          <button className="p-3 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors group" onClick={() => navigate('/body-map')}>
             <Icon icon="close" className="text-[28px] group-hover:scale-110 transition-transform" />
           </button>
         </div>
@@ -129,7 +131,7 @@ export default function PinpointPain() {
               {selected.length} Region{selected.length !== 1 ? 's' : ''} Selected
             </span>
           </div>
-          <button className="order-1 md:order-2 w-full md:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 px-10 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.39)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.23)] hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+          <button className="order-1 md:order-2 w-full md:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 px-10 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.39)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.23)] hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" onClick={() => navigate('/')}>
             Confirm Location
             <Icon icon="arrow_forward" className="text-lg" />
           </button>

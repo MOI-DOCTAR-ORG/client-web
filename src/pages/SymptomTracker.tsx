@@ -1,16 +1,33 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
-const timelineEntries = [
-  { date: 'Oct 23, 11:45 AM', label: 'Acute Migraine', severity: 'Severe', severityClass: 'bg-error/10 text-error', dotClass: 'bg-error' },
-  { date: 'Oct 22, 09:15 AM', label: 'Joint Pain', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
-  { date: 'Oct 21, 04:30 PM', label: 'Fatigue', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
-  { date: 'Oct 20, 08:00 AM', label: 'Dizziness', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
-  { date: 'Oct 19, 01:20 PM', label: 'Nausea', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
-]
-
 export default function SymptomTracker() {
+  const navigate = useNavigate()
   const [severity, setSeverity] = useState<string | null>(null)
+  const [symptomName, setSymptomName] = useState('')
+  const [timelineEntries, setTimelineEntries] = useState([
+    { date: 'Oct 23, 11:45 AM', label: 'Acute Migraine', severity: 'Severe', severityClass: 'bg-error/10 text-error', dotClass: 'bg-error' },
+    { date: 'Oct 22, 09:15 AM', label: 'Joint Pain', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
+    { date: 'Oct 21, 04:30 PM', label: 'Fatigue', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
+    { date: 'Oct 20, 08:00 AM', label: 'Dizziness', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
+    { date: 'Oct 19, 01:20 PM', label: 'Nausea', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
+  ])
+
+  const handleSaveEntry = () => {
+    if (!symptomName.trim()) return
+    const now = new Date()
+    const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+    const sev = severity || 'Mild'
+    const classes: Record<string, { severityClass: string, dotClass: string }> = {
+      Mild: { severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
+      Moderate: { severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
+      Severe: { severityClass: 'bg-error/10 text-error', dotClass: 'bg-error' },
+    }
+    setTimelineEntries(prev => [...prev, { date: dateStr, label: symptomName, severity: sev, ...classes[sev] }])
+    setSymptomName('')
+    setSeverity(null)
+  }
 
   return (
     <main className="min-h-screen p-4 md:p-6 max-w-[1200px] mx-auto font-body-md bg-[#F7F8FF]">
@@ -43,6 +60,8 @@ export default function SymptomTracker() {
                 className="w-full h-14 px-4 rounded-lg bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-outline-variant/60 font-body-md"
                 placeholder="e.g., Migraine, Chest Tightness, Fatigue"
                 type="text"
+                value={symptomName}
+                onChange={(e) => setSymptomName(e.target.value)}
               />
             </div>
             <div className="space-y-4">
@@ -66,7 +85,7 @@ export default function SymptomTracker() {
             </div>
           </div>
           <div className="mt-8 flex justify-end">
-            <button className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
+            <button onClick={handleSaveEntry} className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
               <span>Save Entry</span>
               <Icon icon="arrow_forward" />
             </button>
@@ -129,7 +148,7 @@ export default function SymptomTracker() {
           </div>
         </section>
 
-        <section className="lg:col-span-12 relative h-48 rounded-[16px] overflow-hidden group cursor-pointer">
+        <section onClick={() => navigate('/symptom-tracker-body-map')} className="lg:col-span-12 relative h-48 rounded-[16px] overflow-hidden group cursor-pointer">
           <img
             alt="AI Health Analysis"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

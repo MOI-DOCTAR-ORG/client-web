@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 interface Notification {
@@ -25,6 +26,7 @@ const initialNotifications: Notification[] = [
 ]
 
 export default function Notifications() {
+  const navigate = useNavigate()
   const [notifications, setNotifications] = useState(initialNotifications)
   const [activeTab, setActiveTab] = useState('All')
 
@@ -60,7 +62,7 @@ export default function Notifications() {
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Notifications</h2>
         </div>
         <div className="flex items-center gap-stack-md">
-          <button className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
+          <button onClick={() => navigate('/profile')} className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
             <Icon icon="settings" />
           </button>
           <div className="w-10 h-10 rounded-full bg-secondary-container overflow-hidden">

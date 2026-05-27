@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 type Condition = 'Hypertension' | 'Type 2 Diabetes' | 'Asthma' | 'Heart Disease' | 'Thyroid Disorder'
@@ -12,10 +13,11 @@ interface Medication {
 }
 
 export default function MedicalHistory() {
+  const navigate = useNavigate()
   const [selectedConditions, setSelectedConditions] = useState<Condition[]>(['Hypertension'])
   const [allergies, setAllergies] = useState<string[]>(['Penicillin', 'Peanuts'])
   const [allergyInput, setAllergyInput] = useState('')
-  const [medications] = useState<Medication[]>([
+  const [medications, setMedications] = useState<Medication[]>([
     { name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily' },
     { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily' },
   ])
@@ -46,14 +48,16 @@ export default function MedicalHistory() {
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter pt-8">
         <div className="mb-8">
           <div className="flex items-center gap-2 text-secondary mb-2">
-            <Icon icon="arrow_back" className="text-sm" />
-            <a className="font-label-md text-label-md hover:text-primary transition-colors" href="#">Back to History</a>
+            <button onClick={() => navigate('/session-history')} className="font-label-md text-label-md hover:text-primary transition-colors flex items-center gap-1">
+              <Icon icon="arrow_back" className="text-sm" />
+              Back to History
+            </button>
           </div>
           <h2 className="font-headline-xl text-headline-xl text-on-surface mb-2">Medical History Form</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Please ensure all information is accurate and up-to-date to provide the best possible triage evaluation.</p>
         </div>
 
-        <form action="#" className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden" method="POST">
+        <form onSubmit={(e) => { e.preventDefault(); console.log('Form data:', { selectedConditions, allergies, medications, emergencyContact }); navigate('/') }} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden" method="POST">
           <div className="p-6 md:p-8 space-y-12">
             <section>
               <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
@@ -202,7 +206,7 @@ export default function MedicalHistory() {
                         <td className="py-3 px-4 font-body-md text-on-surface">{med.dosage}</td>
                         <td className="py-3 px-4 font-body-md text-on-surface">{med.frequency}</td>
                         <td className="py-3 px-4 text-right">
-                          <button aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
+                          <button onClick={() => setMedications(prev => prev.filter((_, j) => j !== i))} aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
                             <Icon icon="delete" className="text-[20px]" />
                           </button>
                         </td>
@@ -211,7 +215,7 @@ export default function MedicalHistory() {
                   </tbody>
                 </table>
               </div>
-              <button className="px-4 py-2 rounded-full border border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
+              <button onClick={() => setMedications(prev => [...prev, { name: '', dosage: '', frequency: '' }])} className="px-4 py-2 rounded-full border border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
                 <Icon icon="add" className="text-sm" /> Add Medication
               </button>
             </section>
@@ -237,7 +241,7 @@ export default function MedicalHistory() {
               <p className="font-caption text-caption">Your data is HIPAA compliant and securely encrypted.</p>
             </div>
             <div className="flex gap-4 w-full sm:w-auto">
-              <button className="flex-1 sm:flex-none px-6 py-3 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary-fixed/30 transition-colors text-center" type="button">
+              <button onClick={() => navigate('/')} className="flex-1 sm:flex-none px-6 py-3 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary-fixed/30 transition-colors text-center" type="button">
                 Cancel
               </button>
               <button className="flex-1 sm:flex-none px-8 py-3 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-[#1A2AC2] shadow-sm transition-all text-center" type="submit">

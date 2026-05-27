@@ -1,17 +1,23 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
 
 export default function Profile() {
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
   const [emailNotifs, setEmailNotifs] = useState(true)
   const [smsAlerts, setSmsAlerts] = useState(false)
   const [twoFactor, setTwoFactor] = useState(true)
+  const [deleteConfirmText, setDeleteConfirmText] = useState('')
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   return (
     <main className="min-h-screen flex flex-col items-center">
       <header className="flex justify-between items-center w-full px-gutter h-16 sticky top-0 bg-surface/80 backdrop-blur-md z-30">
         <h2 className="font-headline-md text-headline-md text-primary font-bold">Profile</h2>
         <div className="flex items-center gap-stack-md">
-          <button className="hover:bg-surface-variant rounded-full p-2 transition-all">
+          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
             <Icon icon="notifications" className="text-secondary" />
           </button>
           <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">AD</div>
@@ -46,7 +52,7 @@ export default function Profile() {
               <h4 className="font-headline-md text-headline-md mb-2">Health Passport</h4>
               <p className="font-label-md text-on-primary-container">Secure access to your medical records across 40+ providers.</p>
             </div>
-            <button className="relative z-10 mt-6 bg-white text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
+            <button onClick={() => navigate('/medical-history')} className="relative z-10 mt-6 bg-white text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
               View Records
             </button>
             <div className="absolute -right-8 -bottom-8 bg-white/10 w-48 h-48 rounded-full blur-3xl" />
@@ -158,13 +164,64 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="bg-error-container/20 border border-error/10 rounded-xl p-6 md:p-8 shadow-sm flex flex-col items-center">
-              <p className="font-label-md text-on-surface mb-2">Manage Account Privacy</p>
-              <a className="text-error font-label-md hover:underline flex items-center gap-1 group" href="#">
-                Delete Account
-                <Icon icon="delete" className="text-sm group-hover:translate-x-0.5 transition-transform" />
-              </a>
-              <p className="text-caption text-secondary mt-4 text-center">Permanently remove all medical data and triage history.</p>
+            <div className="border border-error/30 rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-error/5 p-6 md:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center text-error">
+                    <Icon icon="delete_forever" className="text-2xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-headline-md text-headline-md text-on-surface">Delete Account</h3>
+                    <p className="text-caption text-secondary">Permanently remove all data and triage history</p>
+                  </div>
+                </div>
+                <div className="bg-error-container/10 border border-error/20 rounded-lg p-4 mb-5 flex items-start gap-3">
+                  <Icon icon="warning" className="text-error shrink-0 mt-0.5" />
+                  <p className="text-caption text-on-surface-variant">
+                    This action <strong>cannot be undone</strong>. All your medical records, triage sessions, medication data, and personal information will be permanently deleted.
+                  </p>
+                </div>
+                {!showDeleteConfirm ? (
+                  <button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Icon icon="delete" className="text-xl" />
+                    Delete My Account
+                  </button>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block font-label-md text-label-md text-on-surface mb-2">
+                        Type <strong className="text-error">DELETE</strong> to confirm
+                      </label>
+                      <input
+                        className="w-full bg-surface-container-low border border-error/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none placeholder:text-secondary"
+                        placeholder="Type DELETE here..."
+                        type="text"
+                        value={deleteConfirmText}
+                        onChange={(e) => setDeleteConfirmText(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => { setShowDeleteConfirm(false); setDeleteConfirmText('') }}
+                        className="flex-1 py-3 px-6 rounded-full border border-outline-variant text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        disabled={deleteConfirmText !== 'DELETE'}
+                        onClick={() => { signOut(); navigate('/splash') }}
+                        className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        <Icon icon="delete_forever" className="text-xl" />
+                        Permanently Delete
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </section>
         </div>

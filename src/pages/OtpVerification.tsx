@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { useAuth } from '../context/AuthContext'
 
 export default function OtpVerification() {
+  const navigate = useNavigate()
+  const { verifyOtp } = useAuth()
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
   const [timeLeft, setTimeLeft] = useState(45)
   const [canResend, setCanResend] = useState(false)
@@ -75,9 +79,10 @@ export default function OtpVerification() {
   }
 
   const handleVerify = () => {
-    const allFilled = otp.every((d) => d !== '')
-    if (allFilled) {
+    const ok = verifyOtp(otp.join(''))
+    if (ok) {
       setIsVerified(true)
+      setTimeout(() => navigate('/'), 1500)
     } else {
       setIsError(true)
     }

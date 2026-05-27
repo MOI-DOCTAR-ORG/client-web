@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 type View = 'Front' | 'Back' | 'Left' | 'Right'
@@ -27,6 +28,7 @@ const frontRegions = ['head', 'chest', 'abdomen', 'left-arm', 'right-arm']
 const backRegions = ['upper-back', 'lower-back', 'left-leg', 'right-leg']
 
 export default function BodyMap() {
+  const navigate = useNavigate()
   const [currentView, setCurrentView] = useState<View>('Front')
   const [darkMode, setDarkMode] = useState(false)
   const [selectedAreas, setSelectedAreas] = useState<SelectedArea[]>([])
@@ -248,7 +250,7 @@ export default function BodyMap() {
 
         <div className="flex-none p-6 border-t border-surface-container-high bg-surface z-10 flex justify-between items-center gap-4 rounded-b-[16px]">
           <div className="flex items-center gap-6">
-            <button className="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors font-medium">
+            <button className="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors font-medium" onClick={() => navigate('/')}>
               Skip
             </button>
             <div className="hidden sm:flex items-center gap-2 text-caption text-outline">
@@ -258,6 +260,7 @@ export default function BodyMap() {
           </div>
           <button
             className="bg-[#2B3EF0] hover:bg-[#1a2bcf] text-white font-label-md text-label-md py-3 px-8 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(43,62,240,0.2)] hover:shadow-[0_6px_20px_rgba(43,62,240,0.3)] hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
+            onClick={() => navigate('/pinpoint-pain')}
           >
             Confirm Pain Areas
             <Icon icon="arrow_forward" className="text-lg" />

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 const sessions = [
@@ -43,6 +44,7 @@ const sessions = [
 ]
 
 export default function Dashboard2() {
+  const navigate = useNavigate()
   return (
     <main className="pt-6 md:pt-24 pb-12 p-4 md:px-gutter max-w-container-max-width mx-auto flex flex-col gap-8">
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm relative overflow-hidden">
@@ -54,7 +56,7 @@ export default function Dashboard2() {
           <p className="font-label-md text-label-md text-amber-900">Follow-up Required</p>
           <p className="text-sm text-amber-700 mt-1">Please complete the symptom diary for your recent 'Moderate Migraine' triage session.</p>
         </div>
-        <button className="mt-3 sm:mt-0 px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full font-label-md text-label-md transition-colors whitespace-nowrap">
+        <button className="mt-3 sm:mt-0 px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full font-label-md text-label-md transition-colors whitespace-nowrap" onClick={() => navigate('/symptom-tracker')}>
           Complete Now
         </button>
       </div>
@@ -79,7 +81,7 @@ export default function Dashboard2() {
             </p>
           </div>
           <div className="relative z-10 flex gap-4 mt-auto">
-            <button className="bg-white text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
+            <button className="bg-white text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]" onClick={() => navigate('/new-triage')}>
               <Icon icon="add_circle" className="icon-fill" />
               Start New Triage
             </button>
@@ -162,9 +164,9 @@ export default function Dashboard2() {
       <section className="mt-4">
         <div className="flex justify-between items-end mb-6">
           <h3 className="font-headline-md text-headline-md text-on-surface">Recent Triage Sessions</h3>
-          <a className="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+          <button className="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" onClick={() => navigate('/session-history')}>
             View All <Icon icon="arrow_forward" className="text-[16px]" />
-          </a>
+          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sessions.map((s, i) => (
@@ -184,7 +186,7 @@ export default function Dashboard2() {
                 <span className="text-sm font-medium text-on-surface-variant flex items-center gap-1">
                   <Icon icon={s.actionIcon} className="text-[16px]" /> {s.action}
                 </span>
-                <button className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <button className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors" onClick={() => navigate('/care-details')}>
                   <Icon icon="chevron_right" className="text-[18px]" />
                 </button>
               </div>

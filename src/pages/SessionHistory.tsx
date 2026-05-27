@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
 
 const sessions = [
@@ -12,6 +14,8 @@ const sessions = [
 const filters = ['All Sessions', 'Low', 'Moderate', 'High']
 
 export default function SessionHistory() {
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
   const [activeFilter, setActiveFilter] = useState('All Sessions')
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -23,7 +27,7 @@ export default function SessionHistory() {
       <header className="flex justify-between items-center w-full px-gutter h-20 sticky top-0 bg-surface/80 backdrop-blur-md z-40">
         <h2 className="font-headline-md text-headline-md text-primary">Your Triage History</h2>
         <div className="flex items-center gap-4">
-          <button className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
+          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
             <Icon icon="notifications" />
           </button>
           <div className="w-10 h-10 rounded-full border border-primary/20 overflow-hidden bg-surface-container">
@@ -94,7 +98,7 @@ export default function SessionHistory() {
                 </p>
               </div>
               <div className="flex items-center gap-4 w-full lg:w-auto">
-                <button className="flex-1 lg:flex-none px-6 py-3 border border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary-fixed transition-colors">
+                <button onClick={() => navigate('/care-details')} className="flex-1 lg:flex-none px-6 py-3 border border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary-fixed transition-colors">
                   View Details
                 </button>
               </div>
@@ -140,7 +144,7 @@ export default function SessionHistory() {
             <p className="opacity-80 font-body-md max-w-lg mb-6">
               Completing your medical profile helps our AI provide better context for every session you start.
             </p>
-            <button className="bg-white text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:scale-105 transition-transform">
+            <button onClick={() => navigate('/profile')} className="bg-white text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:scale-105 transition-transform">
               Complete Profile
             </button>
           </div>

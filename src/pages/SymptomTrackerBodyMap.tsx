@@ -1,18 +1,35 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 type Severity = 'Mild' | 'Moderate' | 'Severe'
 
-const entries = [
-  { date: 'Oct 23, 11:45 AM', symptom: 'Acute Migraine', severity: 'Severe' as Severity, dot: 'bg-error', labelBg: 'bg-error/10', labelText: 'text-error' },
-  { date: 'Oct 22, 09:15 AM', symptom: 'Joint Pain', severity: 'Moderate' as Severity, dot: 'bg-primary', labelBg: 'bg-primary/10', labelText: 'text-primary' },
-  { date: 'Oct 21, 04:30 PM', symptom: 'Fatigue', severity: 'Mild' as Severity, dot: 'bg-on-secondary-container', labelBg: 'bg-secondary-container', labelText: 'text-secondary' },
-  { date: 'Oct 20, 08:00 AM', symptom: 'Dizziness', severity: 'Moderate' as Severity, dot: 'bg-primary', labelBg: 'bg-primary/10', labelText: 'text-primary' },
-  { date: 'Oct 19, 01:20 PM', symptom: 'Nausea', severity: 'Mild' as Severity, dot: 'bg-on-secondary-container', labelBg: 'bg-secondary-container', labelText: 'text-secondary' },
-]
-
 export default function SymptomTrackerBodyMap() {
+  const navigate = useNavigate()
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>(null)
+  const [symptomName, setSymptomName] = useState('')
+  const [entries, setEntries] = useState([
+    { date: 'Oct 23, 11:45 AM', symptom: 'Acute Migraine', severity: 'Severe' as Severity, dot: 'bg-error', labelBg: 'bg-error/10', labelText: 'text-error' },
+    { date: 'Oct 22, 09:15 AM', symptom: 'Joint Pain', severity: 'Moderate' as Severity, dot: 'bg-primary', labelBg: 'bg-primary/10', labelText: 'text-primary' },
+    { date: 'Oct 21, 04:30 PM', symptom: 'Fatigue', severity: 'Mild' as Severity, dot: 'bg-on-secondary-container', labelBg: 'bg-secondary-container', labelText: 'text-secondary' },
+    { date: 'Oct 20, 08:00 AM', symptom: 'Dizziness', severity: 'Moderate' as Severity, dot: 'bg-primary', labelBg: 'bg-primary/10', labelText: 'text-primary' },
+    { date: 'Oct 19, 01:20 PM', symptom: 'Nausea', severity: 'Mild' as Severity, dot: 'bg-on-secondary-container', labelBg: 'bg-secondary-container', labelText: 'text-secondary' },
+  ])
+
+  const handleSaveEntry = () => {
+    if (!symptomName.trim()) return
+    const now = new Date()
+    const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+    const sev = selectedSeverity || 'Mild'
+    const classes: Record<string, { dot: string, labelBg: string, labelText: string }> = {
+      Mild: { dot: 'bg-on-secondary-container', labelBg: 'bg-secondary-container', labelText: 'text-secondary' },
+      Moderate: { dot: 'bg-primary', labelBg: 'bg-primary/10', labelText: 'text-primary' },
+      Severe: { dot: 'bg-error', labelBg: 'bg-error/10', labelText: 'text-error' },
+    }
+    setEntries(prev => [...prev, { date: dateStr, symptom: symptomName, severity: sev as Severity, ...classes[sev] }])
+    setSymptomName('')
+    setSelectedSeverity(null)
+  }
 
   const severityOptions: { label: Severity }[] = [
     { label: 'Mild' },
@@ -40,7 +57,7 @@ export default function SymptomTrackerBodyMap() {
               <Icon icon="edit_note" />
             </div>
             <h2 className="font-headline-md text-headline-md">New Log Entry</h2>
-            <button className="ml-auto bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
+            <button onClick={() => navigate('/body-map')} className="ml-auto bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
               <Icon icon="accessibility_new" className="text-[20px]" />
               <span>Show on Body</span>
             </button>
@@ -52,6 +69,8 @@ export default function SymptomTrackerBodyMap() {
                 className="w-full h-14 px-4 rounded-lg bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-outline-variant/60 font-body-md"
                 placeholder="e.g., Migraine, Chest Tightness, Fatigue"
                 type="text"
+                value={symptomName}
+                onChange={(e) => setSymptomName(e.target.value)}
               />
             </div>
             <div className="space-y-4">
@@ -74,7 +93,7 @@ export default function SymptomTrackerBodyMap() {
             </div>
           </div>
           <div className="mt-8 flex justify-end">
-            <button className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
+            <button onClick={handleSaveEntry} className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
               <span>Save Entry</span>
               <Icon icon="arrow_forward" />
             </button>

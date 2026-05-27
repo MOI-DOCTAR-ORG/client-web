@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
 
 interface MedSchedule {
@@ -25,6 +27,8 @@ interface Prescription {
 }
 
 export default function MedicationTracker() {
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
   const [schedule, setSchedule] = useState<MedSchedule[]>([
     { name: 'Lisinopril (10mg)', dosage: '10mg Tablet', time: '8:00 AM', note: 'With food', taken: true },
     { name: 'Metformin (500mg)', dosage: '500mg Tablet', time: '9:00 AM', note: 'Missed dose', taken: false, missed: true },
@@ -58,7 +62,7 @@ export default function MedicationTracker() {
           <h2 className="font-headline-md text-headline-md text-on-surface tracking-tight md:hidden">Medication</h2>
         </div>
         <div className="flex items-center gap-4">
-          <button className="text-secondary hover:bg-surface-variant rounded-full p-2 transition-all relative">
+          <button onClick={() => navigate('/notifications')} className="text-secondary hover:bg-surface-variant rounded-full p-2 transition-all relative">
             <Icon icon="notifications" />
             <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface" />
           </button>
@@ -78,7 +82,7 @@ export default function MedicationTracker() {
             <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface tracking-tight">Medication Tracker</h2>
             <p className="font-body-md text-body-md text-secondary mt-1">Manage your prescriptions and daily schedule.</p>
           </div>
-          <button className="bg-primary text-on-primary hover:bg-[#1A2AC2] font-label-md text-label-md py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm self-start md:self-auto">
+          <button onClick={() => navigate('/medical-history')} className="bg-primary text-on-primary hover:bg-[#1A2AC2] font-label-md text-label-md py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm self-start md:self-auto">
             <Icon icon="add" className="text-[20px]" />
             Add Medication
           </button>
@@ -229,7 +233,7 @@ export default function MedicationTracker() {
                         {med.supplyLabel}
                       </p>
                       {med.refillCta && (
-                        <button className="text-primary font-label-md text-caption hover:underline">{med.refillCta}</button>
+                        <button onClick={() => console.log('Refill requested for', med.name)} className="text-primary font-label-md text-caption hover:underline">{med.refillCta}</button>
                       )}
                     </div>
                   </div>

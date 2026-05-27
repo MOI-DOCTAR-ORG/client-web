@@ -21,6 +21,7 @@ import Dashboard2 from './pages/Dashboard2'
 import NewTriageInterface from './pages/NewTriageInterface'
 import NewTriageBodyMap from './pages/NewTriageBodyMap'
 import SymptomTrackerBodyMap from './pages/SymptomTrackerBodyMap'
+import NotFound from './pages/NotFound'
 
 export default function App() {
   return (
@@ -52,6 +53,9 @@ export default function App() {
         <Route path="/new-triage-body-map" element={<NewTriageBodyMap />} />
         <Route path="/symptom-tracker-body-map" element={<SymptomTrackerBodyMap />} />
       </Route>
+
+      {/* Catch-all 404 */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

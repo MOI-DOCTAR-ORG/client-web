@@ -1,25 +1,32 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 type Severity = 'Mild' | 'Moderate' | 'Severe'
 
-const messages = [
-  {
-    role: 'ai',
-    text: 'Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?',
-    time: 'Sent at 14:32',
-  },
-  {
-    role: 'user',
-    text: 'I have a sharp pain in my upper abdomen. It started about two hours after lunch. It feels quite intense.',
-    time: 'Delivered',
-  },
-]
-
 export default function NewTriage() {
+  const navigate = useNavigate()
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>('Moderate')
   const [inputValue, setInputValue] = useState('')
   const [showPanel, setShowPanel] = useState(true)
+  const [messages, setMessages] = useState([
+    {
+      role: 'ai',
+      text: 'Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?',
+      time: 'Sent at 14:32',
+    },
+    {
+      role: 'user',
+      text: 'I have a sharp pain in my upper abdomen. It started about two hours after lunch. It feels quite intense.',
+      time: 'Delivered',
+    },
+  ])
+
+  const handleSend = () => {
+    if (!inputValue.trim()) return
+    setMessages(prev => [...prev, { role: 'user', text: inputValue, time: 'Just now' }])
+    setInputValue('')
+  }
 
   const severityOptions: { label: Severity; dot: string; border: string; hover: string }[] = [
     { label: 'Mild', dot: 'bg-blue-400', border: 'border-blue-400', hover: 'hover:border-blue-400 hover:bg-blue-50' },
@@ -89,7 +96,7 @@ export default function NewTriage() {
             >
               <Icon icon={showPanel ? 'close' : 'info'} />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
+            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/session-history')}>
               <Icon icon="history" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
@@ -99,31 +106,29 @@ export default function NewTriage() {
         </header>
 
         <div className="flex-grow overflow-y-auto p-gutter space-y-8 chat-container pb-32">
-          {/* AI Message */}
-          <div className="flex gap-4 max-w-full md:max-w-2xl">
-            <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-              <Icon icon="smart_toy" className="text-primary text-[20px]" />
-            </div>
-            <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
-              <p className="font-body-md text-on-surface">
-                Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?
-              </p>
-              <p className="text-caption text-secondary mt-2">Sent at 14:32</p>
-            </div>
-          </div>
-
-          {/* User Message */}
-          <div className="flex gap-4 justify-end">
-            <div className="bg-primary text-on-primary rounded-2xl rounded-tr-none px-6 py-4 shadow-lg max-w-full md:max-w-xl">
-              <p className="font-body-md">
-                I have a sharp pain in my upper abdomen. It started about two hours after lunch. It feels quite intense.
-              </p>
-              <p className="text-caption text-on-primary-container mt-2 opacity-80 text-right">Delivered</p>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-              <Icon icon="person" className="text-white text-[18px]" />
-            </div>
-          </div>
+          {messages.map((msg, i) => (
+            msg.role === 'ai' ? (
+              <div key={i} className="flex gap-4 max-w-full md:max-w-2xl">
+                <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+                  <Icon icon="smart_toy" className="text-primary text-[20px]" />
+                </div>
+                <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
+                  <p className="font-body-md text-on-surface">{msg.text}</p>
+                  <p className="text-caption text-secondary mt-2">{msg.time}</p>
+                </div>
+              </div>
+            ) : (
+              <div key={i} className="flex gap-4 justify-end">
+                <div className="bg-primary text-on-primary rounded-2xl rounded-tr-none px-6 py-4 shadow-lg max-w-full md:max-w-xl">
+                  <p className="font-body-md">{msg.text}</p>
+                  <p className="text-caption text-on-primary-container mt-2 opacity-80 text-right">{msg.time}</p>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+                  <Icon icon="person" className="text-white text-[18px]" />
+                </div>
+              </div>
+            )
+          ))}
 
           {/* AI Message with Severity Triage */}
           <div className="flex gap-4 max-w-full md:max-w-2xl">
@@ -169,7 +174,7 @@ export default function NewTriage() {
                 Based on your reports of sharp upper abdominal pain post-prandial, we recommend a clinical evaluation within the next 4 hours to rule out acute biliary or pancreatic issues.
               </p>
               <div className="flex gap-3">
-                <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20">
+                <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => navigate('/care-details')}>
                   View Care Details
                 </button>
                 <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
@@ -193,6 +198,7 @@ export default function NewTriage() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               />
               <div className="flex items-center gap-1">
                 <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
@@ -203,7 +209,7 @@ export default function NewTriage() {
                     mic
                   </span>
                 </button>
-                <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center">
+                <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center" onClick={handleSend}>
                   <Icon icon="send" />
                 </button>
               </div>

@@ -1,8 +1,24 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
+const initialMessages = [
+  { role: 'ai', text: "Hello. I'm ready to help assess your symptoms. To start, could you tell me more about the headache behind your right eye? When did it start, and how would you rate the pain on a scale of 1 to 10?" },
+  { role: 'user', text: "It started about 2 hours ago. It's pretty bad, maybe an 8. Throbbing." },
+  { role: 'ai', text: "Thank you. An 8/10 throbbing pain is significant. Are you experiencing any changes in your vision, such as blurriness or seeing auras, in that right eye?" },
+  { role: 'user', text: "Just a little sensitive to light, but no blurriness or auras." },
+]
+
 export default function NewTriageInterface() {
+  const navigate = useNavigate()
   const [inputValue, setInputValue] = useState('')
+  const [messages, setMessages] = useState(initialMessages)
+
+  const handleSend = () => {
+    if (!inputValue.trim()) return
+    setMessages(prev => [...prev, { role: 'user', text: inputValue }])
+    setInputValue('')
+  }
 
   return (
     <div className="flex flex-col h-full relative z-10">
@@ -65,44 +81,39 @@ export default function NewTriageInterface() {
 
         <section className="flex-1 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 flex flex-col h-full overflow-hidden relative">
           <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 custom-scrollbar">
-            <div className="flex gap-4 max-w-[85%]">
-              <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
-                <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
-              </div>
-              <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
-                <p className="font-body-md text-body-md text-on-surface">Hello. I'm ready to help assess your symptoms. To start, could you tell me more about the headache behind your right eye? When did it start, and how would you rate the pain on a scale of 1 to 10?</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4 max-w-[85%] self-end flex-row-reverse">
-              <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center mt-1">
-                <span className="font-bold text-on-surface-variant text-sm">U</span>
-              </div>
-              <div className="bg-primary text-on-primary p-4 rounded-2xl rounded-tr-sm shadow-md">
-                <p className="font-body-md text-body-md">It started about 2 hours ago. It's pretty bad, maybe an 8. Throbbing.</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4 max-w-[85%]">
-              <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
-                <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
-              </div>
-              <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
-                <p className="font-body-md text-body-md text-on-surface mb-3">Thank you. An 8/10 throbbing pain is significant. Are you experiencing any changes in your vision, such as blurriness or seeing auras, in that right eye?</p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors">Yes, blurry vision</button>
-                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors">Yes, auras/flashes</button>
-                  <button className="px-4 py-2 rounded-full border border-outline text-secondary hover:bg-surface-variant font-label-md text-label-md transition-colors">No vision changes</button>
+            {messages.map((msg, i) => (
+              msg.role === 'ai' ? (
+                <div key={i} className="flex gap-4 max-w-[85%]">
+                  <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
+                    <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
+                  </div>
+                  <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
+                    <p className="font-body-md text-body-md text-on-surface">{msg.text}</p>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ) : (
+                <div key={i} className="flex gap-4 max-w-[85%] self-end flex-row-reverse">
+                  <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center mt-1">
+                    <span className="font-bold text-on-surface-variant text-sm">U</span>
+                  </div>
+                  <div className="bg-primary text-on-primary p-4 rounded-2xl rounded-tr-sm shadow-md">
+                    <p className="font-body-md text-body-md">{msg.text}</p>
+                  </div>
+                </div>
+              )
+            ))}
 
-            <div className="flex gap-4 max-w-[85%] self-end flex-row-reverse">
-              <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center mt-1">
-                <span className="font-bold text-on-surface-variant text-sm">U</span>
+            <div className="flex gap-4 max-w-[85%]">
+              <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
+                <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
               </div>
-              <div className="bg-primary text-on-primary p-4 rounded-2xl rounded-tr-sm shadow-md">
-                <p className="font-body-md text-body-md">Just a little sensitive to light, but no blurriness or auras.</p>
+              <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
+                <p className="font-body-md text-body-md text-on-surface mb-3">Are you experiencing any changes in your vision, such as blurriness or seeing auras, in that right eye?</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'Yes, blurry vision' }]) }}>Yes, blurry vision</button>
+                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'Yes, auras/flashes' }]) }}>Yes, auras/flashes</button>
+                  <button className="px-4 py-2 rounded-full border border-outline text-secondary hover:bg-surface-variant font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'No vision changes' }]) }}>No vision changes</button>
+                </div>
               </div>
             </div>
 
@@ -116,7 +127,7 @@ export default function NewTriageInterface() {
                 <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold rounded-full uppercase tracking-wide">Elevated</span>
               </div>
               <p className="font-body-md text-[14px] text-on-surface-variant mb-4">Symptoms suggest a possible acute migraine attack. Given the pain severity (8/10), continued monitoring is advised. Over-the-counter pain relief may be appropriate if not contraindicated.</p>
-              <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30">
+              <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30" onClick={() => navigate('/care-details')}>
                 View Detailed Care Pathway
               </button>
             </div>
@@ -135,11 +146,12 @@ export default function NewTriageInterface() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               />
               <button className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-variant shrink-0" title="Voice Input">
                 <Icon icon="mic" />
               </button>
-              <button className="p-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors shrink-0 ml-1 shadow-sm flex items-center justify-center w-10 h-10" title="Send">
+              <button className="p-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors shrink-0 ml-1 shadow-sm flex items-center justify-center w-10 h-10" title="Send" onClick={handleSend}>
                 <Icon icon="send" className="text-[20px]" />
               </button>
             </div>

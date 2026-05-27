@@ -1,18 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { usePersistState } from '../hooks/usePersistState'
 
 export default function SymptomTracker() {
   const navigate = useNavigate()
   const [severity, setSeverity] = useState<string | null>(null)
   const [symptomName, setSymptomName] = useState('')
-  const [timelineEntries, setTimelineEntries] = useState([
-    { date: 'Oct 23, 11:45 AM', label: 'Acute Migraine', severity: 'Severe', severityClass: 'bg-error/10 text-error', dotClass: 'bg-error' },
-    { date: 'Oct 22, 09:15 AM', label: 'Joint Pain', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
-    { date: 'Oct 21, 04:30 PM', label: 'Fatigue', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
-    { date: 'Oct 20, 08:00 AM', label: 'Dizziness', severity: 'Moderate', severityClass: 'bg-primary/10 text-primary', dotClass: 'bg-primary' },
-    { date: 'Oct 19, 01:20 PM', label: 'Nausea', severity: 'Mild', severityClass: 'bg-secondary-container text-secondary', dotClass: 'bg-on-secondary-container' },
-  ])
+  const [timelineEntries, setTimelineEntries] = usePersistState<{ date: string; label: string; severity: string; severityClass: string; dotClass: string }[]>('doctarr_symptoms', [])
 
   const handleSaveEntry = () => {
     if (!symptomName.trim()) return
@@ -41,7 +36,7 @@ export default function SymptomTracker() {
         </div>
         <div className="flex items-center gap-stack-sm bg-white p-2 rounded-xl border border-outline-variant/30 shadow-sm">
           <Icon icon="calendar_month" className="text-primary" />
-          <span className="font-label-md text-label-md pr-2">October 24, 2023</span>
+          <span className="font-label-md text-label-md pr-2">Today</span>
         </div>
       </header>
 
@@ -107,16 +102,6 @@ export default function SymptomTracker() {
               <text className="text-[10px] fill-secondary font-label-md uppercase" x="5" y="45">Severe</text>
               <text className="text-[10px] fill-secondary font-label-md uppercase" x="5" y="145">Moderate</text>
               <text className="text-[10px] fill-secondary font-label-md uppercase" x="5" y="245">Mild</text>
-              <path d="M 0 250 L 50 240 L 100 180 L 150 150 L 200 160 L 250 100 L 300 120 L 350 200 L 400 230 L 450 180 L 500 150 L 550 120 L 600 80 L 650 100 L 700 150 L 750 220 L 800 240" fill="none" stroke="#001bd4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
-              <path d="M 0 250 L 50 240 L 100 180 L 150 150 L 200 160 L 250 100 L 300 120 L 350 200 L 400 230 L 450 180 L 500 150 L 550 120 L 600 80 L 650 100 L 700 150 L 750 220 L 800 240 V 300 H 0 Z" fill="url(#gradient)" opacity="0.1" />
-              <defs>
-                <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#001bd4" />
-                  <stop offset="100%" stopColor="transparent" />
-                </linearGradient>
-              </defs>
-              <circle cx="250" cy="100" fill="#001bd4" r="6" />
-              <circle cx="600" cy="80" fill="#001bd4" r="6" />
             </svg>
           </div>
           <div className="flex justify-between mt-6 text-caption text-secondary px-2">
@@ -131,20 +116,24 @@ export default function SymptomTracker() {
             <h2 className="font-headline-md text-headline-md">Past Entries</h2>
           </div>
           <div className="flex-1 overflow-y-auto max-h-[480px] p-stack-lg space-y-6">
-            {timelineEntries.map((entry, i) => (
-              <div key={i} className="relative pl-8 border-l-2 border-outline-variant">
-                <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${entry.dotClass} border-4 border-white shadow-sm`} />
-                <div className="flex flex-col gap-1">
-                  <span className="font-label-md text-caption text-secondary uppercase">{entry.date}</span>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-body-md font-bold text-on-surface">{entry.label}</h3>
-                    <span className={`font-label-md text-[12px] px-2 py-0.5 rounded-full uppercase ${entry.severityClass}`}>
-                      {entry.severity}
-                    </span>
+            {timelineEntries.length === 0 ? (
+              <p className="text-secondary font-body-md text-center py-8">No entries yet. Log your first symptom above.</p>
+            ) : (
+              timelineEntries.map((entry, i) => (
+                <div key={i} className="relative pl-8 border-l-2 border-outline-variant">
+                  <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${entry.dotClass} border-4 border-white shadow-sm`} />
+                  <div className="flex flex-col gap-1">
+                    <span className="font-label-md text-caption text-secondary uppercase">{entry.date}</span>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-body-md font-bold text-on-surface">{entry.label}</h3>
+                      <span className={`font-label-md text-[12px] px-2 py-0.5 rounded-full uppercase ${entry.severityClass}`}>
+                        {entry.severity}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 
@@ -158,7 +147,7 @@ export default function SymptomTracker() {
             <div className="max-w-md text-white">
               <h3 className="font-headline-md text-headline-md mb-2">AI Health Insights</h3>
               <p className="font-body-md opacity-90">
-                Your symptoms show a 12% decrease in severity compared to last week. Keep documenting to refine your profile.
+                Start logging your symptoms to unlock AI-powered health insights and trends.
               </p>
             </div>
           </div>

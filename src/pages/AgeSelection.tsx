@@ -11,7 +11,7 @@ const ageOptions = [
 
 export default function AgeSelection() {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState<string>('18-35')
+  const [selected, setSelected] = useState<string>('')
 
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center relative overflow-hidden">

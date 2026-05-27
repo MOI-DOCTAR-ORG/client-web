@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 const initialMessages = [
-  { role: 'ai', text: "Hello. I'm ready to help assess your symptoms. To start, could you tell me more about the headache behind your right eye? When did it start, and how would you rate the pain on a scale of 1 to 10?" },
-  { role: 'user', text: "It started about 2 hours ago. It's pretty bad, maybe an 8. Throbbing." },
-  { role: 'ai', text: "Thank you. An 8/10 throbbing pain is significant. Are you experiencing any changes in your vision, such as blurriness or seeing auras, in that right eye?" },
-  { role: 'user', text: "Just a little sensitive to light, but no blurriness or auras." },
+  { role: 'ai', text: "Hello. I'm ready to help assess your symptoms. Could you please describe what you're feeling and when it started?" },
 ]
 
 export default function NewTriageInterface() {
@@ -48,21 +45,19 @@ export default function NewTriageInterface() {
             <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-primary-container rounded-full mix-blend-multiply opacity-10 filter blur-xl" />
             <div className="mb-6">
               <span className="inline-block px-3 py-1 bg-surface-container-highest text-on-surface-variant text-xs font-semibold rounded-full mb-3 shadow-sm border border-outline-variant/30">In Progress</span>
-              <h3 className="font-headline-md text-headline-md text-on-primary-fixed font-bold">Session #TR-8829</h3>
+              <h3 className="font-headline-md text-headline-md text-on-primary-fixed font-bold">New Session</h3>
               <p className="font-caption text-caption text-secondary mt-1 flex items-center gap-1">
-                <Icon icon="schedule" className="text-[14px]" /> Started 10:42 AM
+                <Icon icon="schedule" className="text-[14px]" /> Started {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
               </p>
             </div>
             <div className="flex-1">
               <h4 className="font-label-md text-label-md text-on-surface-variant mb-2 font-bold uppercase tracking-wider text-xs">Primary Complaint</h4>
               <div className="bg-surface/60 rounded-lg p-3 backdrop-blur-sm border border-outline-variant/30 mb-4">
-                <p className="font-body-md text-body-md text-on-surface">Severe headache, localized behind the right eye, accompanied by mild nausea.</p>
+                <p className="font-body-md text-body-md text-on-surface">--</p>
               </div>
               <h4 className="font-label-md text-label-md text-on-surface-variant mb-2 font-bold uppercase tracking-wider text-xs">Identified Symptoms</h4>
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1.5 bg-surface/60 rounded-full text-sm font-medium text-on-surface border border-outline-variant/30 shadow-sm backdrop-blur-sm">Headache</span>
-                <span className="px-3 py-1.5 bg-surface/60 rounded-full text-sm font-medium text-on-surface border border-outline-variant/30 shadow-sm backdrop-blur-sm">Nausea</span>
-                <span className="px-3 py-1.5 bg-surface/60 rounded-full text-sm font-medium text-on-surface border border-outline-variant/30 shadow-sm backdrop-blur-sm">Photophobia</span>
+                <span className="px-3 py-1.5 bg-surface/60 rounded-full text-sm font-medium text-on-surface border border-outline-variant/30 shadow-sm backdrop-blur-sm">--</span>
               </div>
             </div>
             <div className="mt-auto pt-4 border-t border-primary/10">
@@ -103,34 +98,22 @@ export default function NewTriageInterface() {
               )
             ))}
 
-            <div className="flex gap-4 max-w-[85%]">
-              <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
-                <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
-              </div>
-              <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
-                <p className="font-body-md text-body-md text-on-surface mb-3">Are you experiencing any changes in your vision, such as blurriness or seeing auras, in that right eye?</p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'Yes, blurry vision' }]) }}>Yes, blurry vision</button>
-                  <button className="px-4 py-2 rounded-full border border-primary text-primary hover:bg-primary-fixed-dim/20 font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'Yes, auras/flashes' }]) }}>Yes, auras/flashes</button>
-                  <button className="px-4 py-2 rounded-full border border-outline text-secondary hover:bg-surface-variant font-label-md text-label-md transition-colors" onClick={() => { setMessages(prev => [...prev, { role: 'user', text: 'No vision changes' }]) }}>No vision changes</button>
+            {messages.length > 2 && (
+              <div className="mt-4 mb-2 mx-auto w-full max-w-md bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden group">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container" />
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h4 className="font-headline-md text-[18px] font-bold text-on-surface">Preliminary Assessment</h4>
+                    <p className="font-caption text-caption text-secondary">Based on current data</p>
+                  </div>
+                  <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold rounded-full uppercase tracking-wide">Pending</span>
                 </div>
+                <p className="font-body-md text-[14px] text-on-surface-variant mb-4">Assessment will appear once more information is gathered.</p>
+                <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30" onClick={() => navigate('/care-details')}>
+                  View Detailed Care Pathway
+                </button>
               </div>
-            </div>
-
-            <div className="mt-4 mb-2 mx-auto w-full max-w-md bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden group">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container" />
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-headline-md text-[18px] font-bold text-on-surface">Preliminary Assessment</h4>
-                  <p className="font-caption text-caption text-secondary">Based on current data</p>
-                </div>
-                <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold rounded-full uppercase tracking-wide">Elevated</span>
-              </div>
-              <p className="font-body-md text-[14px] text-on-surface-variant mb-4">Symptoms suggest a possible acute migraine attack. Given the pain severity (8/10), continued monitoring is advised. Over-the-counter pain relief may be appropriate if not contraindicated.</p>
-              <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30" onClick={() => navigate('/care-details')}>
-                View Detailed Care Pathway
-              </button>
-            </div>
+            )}
 
             <div className="h-4" />
           </div>

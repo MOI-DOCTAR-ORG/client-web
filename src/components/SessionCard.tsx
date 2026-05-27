@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Icon from './Icon'
 
 type SessionCardProps = {
@@ -23,6 +24,8 @@ export default function SessionCard({
   statusLabel,
   statusIcon,
 }: SessionCardProps) {
+  const navigate = useNavigate()
+
   return (
     <div className="bg-white card-shadow rounded-[16px] p-6 hover:shadow-md transition-shadow group">
       <div className="flex justify-between items-start mb-6">
@@ -44,9 +47,9 @@ export default function SessionCard({
           <Icon icon={statusIcon} className="text-[18px]" />
           {statusLabel}
         </span>
-        <a className="text-primary font-label-md hover:underline" href="#">
+        <button onClick={() => navigate('/care-details')} className="text-primary font-label-md hover:underline">
           View Details
-        </a>
+        </button>
       </div>
     </div>
   )

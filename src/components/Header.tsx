@@ -5,7 +5,7 @@ export default function Header() {
     <header className="flex justify-between items-center mb-8 h-12">
       <div>
         <h2 className="font-headline-lg text-headline-lg text-on-surface">
-          Good morning, Alex
+          Good morning
         </h2>
         <p className="font-body-md text-secondary">
           Here is what is happening with your health today.

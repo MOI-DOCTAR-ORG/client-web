@@ -1,8 +1,23 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
 
 type User = {
   name: string
   email: string
+}
+
+export type TriageSession = {
+  id: string
+  date: string
+  time: string
+  condition: string
+  description: string
+  severity: 'Urgent' | 'Moderate' | 'Stable'
+  statusLabel: string
+  statusIcon: string
+  tags?: string[]
+  summary?: string
+  severityClass?: string
+  severityIcon?: string
 }
 
 type AuthState = {
@@ -16,23 +31,50 @@ type AuthContextValue = AuthState & {
   signUp: (email: string, password: string) => void
   verifyOtp: (code: string) => boolean
   signOut: () => void
+  sessions: TriageSession[]
+  addSession: (session: TriageSession) => void
+  removeSession: (id: string) => void
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+function loadSessions(): TriageSession[] {
+  try {
+    const data = localStorage.getItem('doctarr_sessions')
+    return data ? JSON.parse(data) : []
+  } catch { return [] }
+}
+
+function saveSessions(sessions: TriageSession[]) {
+  try { localStorage.setItem('doctarr_sessions', JSON.stringify(sessions)) } catch {}
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: false,
+  const [state, setState] = useState<AuthState>(() => {
+    try {
+      const stored = localStorage.getItem('doctarr_auth')
+      if (stored) return JSON.parse(stored)
+    } catch {}
+    return { user: null, isAuthenticated: false, isLoading: false }
   })
+  const [sessions, setSessions] = useState<TriageSession[]>(loadSessions)
+
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      try { localStorage.setItem('doctarr_auth', JSON.stringify(state)) } catch {}
+    }
+  }, [state])
+
+  useEffect(() => { saveSessions(sessions) }, [sessions])
 
   const signIn = useCallback((email: string) => {
-    setState({ user: { name: 'Alex', email }, isAuthenticated: false, isLoading: true })
+    const user = { name: email.split('@')[0], email }
+    setState({ user, isAuthenticated: false, isLoading: true })
   }, [])
 
   const signUp = useCallback((email: string, _password: string) => {
-    setState({ user: { name: email.split('@')[0], email }, isAuthenticated: false, isLoading: true })
+    const user = { name: email.split('@')[0], email }
+    setState({ user, isAuthenticated: false, isLoading: true })
   }, [])
 
   const verifyOtp = useCallback((code: string) => {
@@ -49,10 +91,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(() => {
     setState({ user: null, isAuthenticated: false, isLoading: false })
+    setSessions([])
+    try {
+      localStorage.removeItem('doctarr_auth')
+      localStorage.removeItem('doctarr_sessions')
+    } catch {}
+  }, [])
+
+  const addSession = useCallback((session: TriageSession) => {
+    setSessions((prev) => [session, ...prev])
+  }, [])
+
+  const removeSession = useCallback((id: string) => {
+    setSessions((prev) => prev.filter(s => s.id !== id))
   }, [])
 
   return (
-    <AuthContext.Provider value={{ ...state, signIn, signUp, verifyOtp, signOut }}>
+    <AuthContext.Provider value={{ ...state, signIn, signUp, verifyOtp, signOut, sessions, addSession, removeSession }}>
       {children}
     </AuthContext.Provider>
   )

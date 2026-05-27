@@ -17,11 +17,11 @@ import MedicationTracker from './pages/MedicationTracker'
 import Notifications from './pages/Notifications'
 import Profile from './pages/Profile'
 import MedicalHistory from './pages/MedicalHistory'
-import Dashboard2 from './pages/Dashboard2'
 import NewTriageInterface from './pages/NewTriageInterface'
 import NewTriageBodyMap from './pages/NewTriageBodyMap'
 import SymptomTrackerBodyMap from './pages/SymptomTrackerBodyMap'
 import NotFound from './pages/NotFound'
+import ForgotPassword from './pages/ForgotPassword'
 
 export default function App() {
   return (
@@ -35,6 +35,7 @@ export default function App() {
         <Route path="/age-selection" element={<AgeSelection />} />
         <Route path="/body-map" element={<BodyMap />} />
         <Route path="/pinpoint-pain" element={<PinpointPain />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 
       {/* App pages - with sidebar, require auth */}
@@ -48,7 +49,6 @@ export default function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/medical-history" element={<MedicalHistory />} />
-        <Route path="/dashboard-alt" element={<Dashboard2 />} />
         <Route path="/new-triage-interface" element={<NewTriageInterface />} />
         <Route path="/new-triage-body-map" element={<NewTriageBodyMap />} />
         <Route path="/symptom-tracker-body-map" element={<SymptomTrackerBodyMap />} />

@@ -29,7 +29,7 @@ const bodyRegions: BodyRegion[] = [
 
 export default function PinpointPain() {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState<string[]>(['chest'])
+  const [selected, setSelected] = useState<string[]>([])
 
   const toggleRegion = (id: string) => {
     setSelected((prev) =>

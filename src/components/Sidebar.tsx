@@ -1,5 +1,6 @@
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import Icon from './Icon'
+import { useAuth } from '../context/AuthContext'
 
 const primaryNav = [
   { label: 'Dashboard', icon: 'dashboard', to: '/' },
@@ -25,8 +26,16 @@ type SidebarProps = {
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
 
   const handleNav = () => {
+    onClose()
+  }
+
+  const handleSignOut = () => {
+    signOut()
+    navigate('/splash')
     onClose()
   }
 
@@ -65,20 +74,17 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       <div className="mt-auto px-5 space-y-1 md:space-y-2 pt-4 border-t border-outline-variant/30">
         {bottomNav.map((item) => {
           const isSignOut = item.label === 'Sign Out'
-          const Comp = item.to === '#' ? 'a' : Link
           return (
-            <Comp
+            <button
               key={item.label}
-              to={item.to as string}
-              href={item.to === '#' ? '#' : undefined}
-              onClick={item.to !== '#' ? handleNav : undefined}
-              className={`flex items-center gap-3 md:gap-stack-md pl-5 py-2.5 md:py-3 hover:text-primary transition-colors text-sm md:text-base ${
+              onClick={isSignOut ? handleSignOut : handleNav}
+              className={`w-full flex items-center gap-3 md:gap-stack-md pl-5 py-2.5 md:py-3 hover:text-primary transition-colors text-sm md:text-base text-left ${
                 isSignOut ? 'text-secondary hover:text-error' : 'text-secondary'
               }`}
             >
               <Icon icon={item.icon} className="text-xl md:text-2xl" />
               <span className="font-label-md text-label-md">{item.label}</span>
-            </Comp>
+            </button>
           )
         })}
       </div>

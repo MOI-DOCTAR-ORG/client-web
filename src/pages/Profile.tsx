@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
+import { usePersistState } from '../hooks/usePersistState'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -12,6 +13,30 @@ export default function Profile() {
   const [deleteConfirmText, setDeleteConfirmText] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
+  const [ageRange, setAgeRange] = usePersistState('doctarr_age', '')
+  const [gender, setGender] = usePersistState('doctarr_gender', '')
+  const [bloodType, setBloodType] = usePersistState('doctarr_blood', '')
+  const [conditions, setConditions] = usePersistState<string[]>('doctarr_profile_conditions', [])
+  const [newCondition, setNewCondition] = useState('')
+  const [name, setName] = usePersistState('doctarr_name', '')
+  const [email, setEmail] = usePersistState('doctarr_email', '')
+
+  const addCondition = () => {
+    const trimmed = newCondition.trim()
+    if (trimmed && !conditions.includes(trimmed)) {
+      setConditions([...conditions, trimmed])
+      setNewCondition('')
+    }
+  }
+
+  const removeCondition = (c: string) => {
+    setConditions(conditions.filter(x => x !== c))
+  }
+
+  const ageOptions = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+  const genderOptions = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
+  const bloodOptions = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+
   return (
     <main className="min-h-screen flex flex-col items-center">
       <header className="flex justify-between items-center w-full px-gutter h-16 sticky top-0 bg-surface/80 backdrop-blur-md z-30">
@@ -20,7 +45,9 @@ export default function Profile() {
           <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
             <Icon icon="notifications" className="text-secondary" />
           </button>
-          <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">AD</div>
+          <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
+            {name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'U'}
+          </div>
         </div>
       </header>
 
@@ -29,18 +56,25 @@ export default function Profile() {
           <div className="md:col-span-8 bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
             <div className="relative">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold shadow-sm border-4 border-white overflow-hidden">
-                <span className="z-10">AD</span>
+                <span className="z-10">{name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'U'}</span>
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent" />
               </div>
-              <button className="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full shadow-lg border-2 border-white hover:scale-105 transition-transform">
-                <Icon icon="edit" className="text-sm" />
-              </button>
             </div>
-            <div className="text-center md:text-left">
-              <h3 className="font-headline-lg text-headline-lg text-on-surface mb-1">Adrian Daniels</h3>
-              <p className="font-body-md text-secondary mb-4">adrian.daniels@healthcare.com</p>
+            <div className="text-center md:text-left flex-1 w-full">
+              <input
+                className="font-headline-lg text-headline-lg text-on-surface mb-1 bg-transparent border-b border-dashed border-outline-variant focus:border-primary focus:outline-none w-full max-w-xs"
+                placeholder="Your Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+              <input
+                className="font-body-md text-secondary mb-4 bg-transparent border-b border-dashed border-outline-variant focus:border-primary focus:outline-none w-full max-w-xs"
+                placeholder="your.email@example.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
               <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                <span className="bg-surface-container-low border border-surface-variant px-3 py-1 rounded-full text-label-md font-label-md text-on-surface">Member since 2021</span>
+                <span className="bg-surface-container-low border border-surface-variant px-3 py-1 rounded-full text-label-md font-label-md text-on-surface">Member</span>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-label-md border border-primary/20">Verified Identity</span>
               </div>
             </div>
@@ -69,34 +103,64 @@ export default function Profile() {
               <div>
                 <p className="font-label-md text-secondary mb-3">DEMOGRAPHICS</p>
                 <div className="flex flex-wrap gap-stack-sm">
-                  <div className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant flex items-center gap-2">
-                    <span className="text-secondary font-label-md">Age Range:</span>
-                    <span className="font-label-md">35-44 years</span>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-caption text-secondary font-label-md">Age Range</label>
+                    <select
+                      className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant font-label-md text-on-surface outline-none focus:border-primary"
+                      value={ageRange}
+                      onChange={e => setAgeRange(e.target.value)}
+                    >
+                      <option value="">Select age range</option>
+                      {ageOptions.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
                   </div>
-                  <div className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant flex items-center gap-2">
-                    <span className="text-secondary font-label-md">Gender:</span>
-                    <span className="font-label-md">Male</span>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-caption text-secondary font-label-md">Gender</label>
+                    <select
+                      className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant font-label-md text-on-surface outline-none focus:border-primary"
+                      value={gender}
+                      onChange={e => setGender(e.target.value)}
+                    >
+                      <option value="">Select gender</option>
+                      {genderOptions.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
                   </div>
-                  <div className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant flex items-center gap-2">
-                    <span className="text-secondary font-label-md">Blood:</span>
-                    <span className="font-label-md text-error font-bold">O- (Universal Donor)</span>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-caption text-secondary font-label-md">Blood Type</label>
+                    <select
+                      className="bg-surface-container-low px-4 py-2 rounded-lg border border-surface-variant font-label-md text-on-surface outline-none focus:border-primary"
+                      value={bloodType}
+                      onChange={e => setBloodType(e.target.value)}
+                    >
+                      <option value="">Select blood type</option>
+                      {bloodOptions.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
                   </div>
                 </div>
               </div>
               <div>
                 <p className="font-label-md text-secondary mb-3">CURRENT CONDITIONS</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="bg-tertiary-container/10 text-tertiary-fixed-dim px-4 py-1.5 rounded-full border border-tertiary-container/20 font-label-md flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-tertiary" />
-                    Hypertension
-                  </span>
-                  <span className="bg-tertiary-container/10 text-tertiary-fixed-dim px-4 py-1.5 rounded-full border border-tertiary-container/20 font-label-md flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-tertiary" />
-                    Mild Seasonal Allergy
-                  </span>
-                  <button className="border-2 border-dashed border-outline-variant text-secondary hover:text-primary hover:border-primary px-4 py-1.5 rounded-full font-label-md flex items-center gap-1 transition-all">
-                    <Icon icon="add" className="text-sm" />
-                    Add Condition
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {conditions.map(c => (
+                    <span key={c} className="bg-tertiary-container/10 text-tertiary-fixed-dim px-4 py-1.5 rounded-full border border-tertiary-container/20 font-label-md flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-tertiary" />
+                      {c}
+                      <button onClick={() => removeCondition(c)} className="text-secondary hover:text-error transition-colors ml-1">
+                        <Icon icon="close" className="text-[14px]" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    className="bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant font-body-md text-on-surface outline-none focus:border-primary flex-1 min-w-0"
+                    placeholder="Add a condition..."
+                    value={newCondition}
+                    onChange={e => setNewCondition(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') addCondition() }}
+                  />
+                  <button onClick={addCondition} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors">
+                    <Icon icon="add" />
                   </button>
                 </div>
               </div>
@@ -122,12 +186,7 @@ export default function Profile() {
                     <p className="text-caption font-caption text-secondary">Updates on triage results</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={emailNotifs}
-                      onChange={() => setEmailNotifs(!emailNotifs)}
-                    />
+                    <input type="checkbox" className="sr-only peer" checked={emailNotifs} onChange={() => setEmailNotifs(!emailNotifs)} />
                     <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
                   </label>
                 </div>
@@ -137,12 +196,7 @@ export default function Profile() {
                     <p className="text-caption font-caption text-secondary">Urgent health notifications</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={smsAlerts}
-                      onChange={() => setSmsAlerts(!smsAlerts)}
-                    />
+                    <input type="checkbox" className="sr-only peer" checked={smsAlerts} onChange={() => setSmsAlerts(!smsAlerts)} />
                     <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
                   </label>
                 </div>
@@ -152,12 +206,7 @@ export default function Profile() {
                     <p className="text-caption font-caption text-secondary">Enhanced account security</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={twoFactor}
-                      onChange={() => setTwoFactor(!twoFactor)}
-                    />
+                    <input type="checkbox" className="sr-only peer" checked={twoFactor} onChange={() => setTwoFactor(!twoFactor)} />
                     <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
                   </label>
                 </div>
@@ -182,10 +231,7 @@ export default function Profile() {
                   </p>
                 </div>
                 {!showDeleteConfirm ? (
-                  <button
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
-                  >
+                  <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
                     <Icon icon="delete" className="text-xl" />
                     Delete My Account
                   </button>
@@ -195,26 +241,11 @@ export default function Profile() {
                       <label className="block font-label-md text-label-md text-on-surface mb-2">
                         Type <strong className="text-error">DELETE</strong> to confirm
                       </label>
-                      <input
-                        className="w-full bg-surface-container-low border border-error/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none placeholder:text-secondary"
-                        placeholder="Type DELETE here..."
-                        type="text"
-                        value={deleteConfirmText}
-                        onChange={(e) => setDeleteConfirmText(e.target.value)}
-                      />
+                      <input className="w-full bg-surface-container-low border border-error/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none placeholder:text-secondary" placeholder="Type DELETE here..." type="text" value={deleteConfirmText} onChange={(e) => setDeleteConfirmText(e.target.value)} />
                     </div>
                     <div className="flex gap-3">
-                      <button
-                        onClick={() => { setShowDeleteConfirm(false); setDeleteConfirmText('') }}
-                        className="flex-1 py-3 px-6 rounded-full border border-outline-variant text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        disabled={deleteConfirmText !== 'DELETE'}
-                        onClick={() => { signOut(); navigate('/splash') }}
-                        className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                      >
+                      <button onClick={() => { setShowDeleteConfirm(false); setDeleteConfirmText('') }} className="flex-1 py-3 px-6 rounded-full border border-outline-variant text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors">Cancel</button>
+                      <button disabled={deleteConfirmText !== 'DELETE'} onClick={() => { signOut(); navigate('/splash') }} className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                         <Icon icon="delete_forever" className="text-xl" />
                         Permanently Delete
                       </button>

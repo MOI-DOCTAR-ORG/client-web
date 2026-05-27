@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { usePersistState } from '../hooks/usePersistState'
 
 type Condition = 'Hypertension' | 'Type 2 Diabetes' | 'Asthma' | 'Heart Disease' | 'Thyroid Disorder'
 
@@ -14,21 +15,34 @@ interface Medication {
 
 export default function MedicalHistory() {
   const navigate = useNavigate()
-  const [selectedConditions, setSelectedConditions] = useState<Condition[]>(['Hypertension'])
-  const [allergies, setAllergies] = useState<string[]>(['Penicillin', 'Peanuts'])
+  const [selectedConditions, setSelectedConditions] = usePersistState<Condition[]>('doctarr_conditions', [])
+  const [customConditions, setCustomConditions] = usePersistState<string[]>('doctarr_custom_conditions', [])
+  const [allergies, setAllergies] = usePersistState<string[]>('doctarr_allergies', [])
   const [allergyInput, setAllergyInput] = useState('')
-  const [medications, setMedications] = useState<Medication[]>([
-    { name: 'Lisinopril', dosage: '10mg', frequency: 'Once daily' },
-    { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily' },
-  ])
-  const [emergencyContact, setEmergencyContact] = useState('')
+  const [medications, setMedications] = usePersistState<Medication[]>('doctarr_medications', [])
+  const [emergencyContact, setEmergencyContact] = usePersistState('doctarr_emergency_contact', '')
+  const [pastSurgeries, setPastSurgeries] = usePersistState('doctarr_surgeries', '')
+  const [showCustomCondition, setShowCustomCondition] = useState(false)
+  const [customConditionInput, setCustomConditionInput] = useState('')
+  const [saved, setSaved] = useState(false)
 
   const toggleCondition = (condition: Condition) => {
     setSelectedConditions(prev =>
-      prev.includes(condition)
-        ? prev.filter(c => c !== condition)
-        : [...prev, condition]
+      prev.includes(condition) ? prev.filter(c => c !== condition) : [...prev, condition]
     )
+  }
+
+  const addCustomCondition = () => {
+    const t = customConditionInput.trim()
+    if (t && !customConditions.includes(t)) {
+      setCustomConditions([...customConditions, t])
+      setCustomConditionInput('')
+      setShowCustomCondition(false)
+    }
+  }
+
+  const removeCustomCondition = (c: string) => {
+    setCustomConditions(customConditions.filter(x => x !== c))
   }
 
   const addAllergy = () => {
@@ -43,21 +57,47 @@ export default function MedicalHistory() {
     setAllergies(allergies.filter(a => a !== allergy))
   }
 
+  const updateMedication = (index: number, field: keyof Medication, value: string) => {
+    setMedications(prev => prev.map((m, i) => i === index ? { ...m, [field]: value } : m))
+  }
+
+  const addMedication = () => {
+    setMedications(prev => [...prev, { name: '', dosage: '', frequency: '' }])
+  }
+
+  const removeMedication = (index: number) => {
+    setMedications(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaved(true)
+    setTimeout(() => setSaved(false), 3000)
+    navigate('/')
+  }
+
   return (
     <main className="min-h-screen pb-8">
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter pt-8">
         <div className="mb-8">
           <div className="flex items-center gap-2 text-secondary mb-2">
-            <button onClick={() => navigate('/session-history')} className="font-label-md text-label-md hover:text-primary transition-colors flex items-center gap-1">
+            <button onClick={() => navigate('/')} className="font-label-md text-label-md hover:text-primary transition-colors flex items-center gap-1">
               <Icon icon="arrow_back" className="text-sm" />
-              Back to History
+              Back to Dashboard
             </button>
           </div>
           <h2 className="font-headline-xl text-headline-xl text-on-surface mb-2">Medical History Form</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Please ensure all information is accurate and up-to-date to provide the best possible triage evaluation.</p>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); console.log('Form data:', { selectedConditions, allergies, medications, emergencyContact }); navigate('/') }} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden" method="POST">
+        {saved && (
+          <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
+            <Icon icon="check_circle" className="text-green-600 icon-fill" />
+            <p className="font-body-md text-green-800">Your medical history has been saved successfully.</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden" method="POST">
           <div className="p-6 md:p-8 space-y-12">
             <section>
               <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
@@ -81,12 +121,7 @@ export default function MedicalHistory() {
                 </div>
                 <div>
                   <label className="block font-label-md text-label-md text-on-surface-variant mb-2" htmlFor="blood_type">Blood Type</label>
-                  <select
-                    className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none"
-                    id="blood_type"
-                    name="blood_type"
-                    defaultValue=""
-                  >
+                  <select className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none" id="blood_type" name="blood_type" defaultValue="">
                     <option disabled value="">Select Blood Type</option>
                     <option value="a+">A+</option>
                     <option value="a-">A-</option>
@@ -112,10 +147,12 @@ export default function MedicalHistory() {
                     value={emergencyContact}
                     onChange={(e) => setEmergencyContact(e.target.value)}
                   />
-                  <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
-                    <Icon icon="error" className="text-[14px]" />
-                    This field is required.
-                  </p>
+                  {!emergencyContact && (
+                    <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
+                      <Icon icon="error" className="text-[14px]" />
+                      This field is recommended.
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
@@ -131,24 +168,33 @@ export default function MedicalHistory() {
               <div className="flex flex-wrap gap-3">
                 {conditionsList.map((condition) => (
                   <label key={condition} className="cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="peer sr-only"
-                      checked={selectedConditions.includes(condition)}
-                      onChange={() => toggleCondition(condition)}
-                    />
+                    <input type="checkbox" className="peer sr-only" checked={selectedConditions.includes(condition)} onChange={() => toggleCondition(condition)} />
                     <div className={`px-4 py-2 rounded-full font-label-md text-label-md transition-all ${
                       selectedConditions.includes(condition)
                         ? 'border border-primary bg-primary text-white'
                         : 'border border-outline-variant bg-surface-container-low text-on-surface-variant hover:bg-surface-variant'
-                    }`}>
-                      {condition}
-                    </div>
+                    }`}>{condition}</div>
                   </label>
                 ))}
-                <button className="px-4 py-2 rounded-full border border-dashed border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
-                  <Icon icon="add" className="text-sm" /> Add Other
-                </button>
+                {customConditions.map(c => (
+                  <span key={c} className="px-4 py-2 rounded-full border border-primary bg-primary/10 text-primary font-label-md text-label-md flex items-center gap-2">
+                    {c}
+                    <button type="button" onClick={() => removeCustomCondition(c)} className="hover:text-error transition-colors">
+                      <Icon icon="close" className="text-[14px]" />
+                    </button>
+                  </span>
+                ))}
+                {!showCustomCondition ? (
+                  <button onClick={() => setShowCustomCondition(true)} className="px-4 py-2 rounded-full border border-dashed border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
+                    <Icon icon="add" className="text-sm" /> Add Other
+                  </button>
+                ) : (
+                  <div className="flex gap-2 items-center">
+                    <input className="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md outline-none focus:border-primary w-48" placeholder="Condition name" value={customConditionInput} onChange={e => setCustomConditionInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomCondition() } }} />
+                    <button onClick={addCustomCondition} className="bg-primary text-white px-3 py-2 rounded-lg font-label-md text-sm" type="button">Add</button>
+                    <button onClick={() => { setShowCustomCondition(false); setCustomConditionInput('') }} className="text-secondary px-2 py-2 text-sm" type="button">Cancel</button>
+                  </div>
+                )}
               </div>
             </section>
 
@@ -168,16 +214,10 @@ export default function MedicalHistory() {
                     </button>
                   </div>
                 ))}
+                {allergies.length === 0 && <p className="font-body-md text-secondary text-sm">No allergies listed.</p>}
               </div>
               <div className="flex gap-2 max-w-md">
-                <input
-                  className="flex-1 bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-2 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                  placeholder="Type allergy to add..."
-                  type="text"
-                  value={allergyInput}
-                  onChange={(e) => setAllergyInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }}
-                />
+                <input className="flex-1 bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-2 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Type allergy to add..." type="text" value={allergyInput} onChange={(e) => setAllergyInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }} />
                 <button className="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md hover:bg-surface-variant transition-colors" type="button" onClick={addAllergy}>Add</button>
               </div>
             </section>
@@ -200,22 +240,32 @@ export default function MedicalHistory() {
                     </tr>
                   </thead>
                   <tbody>
-                    {medications.map((med, i) => (
-                      <tr key={i} className="border-b border-outline-variant/20 hover:bg-surface-container-lowest/50 transition-colors">
-                        <td className="py-3 px-4 font-body-md text-on-surface">{med.name}</td>
-                        <td className="py-3 px-4 font-body-md text-on-surface">{med.dosage}</td>
-                        <td className="py-3 px-4 font-body-md text-on-surface">{med.frequency}</td>
-                        <td className="py-3 px-4 text-right">
-                          <button onClick={() => setMedications(prev => prev.filter((_, j) => j !== i))} aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
-                            <Icon icon="delete" className="text-[20px]" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {medications.length === 0 ? (
+                      <tr><td colSpan={4} className="py-8 text-center text-secondary font-body-md">No medications added yet.</td></tr>
+                    ) : (
+                      medications.map((med, i) => (
+                        <tr key={i} className="border-b border-outline-variant/20 hover:bg-surface-container-lowest/50 transition-colors">
+                          <td className="py-2 px-4">
+                            <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="Medication name" value={med.name} onChange={e => updateMedication(i, 'name', e.target.value)} />
+                          </td>
+                          <td className="py-2 px-4">
+                            <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="e.g. 10mg" value={med.dosage} onChange={e => updateMedication(i, 'dosage', e.target.value)} />
+                          </td>
+                          <td className="py-2 px-4">
+                            <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="e.g. Once daily" value={med.frequency} onChange={e => updateMedication(i, 'frequency', e.target.value)} />
+                          </td>
+                          <td className="py-2 px-4 text-right">
+                            <button onClick={() => removeMedication(i)} aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
+                              <Icon icon="delete" className="text-[20px]" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
-              <button onClick={() => setMedications(prev => [...prev, { name: '', dosage: '', frequency: '' }])} className="px-4 py-2 rounded-full border border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
+              <button onClick={addMedication} className="px-4 py-2 rounded-full border border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
                 <Icon icon="add" className="text-sm" /> Add Medication
               </button>
             </section>
@@ -231,6 +281,8 @@ export default function MedicalHistory() {
                 className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-y"
                 placeholder="List any past surgeries and approximate dates..."
                 rows={4}
+                value={pastSurgeries}
+                onChange={e => setPastSurgeries(e.target.value)}
               />
             </section>
           </div>
@@ -241,12 +293,8 @@ export default function MedicalHistory() {
               <p className="font-caption text-caption">Your data is HIPAA compliant and securely encrypted.</p>
             </div>
             <div className="flex gap-4 w-full sm:w-auto">
-              <button onClick={() => navigate('/')} className="flex-1 sm:flex-none px-6 py-3 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary-fixed/30 transition-colors text-center" type="button">
-                Cancel
-              </button>
-              <button className="flex-1 sm:flex-none px-8 py-3 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-[#1A2AC2] shadow-sm transition-all text-center" type="submit">
-                Save Medical History
-              </button>
+              <button onClick={() => navigate('/')} className="flex-1 sm:flex-none px-6 py-3 rounded-full border border-primary text-primary font-label-md text-label-md hover:bg-primary-fixed/30 transition-colors text-center" type="button">Cancel</button>
+              <button className="flex-1 sm:flex-none px-8 py-3 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-[#1A2AC2] shadow-sm transition-all text-center" type="submit">Save Medical History</button>
             </div>
           </div>
         </form>

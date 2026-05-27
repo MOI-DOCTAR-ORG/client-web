@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { useAuth } from '../context/AuthContext'
 
 export default function NewTriageBodyMap() {
   const navigate = useNavigate()
+  const { addSession } = useAuth()
+  const sessionId = Date.now().toString(36).toUpperCase()
   const [showPanel, setShowPanel] = useState(true)
   const [inputValue, setInputValue] = useState('')
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?', time: 'Sent at 14:32' },
-    { role: 'user', text: 'I have a sharp pain in my upper abdomen. It started about two hours after lunch. It feels quite intense.', time: 'Delivered' },
+    { role: 'ai', text: 'Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?', time: 'Sent at ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) },
   ])
 
   const handleSend = () => {
@@ -32,15 +34,15 @@ export default function NewTriageBodyMap() {
           <div className="space-y-6">
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-caption font-label-md">START TIME</span>
-              <span className="font-body-md">Oct 24, 2023 · 14:32</span>
+              <span className="font-body-md">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-caption font-label-md">PATIENT ID</span>
-              <span className="font-body-md">#MD-992-04X</span>
+              <span className="font-body-md">#--</span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-white/60 text-caption font-label-md">PRIMARY CHIEF COMPLAINT</span>
-              <span className="font-body-md">Acute Abdominal Pain</span>
+              <span className="font-body-md">--</span>
             </div>
           </div>
           <div className="mt-12 bg-white/10 rounded-xl p-4 border border-white/10">
@@ -110,53 +112,57 @@ export default function NewTriageBodyMap() {
             )
           ))}
 
-          <div className="flex gap-4 max-w-full md:max-w-2xl">
-            <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-              <Icon icon="smart_toy" className="text-primary text-[20px]" />
-            </div>
-            <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
-              <p className="font-body-md text-on-surface">I understand. On a scale of severity, how would you classify this pain right now?</p>
-              <div className="flex flex-wrap gap-2 pt-2">
-                <button className="px-5 py-2 rounded-full border border-primary bg-primary-container/10 text-primary hover:bg-primary-container/20 transition-all font-label-md text-label-md flex items-center gap-2">
-                  <Icon icon="body_system" className="text-[18px]" />
-                  Map My Pain
-                </button>
-                <button className="px-5 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary-container/10 transition-all font-label-md text-label-md flex items-center gap-2">
-                  <span className="w-2 h-2 bg-blue-400 rounded-full" />
-                  Mild
-                </button>
-                <button className="px-5 py-2 rounded-full border-2 border-primary bg-primary-container/5 font-label-md text-label-md flex items-center gap-2">
-                  <span className="w-2 h-2 bg-yellow-400 rounded-full" />
-                  Moderate
-                </button>
-                <button className="px-5 py-2 rounded-full border border-outline-variant hover:border-error hover:bg-error-container/20 transition-all font-label-md text-label-md flex items-center gap-2">
-                  <span className="w-2 h-2 bg-error rounded-full" />
-                  Severe
-                </button>
+          {messages.length > 1 && (
+            <>
+              <div className="flex gap-4 max-w-full md:max-w-2xl">
+                <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+                  <Icon icon="smart_toy" className="text-primary text-[20px]" />
+                </div>
+                <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
+                  <p className="font-body-md text-on-surface">I understand. On a scale of severity, how would you classify this pain right now?</p>
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <button className="px-5 py-2 rounded-full border border-primary bg-primary-container/10 text-primary hover:bg-primary-container/20 transition-all font-label-md text-label-md flex items-center gap-2">
+                      <Icon icon="body_system" className="text-[18px]" />
+                      Map My Pain
+                    </button>
+                    <button className="px-5 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary-container/10 transition-all font-label-md text-label-md flex items-center gap-2">
+                      <span className="w-2 h-2 bg-blue-400 rounded-full" />
+                      Mild
+                    </button>
+                    <button className="px-5 py-2 rounded-full border-2 border-primary bg-primary-container/5 font-label-md text-label-md flex items-center gap-2">
+                      <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                      Moderate
+                    </button>
+                    <button className="px-5 py-2 rounded-full border border-outline-variant hover:border-error hover:bg-error-container/20 transition-all font-label-md text-label-md flex items-center gap-2">
+                      <span className="w-2 h-2 bg-error rounded-full" />
+                      Severe
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div className="flex gap-4 max-w-full md:max-w-2xl">
-            <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-              <Icon icon="smart_toy" className="text-primary text-[20px]" />
-            </div>
-            <div className="bg-surface-container-low border border-outline-variant rounded-2xl rounded-tl-none p-6 shadow-md w-full border-l-4 border-l-tertiary-container">
-              <div className="flex justify-between items-start mb-4">
-                <h4 className="font-headline-md text-headline-md text-on-surface">Preliminary Assessment</h4>
-                <span className="bg-tertiary-container text-white px-3 py-1 rounded-full text-caption font-label-md uppercase tracking-wide">High Urgency</span>
+              <div className="flex gap-4 max-w-full md:max-w-2xl">
+                <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+                  <Icon icon="smart_toy" className="text-primary text-[20px]" />
+                </div>
+                <div className="bg-surface-container-low border border-outline-variant rounded-2xl rounded-tl-none p-6 shadow-md w-full border-l-4 border-l-tertiary-container">
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-headline-md text-headline-md text-on-surface">Preliminary Assessment</h4>
+                    <span className="bg-tertiary-container text-white px-3 py-1 rounded-full text-caption font-label-md uppercase tracking-wide">Pending</span>
+                  </div>
+                  <p className="font-body-md text-on-surface-variant mb-6">Assessment will be generated based on your reported symptoms.</p>
+                  <div className="flex gap-3">
+                    <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: 'Moderate', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
+                      View Care Details
+                    </button>
+                    <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
+                      <Icon icon="share" />
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p className="font-body-md text-on-surface-variant mb-6">Based on your reports of sharp upper abdominal pain post-prandial, we recommend a clinical evaluation within the next 4 hours to rule out acute biliary or pancreatic issues.</p>
-              <div className="flex gap-3">
-                <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => navigate('/care-details')}>
-                  View Care Details
-                </button>
-                <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
-                  <Icon icon="share" />
-                </button>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-gutter bg-gradient-to-t from-surface via-surface to-transparent pt-12 pointer-events-none">
@@ -185,7 +191,7 @@ export default function NewTriageBodyMap() {
               </div>
             </div>
             <p className="text-center text-[11px] text-secondary mt-3 uppercase tracking-widest font-label-md">
-              Encrypted Medical Dialogue • Session ID: #TR-40291
+              Encrypted Medical Dialogue • Session ID: #TR-{sessionId}
             </p>
           </div>
         </div>

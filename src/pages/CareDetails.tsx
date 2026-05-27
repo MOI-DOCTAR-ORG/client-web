@@ -2,10 +2,54 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
+import { usePersistState } from '../hooks/usePersistState'
+
+interface SymptomReport {
+  id: number
+  symptom: string
+  severity: string
+  duration: string
+  notes: string
+  timestamp: string
+}
 
 export default function CareDetails() {
   const navigate = useNavigate()
+  const { addSession } = useAuth()
   const [followUp, setFollowUp] = useState(true)
+
+  const [symptom, setSymptom] = useState('')
+  const [severity, setSeverity] = useState('')
+  const [duration, setDuration] = useState('')
+  const [notes, setNotes] = useState('')
+  const [reports, setReports] = usePersistState<SymptomReport[]>('doctarr_care_reports', [])
+
+  const submitReport = () => {
+    if (!symptom.trim()) return
+    const report: SymptomReport = {
+      id: Date.now(),
+      symptom,
+      severity: severity || 'Mild',
+      duration: duration || 'Not specified',
+      notes,
+      timestamp: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    }
+    setReports(prev => [report, ...prev])
+    addSession({
+      id: 'sess-' + Date.now(),
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      condition: symptom,
+      description: `${severity || 'Mild'} ${symptom} for ${duration || 'unknown duration'}. ${notes}`,
+      severity: severity === 'Severe' ? 'Urgent' : severity === 'Moderate' ? 'Moderate' : 'Stable',
+      statusLabel: 'Reviewed',
+      statusIcon: 'clinical_notes',
+    })
+    setSymptom('')
+    setSeverity('')
+    setDuration('')
+    setNotes('')
+  }
 
   return (
     <main className="min-h-screen p-4 md:p-6 max-w-container-max-width mx-auto bg-surface text-on-surface font-body-md">
@@ -17,33 +61,77 @@ export default function CareDetails() {
           <nav className="flex items-center gap-2 text-secondary mb-2">
             <button onClick={() => navigate('/session-history')} className="text-caption font-caption">History</button>
             <Icon icon="chevron_right" className="text-[16px]" />
-            <span className="text-caption font-caption text-primary font-bold">Session #4829</span>
+            <span className="text-caption font-caption text-primary font-bold">Care Details</span>
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
         </div>
         <div className="inline-flex items-center gap-3 px-6 py-4 bg-[#FFF4E5] border border-[#FFD699] rounded-xl">
-          <div className="w-4 h-4 rounded-full bg-[#F57C00] animate-pulse" />
+          <div className={`w-4 h-4 rounded-full animate-pulse ${reports.some(r => r.severity === 'Severe') ? 'bg-error' : reports.length > 0 ? 'bg-primary' : 'bg-[#F57C00]'}`} />
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#F57C00]">Urgency Level</span>
-            <span className="font-headline-md text-headline-md text-[#F57C00]">Moderate Risk</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#F57C00]">Status</span>
+            <span className="font-headline-md text-headline-md text-[#F57C00]">
+              {reports.length === 0 ? 'No Reports' : reports.some(r => r.severity === 'Severe') ? 'Needs Attention' : 'Active Monitoring'}
+            </span>
           </div>
         </div>
       </header>
 
-      <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
-        <span className="px-4 py-2 bg-surface-container rounded-full text-label-md font-label-md text-primary flex items-center gap-2">
-          <Icon icon="thermostat" className="text-[18px]" /> High Fever
-        </span>
-        <span className="px-4 py-2 bg-surface-container rounded-full text-label-md font-label-md text-primary flex items-center gap-2">
-          <Icon icon="respiratory_rate" className="text-[18px]" /> Shortness of Breath
-        </span>
-        <span className="px-4 py-2 bg-surface-container rounded-full text-label-md font-label-md text-primary flex items-center gap-2">
-          <Icon icon="skull" className="text-[18px]" /> Migraine
-        </span>
-        <span className="px-4 py-2 bg-surface-container-high rounded-full text-label-md font-label-md text-secondary italic">
-          +2 more
-        </span>
+      {/* Symptom Report Form */}
+      <section className="bg-surface-container-lowest rounded-xl p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
+            <Icon icon="edit_note" />
+          </div>
+          <h3 className="font-headline-md text-headline-md">Report Your Symptoms</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <div className="flex flex-col gap-1">
+            <label className="font-label-md text-caption text-secondary">SYMPTOM</label>
+            <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="e.g. Fever, Cough, Headache" value={symptom} onChange={e => setSymptom(e.target.value)} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-label-md text-caption text-secondary">SEVERITY</label>
+            <div className="flex gap-2">
+              {['Mild', 'Moderate', 'Severe'].map(s => (
+                <button key={s} onClick={() => setSeverity(s)} className={`flex-1 py-3 rounded-lg border font-label-md transition-all ${severity === s ? 'bg-primary text-white border-primary' : 'border-outline-variant hover:border-primary'}`}>{s}</button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-label-md text-caption text-secondary">DURATION</label>
+            <select className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" value={duration} onChange={e => setDuration(e.target.value)}>
+              <option value="">Select duration</option>
+              <option value="Few hours">Few hours</option>
+              <option value="1 day">1 day</option>
+              <option value="2-3 days">2-3 days</option>
+              <option value="1 week">1 week</option>
+              <option value="2+ weeks">2+ weeks</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-label-md text-caption text-secondary">NOTES (optional)</label>
+            <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="Additional details..." value={notes} onChange={e => setNotes(e.target.value)} />
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <button onClick={submitReport} className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all flex items-center gap-2">
+            <Icon icon="clinical_notes" />
+            Submit Report
+          </button>
+        </div>
       </section>
+
+      {/* Symptom Tags */}
+      {reports.length > 0 && (
+        <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
+          {reports.slice(0, 5).map(r => (
+            <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error-container text-error' : r.severity === 'Moderate' ? 'bg-amber-100 text-amber-700' : 'bg-surface-container text-primary'}`}>
+              <Icon icon={r.severity === 'Severe' ? 'warning' : r.severity === 'Moderate' ? 'info' : 'check_circle'} className="text-[18px]" />
+              {r.symptom}
+            </span>
+          ))}
+        </section>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
         <div className="lg:col-span-2 space-y-gutter">
@@ -52,22 +140,39 @@ export default function CareDetails() {
               <div className="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
                 <Icon icon="psychology" className="text-[28px]" />
               </div>
-              <h3 className="font-headline-md text-headline-md">What AI found</h3>
+              <h3 className="font-headline-md text-headline-md">Your Reports</h3>
             </div>
-            <div className="space-y-4 text-on-surface-variant leading-relaxed font-body-md">
-              <p>
-                Based on the symptoms provided, our analysis indicates a potential <strong>upper respiratory congestion</strong> coupled with inflammatory responses. The reported fever duration (48h) and the intensity of chest discomfort suggest a viral origin rather than bacterial, though monitoring is essential.
-              </p>
-              <div className="p-4 bg-surface-bright border-l-4 border-primary rounded-r-lg">
-                <p className="text-label-md font-label-md text-primary mb-1">Key Insight</p>
-                <p className="text-body-md">
-                  Symptom patterns align 84% with Seasonal Influenza-A variants identified in your local area over the last 14 days.
-                </p>
+            {reports.length === 0 ? (
+              <div className="space-y-4 text-on-surface-variant leading-relaxed font-body-md">
+                <p>No symptoms have been reported yet. Use the form above to log your symptoms and get AI-powered guidance.</p>
+                <div className="p-4 bg-surface-bright border-l-4 border-primary rounded-r-lg">
+                  <p className="text-label-md font-label-md text-primary mb-1">Key Insight</p>
+                  <p className="text-body-md">Complete a symptom assessment to unlock personalized health insights.</p>
+                </div>
               </div>
-              <p>
-                Patient reports no underlying cardiac conditions, which lowers the immediate priority level, however, the persistence of the cough warrants a physical consultation if symptoms do not improve within 24 hours.
-              </p>
-            </div>
+            ) : (
+              <div className="space-y-4">
+                {reports.map(r => (
+                  <div key={r.id} className="bg-surface-container-low rounded-lg p-4 border border-outline-variant/30">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 className="font-label-md text-label-md text-on-surface font-bold">{r.symptom}</h4>
+                        <p className="text-caption text-secondary">{r.timestamp}</p>
+                      </div>
+                      <span className={`px-3 py-0.5 rounded-full text-caption font-bold uppercase ${
+                        r.severity === 'Severe' ? 'bg-error text-on-error' :
+                        r.severity === 'Moderate' ? 'bg-amber-100 text-amber-700' :
+                        'bg-secondary-container text-secondary'
+                      }`}>{r.severity}</span>
+                    </div>
+                    <div className="flex gap-4 text-caption text-secondary">
+                      <span>Duration: {r.duration}</span>
+                      {r.notes && <span>Notes: {r.notes}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <div className="relative h-[240px] rounded-xl overflow-hidden group">
@@ -77,7 +182,7 @@ export default function CareDetails() {
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKXdX56RArmULZK_NoQ0L99HNEH3Smr4pCogZr1zloxe29vQZoB26L8Iu78idg7ZwHHUDKRyrKxSMcQWXPY2GAyGcUU_L5ikTUELOgPKOWXEE9Tb7l9pndYlQwpmnKXA5JJdpiAQwriLBBeAT0YoPgHW3irIWbiaGoOPswqOnYqvrc4_ts2NWwIzdymky9Sr03DYK7taoPrRNvjZihhWh501vmdR2fLafOADCKSzevfmE2SFGH3N4vyy5sxGrLAqa6CZyr0Qwj3n4"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-              <p className="text-white font-label-md">Expert triage models calibrated to current regional health data.</p>
+              <p className="text-white font-label-md">Your care details and AI triage insights will appear here.</p>
             </div>
           </div>
         </div>
@@ -90,15 +195,13 @@ export default function CareDetails() {
             </div>
             <ul className="space-y-6">
               {[
-                'Schedule a <strong class="text-primary">Telehealth consultation</strong> within the next 6 hours for a secondary review.',
-                'Continue monitoring body temperature every <strong>4 hours</strong> and log in the Symptom Tracker.',
-                'Increase hydration levels and prioritize rest for at least 48 hours.',
-                'Prepare clinical history for potential urgent care visit if breathing worsens.',
+                'Log your symptoms in the <strong class="text-primary">report form</strong> above to get AI-powered guidance.',
+                'Use the <strong>Symptom Tracker</strong> to monitor and record your health daily.',
+                'Set up medication reminders and track your prescriptions.',
+                'Review your <strong>Medical History</strong> and update your conditions.',
               ].map((step, i) => (
                 <li key={i} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">
-                    {i + 1}
-                  </div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">{i + 1}</div>
                   <p className="text-body-md" dangerouslySetInnerHTML={{ __html: step }} />
                 </li>
               ))}
@@ -107,21 +210,10 @@ export default function CareDetails() {
             <div className="mt-10 pt-6 border-t border-outline-variant flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="font-label-md text-label-md text-on-surface">Follow-up Reminder</span>
-                <span className="text-caption text-secondary">Notify me in 12 hours</span>
+                <span className="text-caption text-secondary">Notify me after my next session</span>
               </div>
-              <button
-                onClick={() => setFollowUp(!followUp)}
-                className={
-                  'relative inline-flex h-6 w-12 items-center rounded-full transition-colors ' +
-                  (followUp ? 'bg-primary' : 'bg-surface-container-high')
-                }
-              >
-                <span
-                  className={
-                    'inline-block h-5 w-5 transform rounded-full bg-white border-2 border-outline-variant transition-transform ' +
-                    (followUp ? 'translate-x-6' : 'translate-x-0.5')
-                  }
-                />
+              <button onClick={() => setFollowUp(!followUp)} className={'relative inline-flex h-6 w-12 items-center rounded-full transition-colors ' + (followUp ? 'bg-primary' : 'bg-surface-container-high')}>
+                <span className={'inline-block h-5 w-5 transform rounded-full bg-white border-2 border-outline-variant transition-transform ' + (followUp ? 'translate-x-6' : 'translate-x-0.5')} />
               </button>
             </div>
           </section>
@@ -135,9 +227,7 @@ export default function CareDetails() {
           </div>
           <div>
             <h4 className="font-label-md text-label-md">Medical Disclaimer</h4>
-            <p className="text-caption text-secondary">
-              This analysis is AI-driven and for informational purposes only. In case of emergency, call local medical services immediately.
-            </p>
+            <p className="text-caption text-secondary">This analysis is AI-driven and for informational purposes only. In case of emergency, call local medical services immediately.</p>
           </div>
         </div>
         <button onClick={() => navigate('/new-triage')} className="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all transform active:scale-95 shadow-lg shadow-primary/20">

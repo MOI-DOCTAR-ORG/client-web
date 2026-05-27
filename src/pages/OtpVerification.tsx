@@ -113,7 +113,7 @@ export default function OtpVerification() {
                 <h1 className="font-headline-md text-headline-md text-center text-on-surface">Enter Verification Code</h1>
                 <p className="mt-2 text-secondary font-body-md text-center">
                   We've sent a 6-digit code to <br />
-                  <span className="font-semibold text-on-surface">patient@example.com</span>
+                  <span className="font-semibold text-on-surface">your email address</span>
                 </p>
               </div>
 

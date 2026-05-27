@@ -76,25 +76,25 @@ export default function Dashboard() {
       <ReminderBanner />
 
       {!savedToday ? (
-        <div className="bg-surface-container-lowest rounded-[20px] p-6 border border-outline-variant/30 shadow-level-1">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary">
-              <Icon icon="favorite" />
+        <div className="bg-surface-container-lowest rounded-xl px-4 py-3 border border-outline-variant/30 shadow-level-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-primary">
+              <Icon icon="favorite" className="text-sm" />
             </div>
-            <h3 className="font-headline-md text-headline-md">How are you feeling today?</h3>
+            <h3 className="text-sm font-semibold">How are you feeling today?</h3>
           </div>
-          <div className="flex gap-3 mb-4">
+          <div className="flex gap-1.5 mb-2">
             {moods.map(m => (
-              <button key={m.label} onClick={() => setMood(m.label)} className={`flex items-center gap-2 px-5 py-3 rounded-full border-2 font-label-md transition-all ${mood === m.label ? 'border-primary bg-primary/5' : 'border-outline-variant hover:border-primary'}`}>
-                <Icon icon={m.icon} className={`text-[22px] ${m.color}`} />
+              <button key={m.label} onClick={() => setMood(m.label)} className={`flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${mood === m.label ? 'border-primary bg-primary/5' : 'border-outline-variant hover:border-primary'}`}>
+                <Icon icon={m.icon} className={`text-sm ${m.color}`} />
                 {m.label}
               </button>
             ))}
           </div>
-          <div className="flex gap-3">
-            <input className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-5 py-3 font-body-md outline-none focus:border-primary" placeholder="Any notes about how you feel?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
-            <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-2">
-              <Icon icon="check" />
+          <div className="flex gap-1.5">
+            <input className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-3 py-1.5 text-xs outline-none focus:border-primary" placeholder="Any notes?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
+            <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-1">
+              <Icon icon="check" className="text-sm" />
               Save
             </button>
           </div>

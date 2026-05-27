@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 
 export default function SplashScreen() {
+  const navigate = useNavigate()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 100)
-    return () => clearTimeout(timer)
-  }, [])
+    const fadeTimer = setTimeout(() => setVisible(true), 100)
+    const navTimer = setTimeout(() => navigate('/sign-in', { replace: true }), 1800)
+    return () => {
+      clearTimeout(fadeTimer)
+      clearTimeout(navTimer)
+    }
+  }, [navigate])
 
   return (
     <main className="relative flex flex-col items-center justify-center min-h-screen w-full bg-primary-container overflow-hidden">

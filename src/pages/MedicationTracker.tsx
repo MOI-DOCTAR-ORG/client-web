@@ -82,27 +82,6 @@ export default function MedicationTracker() {
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none top-[-10%] left-[20%] w-[40vw] h-[40vw] bg-[radial-gradient(circle,#001bd4_0%,transparent_70%)]" />
       <div className="ambient-blob fixed rounded-full blur-[100px] opacity-15 -z-10 pointer-events-none bottom-[-20%] right-[10%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,#2b3ef0_0%,transparent_70%)]" />
 
-      <header className="flex justify-between items-center w-full px-margin-mobile md:px-gutter h-16 bg-surface/90 backdrop-blur-md sticky top-0 z-50 flex-shrink-0 border-b border-outline-variant/30">
-        <div className="flex items-center gap-3">
-          <button className="md:hidden p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
-            <Icon icon="menu" />
-          </button>
-          <h2 className="font-headline-md text-headline-md text-on-surface tracking-tight md:hidden">Medication</h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/notifications')} className="text-secondary hover:bg-surface-variant rounded-full p-2 transition-all relative">
-            <Icon icon="notifications" />
-          </button>
-          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md cursor-pointer overflow-hidden border border-outline-variant">
-            <img
-              alt="User"
-              className="w-full h-full object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBttJ1V3NM_DpwWYy7JHdmTFcnypTqxS5wtqtUnw74IQjEsLI7DkA5TtB2_ViQA20LtVSQPAzRTwfd24eDqEtHEHiEPhX8n0NoUxOEynRpUBIOcEB8xIVyFEIwCp4aKYoJ25BRkaIKQLfRDq37d36dpGUuce8Uzg0uCcAxhSVtkNx64pZ0y4E9bqCseigFFIQlI2Bw3lJaqEldi_Sp4BJEdko8wFhZnFVHUsN2etDR9KsuB85aeIbz4ronT3K8Ulvsn3yCUlI5YgOk"
-            />
-          </div>
-        </div>
-      </header>
-
       <div className="flex-1 p-margin-mobile md:p-stack-lg max-w-container-max-width mx-auto w-full pb-32 md:pb-stack-lg">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-stack-lg">
           <div>

@@ -38,9 +38,7 @@ export default function SignIn() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-surface">
       <div className="w-full max-w-md bg-white rounded-xl shadow-level-1 border border-secondary-fixed p-8 flex flex-col gap-6 relative z-10">
         <div className="flex flex-col items-center gap-4 text-center">
-          <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
-            <Icon icon="medical_services" className="text-4xl" />
-          </div>
+          <img src="/doctarr.jpeg" alt="moidoctar" className="w-20 h-20 rounded-2xl object-cover shadow-level-1" />
           <div>
             <h1 className="font-headline-lg text-headline-lg text-on-surface">Welcome Back</h1>
             <p className="font-body-md text-body-md text-secondary mt-2">Enter your details to access your triage history.</p>

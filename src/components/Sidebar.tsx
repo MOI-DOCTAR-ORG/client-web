@@ -41,13 +41,16 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   const sidebarContent = (
     <>
-      <Link to="/" onClick={handleNav} className="px-4 md:px-8 mb-6 md:mb-10">
-        <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
-          moidoctar
-        </h1>
-        <p className="font-label-md text-label-md text-secondary opacity-70">
-          Health Triage
-        </p>
+      <Link to="/" onClick={handleNav} className="px-4 md:px-8 mb-6 md:mb-10 flex items-center gap-3">
+        <img src="/doctarr.jpeg" alt="moidoctar" className="w-10 h-10 rounded-lg object-cover" />
+        <div>
+          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
+            moidoctar
+          </h1>
+          <p className="font-label-md text-label-md text-secondary opacity-70">
+            Health Triage
+          </p>
+        </div>
       </Link>
 
       <nav className="flex-1 flex flex-col overflow-y-auto">

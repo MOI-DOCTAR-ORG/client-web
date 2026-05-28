@@ -86,7 +86,7 @@ export default function Profile() {
               <h4 className="font-headline-md text-headline-md mb-2">Health Passport</h4>
               <p className="font-label-md text-on-primary-container">Secure access to your medical records across 40+ providers.</p>
             </div>
-            <button onClick={() => navigate('/medical-history')} className="relative z-10 mt-6 bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
+            <button onClick={() => navigate('/history?tab=medical')} className="relative z-10 mt-6 bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
               View Records
             </button>
             <div className="absolute -right-8 -bottom-8 bg-surface-container-lowest/10 w-48 h-48 rounded-full blur-3xl" />

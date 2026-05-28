@@ -205,7 +205,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <h3 className="font-headline-md text-headline-md text-on-surface">Recent Sessions</h3>
         {sessions.length > 0 && (
-          <button onClick={() => navigate('/session-history')} className="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all">
+          <button onClick={() => navigate('/history')} className="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all">
             See all activity{' '}
             <Icon icon="arrow_forward" className="text-[18px]" />
           </button>

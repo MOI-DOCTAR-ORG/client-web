@@ -10,13 +10,12 @@ import OtpVerification from './pages/OtpVerification'
 import AgeSelection from './pages/AgeSelection'
 import BodyMap from './pages/BodyMap'
 import PinpointPain from './pages/PinpointPain'
-import SessionHistory from './pages/SessionHistory'
+import History from './pages/History'
 import CareDetails from './pages/CareDetails'
 import SymptomTracker from './pages/SymptomTracker'
 import MedicationTracker from './pages/MedicationTracker'
 import Notifications from './pages/Notifications'
 import Profile from './pages/Profile'
-import MedicalHistory from './pages/MedicalHistory'
 import NewTriageInterface from './pages/NewTriageInterface'
 import NewTriageBodyMap from './pages/NewTriageBodyMap'
 import SymptomTrackerBodyMap from './pages/SymptomTrackerBodyMap'
@@ -42,13 +41,12 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/new-triage" element={<NewTriage />} />
-        <Route path="/session-history" element={<SessionHistory />} />
+        <Route path="/history" element={<History />} />
         <Route path="/care-details" element={<CareDetails />} />
         <Route path="/symptom-tracker" element={<SymptomTracker />} />
         <Route path="/medication-tracker" element={<MedicationTracker />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/medical-history" element={<MedicalHistory />} />
         <Route path="/new-triage-interface" element={<NewTriageInterface />} />
         <Route path="/new-triage-body-map" element={<NewTriageBodyMap />} />
         <Route path="/symptom-tracker-body-map" element={<SymptomTrackerBodyMap />} />

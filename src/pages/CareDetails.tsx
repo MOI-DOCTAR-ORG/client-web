@@ -59,7 +59,7 @@ export default function CareDetails() {
       <header className="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <nav className="flex items-center gap-2 text-secondary mb-2">
-            <button onClick={() => navigate('/session-history')} className="text-caption font-caption">History</button>
+            <button onClick={() => navigate('/history')} className="text-caption font-caption">History</button>
             <Icon icon="chevron_right" className="text-[16px]" />
             <span className="text-caption font-caption text-primary font-bold">Care Details</span>
           </nav>

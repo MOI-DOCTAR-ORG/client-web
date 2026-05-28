@@ -94,7 +94,7 @@ export default function NewTriage() {
             >
               <Icon icon={showPanel ? 'close' : 'info'} />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/session-history')}>
+            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/history')}>
               <Icon icon="history" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">

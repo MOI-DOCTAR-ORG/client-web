@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 export function usePersistState<T>(key: string, initial: T): [T, (value: T | ((prev: T) => T)) => void] {
   const [state, setState] = useState<T>(() => {
@@ -16,9 +16,5 @@ export function usePersistState<T>(key: string, initial: T): [T, (value: T | ((p
     } catch { /* quota exceeded */ }
   }, [key, state])
 
-  const setPersistedState = useCallback((value: T | ((prev: T) => T)) => {
-    setState(value)
-  }, [])
-
-  return [state, setPersistedState]
+  return [state, setState]
 }

@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle'
 const primaryNav = [
   { label: 'Dashboard', icon: 'dashboard', to: '/' },
   { label: 'New Triage', icon: 'medical_services', to: '/new-triage' },
-  { label: 'History', icon: 'history', to: '/session-history' },
+  { label: 'History', icon: 'history', to: '/history' },
   { label: 'Care Details', icon: 'local_hospital', to: '/care-details' },
   { label: 'Symptom Tracker', icon: 'monitor_heart', to: '/symptom-tracker' },
   { label: 'Medications', icon: 'pill', to: '/medication-tracker' },
@@ -16,7 +16,6 @@ const primaryNav = [
 ]
 
 const bottomNav = [
-  { label: 'Medical History', icon: 'assignment', to: '/medical-history' },
   { label: 'Support', icon: 'help', to: '#' },
   { label: 'Sign Out', icon: 'logout', to: '#' },
 ]

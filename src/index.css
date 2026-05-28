@@ -13,7 +13,7 @@ html, body, #root {
   padding: 0;
 }
 
-html.light {
+body.light {
   background-color: #ffffff;
   color: #0f172a;
   color-scheme: light;
@@ -53,7 +53,7 @@ html.light {
   --color-on-tertiary-container: #300031;
 }
 
-html.dark {
+body.dark {
   background-color: #0f172a;
   color: #f8fafc;
   color-scheme: dark;
@@ -106,7 +106,7 @@ html.dark {
     border: 1px solid #e5e7eb;
   }
 
-  .dark .card-shadow {
+  body.dark .card-shadow {
     border-color: #334155;
   }
 
@@ -131,7 +131,7 @@ html.dark {
     border-radius: 10px;
   }
 
-  .dark .chat-container::-webkit-scrollbar-thumb {
+  body.dark .chat-container::-webkit-scrollbar-thumb {
     background: #444556;
   }
 
@@ -141,7 +141,7 @@ html.dark {
     -webkit-backdrop-filter: blur(12px);
   }
 
-  .dark .glass-panel {
+  body.dark .glass-panel {
     background: rgba(15, 23, 42, 0.7);
   }
 

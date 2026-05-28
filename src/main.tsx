@@ -1,6 +1,3 @@
-const savedTheme = localStorage.getItem('doctarr_theme') || 'light'
-document.documentElement.classList.add(savedTheme)
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

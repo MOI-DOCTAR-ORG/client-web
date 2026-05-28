@@ -106,7 +106,7 @@ export default function Notifications() {
 
   return (
     <main className="min-h-screen bg-surface text-on-background">
-      <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-margin-mobile md:px-gutter h-16 flex justify-between items-center border-b border-outline-variant md:border-none">
+      {/* <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-margin-mobile md:px-gutter h-16 flex justify-between items-center border-b border-outline-variant md:border-none">
         <div className="flex items-center gap-4">
           <button className="md:hidden p-2 text-secondary">
             <Icon icon="menu" />
@@ -118,10 +118,10 @@ export default function Notifications() {
             <Icon icon="settings" />
           </button>
           <div className="w-10 h-10 rounded-full bg-secondary-container overflow-hidden flex items-center justify-center text-on-secondary-container font-bold">
-            U
+            {getUserInitials()}
           </div>
         </div>
-      </header>
+      </header> */}
 
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter py-stack-lg">
         <div className="overflow-x-auto mb-8"><div className="flex gap-2">

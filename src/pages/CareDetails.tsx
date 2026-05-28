@@ -65,16 +65,40 @@ export default function CareDetails() {
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
         </div>
-        <div className="inline-flex items-center gap-3 px-6 py-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
-          <div className={`w-4 h-4 rounded-full animate-pulse ${reports.some(r => r.severity === 'Severe') ? 'bg-error' : reports.length > 0 ? 'bg-primary' : 'bg-amber-600'}`} />
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600 dark:text-amber-400">Status</span>
-            <span className="font-headline-md text-headline-md text-amber-600 dark:text-amber-400">
-              {reports.length === 0 ? 'No Reports' : reports.some(r => r.severity === 'Severe') ? 'Needs Attention' : 'Active Monitoring'}
-            </span>
-          </div>
-        </div>
       </header>
+
+      {/* Severity Status Overview */}
+      <div className="grid grid-cols-3 gap-4 mb-stack-lg">
+        {(['Mild', 'Moderate', 'Severe'] as const).map(sev => {
+          const count = reports.filter(r => r.severity === sev).length
+          const colors = {
+            Mild: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400',
+            Moderate: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400',
+            Severe: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400',
+          }
+          const statuses = {
+            Mild: { label: 'Active Monitoring', icon: 'check_circle' },
+            Moderate: { label: 'Needs Attention', icon: 'info' },
+            Severe: { label: 'Urgent', icon: 'warning' },
+          }
+          return (
+            <div key={sev} className={`rounded-xl border p-4 ${colors[sev]}`}>
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] uppercase font-bold tracking-widest">{sev}</span>
+                <div className={`w-2 h-2 rounded-full ${sev === 'Mild' ? 'bg-green-500' : sev === 'Moderate' ? 'bg-amber-500' : 'bg-red-500'} ${count > 0 ? 'animate-pulse' : ''}`} />
+              </div>
+              <span className="font-headline-lg text-headline-lg font-bold">{count}</span>
+              <span className="text-caption ml-1 opacity-70">{count === 1 ? 'report' : 'reports'}</span>
+              {count > 0 && (
+                <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-current/20">
+                  <Icon icon={statuses[sev].icon} className="text-[14px]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider">{statuses[sev].label}</span>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
 
       {/* Symptom Report Form */}
       <section className="bg-surface-container-lowest rounded-xl p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
@@ -153,17 +177,25 @@ export default function CareDetails() {
             ) : (
               <div className="space-y-4">
                 {reports.map(r => (
-                  <div key={r.id} className="bg-surface-container-low rounded-lg p-4 border border-outline-variant/30">
+                  <div key={r.id} className="bg-surface-container-low rounded-lg p-4 border border-outline-variant/30 group">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h4 className="font-label-md text-label-md text-on-surface font-bold">{r.symptom}</h4>
                         <p className="text-caption text-secondary">{r.timestamp}</p>
                       </div>
-                      <span className={`px-3 py-0.5 rounded-full text-caption font-bold uppercase ${
-                        r.severity === 'Severe' ? 'bg-error text-on-error' :
+                      <div className="flex items-center gap-2">
+                        <span className={`px-3 py-0.5 rounded-full text-caption font-bold uppercase ${
+                          r.severity === 'Severe' ? 'bg-error text-on-error' :
 r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
-                        'bg-secondary-container text-secondary'
-                      }`}>{r.severity}</span>
+                          'bg-secondary-container text-secondary'
+                        }`}>{r.severity}</span>
+                        <button
+                          onClick={() => setReports(prev => prev.filter(x => x.id !== r.id))}
+                          className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10"
+                        >
+                          <Icon icon="close" className="text-[14px]" />
+                        </button>
+                      </div>
                     </div>
                     <div className="flex gap-4 text-caption text-secondary">
                       <span>Duration: {r.duration}</span>

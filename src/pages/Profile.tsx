@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
 import { usePersistState } from '../hooks/usePersistState'
+import { getUserInitials } from '../utils/getUserInitials'
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ export default function Profile() {
             <Icon icon="notifications" className="text-secondary" />
           </button>
           <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
-            {name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'U'}
+            {getUserInitials()}
           </div>
         </div>
       </header>
@@ -56,7 +57,7 @@ export default function Profile() {
           <div className="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
             <div className="relative">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold shadow-sm border-4 border-white overflow-hidden">
-                <span className="z-10">{name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'U'}</span>
+                <span className="z-10">{getUserInitials()}</span>
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent" />
               </div>
             </div>

@@ -8,10 +8,15 @@ type Strength = 'Weak' | 'Medium' | 'Strong'
 export default function SignUp() {
   const navigate = useNavigate()
   const { signUp } = useAuth()
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const passwordsMatch = confirmPassword.length === 0 || password === confirmPassword
 
   const hasLength = password.length >= 8
   const hasLetter = /[a-zA-Z]/.test(password)
@@ -69,7 +74,70 @@ export default function SignUp() {
         </div>
 
         <div className="bg-surface-container-lowest rounded-xl border border-secondary-fixed shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-8">
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); signUp(email, password); navigate('/otp-verification') }}>
+          <form className="space-y-6" onSubmit={(e) => {
+            e.preventDefault()
+            if (password !== confirmPassword) return
+            signUp(firstName, lastName, username, email, password)
+            navigate('/otp-verification')
+          }}>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="block font-label-md text-label-md text-on-surface" htmlFor="firstName">First Name</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Icon icon="badge" className="text-outline" />
+                  </div>
+                  <input
+                    className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="John"
+                    required
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="block font-label-md text-label-md text-on-surface" htmlFor="lastName">Last Name</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Icon icon="badge" className="text-outline" />
+                  </div>
+                  <input
+                    className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Doe"
+                    required
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block font-label-md text-label-md text-on-surface" htmlFor="username">Username</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Icon icon="person" className="text-outline" />
+                </div>
+                <input
+                  className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  id="username"
+                  name="username"
+                  placeholder="johndoe"
+                  required
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="block font-label-md text-label-md text-on-surface" htmlFor="email">Email Address</label>
               <div className="relative">
@@ -85,25 +153,6 @@ export default function SignUp() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="block font-label-md text-label-md text-on-surface" htmlFor="phone">Phone Number</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Icon icon="phone" className="text-outline" />
-                </div>
-                <input
-                  className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  id="phone"
-                  name="phone"
-                  placeholder="(555) 000-0000"
-                  required
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
             </div>
@@ -133,6 +182,30 @@ export default function SignUp() {
                   <Icon icon={showPassword ? 'visibility' : 'visibility_off'} />
                 </button>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block font-label-md text-label-md text-on-surface" htmlFor="confirmPassword">Confirm Password</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Icon icon="lock" className="text-outline" />
+                </div>
+                <input
+                  className={`w-full pl-12 pr-4 py-3 bg-surface-container-low border rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                    !passwordsMatch ? 'border-error focus:ring-error' : 'border-secondary-fixed focus:border-primary'
+                  }`}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Re-enter your password"
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              {!passwordsMatch && (
+                <p className="font-caption text-caption text-error mt-1">Passwords do not match</p>
+              )}
             </div>
 
             <div className="space-y-3 pt-2">
@@ -166,8 +239,9 @@ export default function SignUp() {
             </div>
 
             <button
-              className="w-full bg-primary hover:bg-primary/90 text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm"
+              className="w-full bg-primary hover:bg-primary/90 text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
+              disabled={password !== confirmPassword || password.length === 0}
             >
               Create Account
             </button>
@@ -180,7 +254,7 @@ export default function SignUp() {
           </div>
 
           <div className="flex justify-center gap-4 mb-6">
-            <button onClick={() => { signUp('google-user@gmail.com', 'google-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Google">
+            <button onClick={() => { signUp('Google', 'User', 'googleuser', 'google-user@gmail.com', 'google-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Google">
               <svg viewBox="0 0 24 24" className="w-5 h-5">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -188,7 +262,7 @@ export default function SignUp() {
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
             </button>
-            <button onClick={() => { signUp('apple-user@icloud.com', 'apple-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Apple">
+            <button onClick={() => { signUp('Apple', 'User', 'appleuser', 'apple-user@icloud.com', 'apple-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Apple">
               <svg viewBox="0 0 24 24" className="w-5 h-5">
                 <path fill="currentColor" className="text-black dark:text-white" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
               </svg>

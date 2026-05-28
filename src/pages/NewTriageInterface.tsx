@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { getUserInitials } from '../utils/getUserInitials'
 
 const initialMessages = [
   { role: 'ai', text: "Hello. I'm ready to help assess your symptoms. Could you please describe what you're feeling and when it started?" },
@@ -33,8 +34,8 @@ export default function NewTriageInterface() {
           <button className="text-secondary hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full p-2 transition-all">
             <Icon icon="notifications" />
           </button>
-          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold cursor-pointer hover:opacity-80 transition-opacity">
-            U
+          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity">
+            {getUserInitials()}
           </div>
         </div>
       </header>
@@ -88,8 +89,8 @@ export default function NewTriageInterface() {
                 </div>
               ) : (
                 <div key={i} className="flex gap-4 max-w-[85%] self-end flex-row-reverse">
-                  <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center mt-1">
-                    <span className="font-bold text-on-surface-variant text-sm">U</span>
+                  <div className="w-8 h-8 rounded-full bg-secondary-container flex-shrink-0 flex items-center justify-center mt-1 font-bold text-on-surface-variant text-sm">
+                    {getUserInitials()}
                   </div>
                   <div className="bg-primary text-on-primary p-4 rounded-2xl rounded-tr-sm shadow-md">
                     <p className="font-body-md text-body-md">{msg.text}</p>

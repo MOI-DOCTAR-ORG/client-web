@@ -7,7 +7,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner'
 import Icon from '../components/Icon'
 
 export default function AppLayout() {
-  const { isAuthenticated, isLoading } = useAuth()
+  const { isAuthenticated, isLoading, userChangeKey } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   if (isLoading) return <LoadingSpinner text="Verifying session..." />
@@ -32,9 +32,7 @@ export default function AppLayout() {
         <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
           moidoctar
         </h1>
-        <button className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
-          <Icon icon="person" className="text-lg" />
-        </button>
+        <div className="w-8" />
       </div>
 
       {/* Install PWA prompt */}
@@ -42,7 +40,7 @@ export default function AppLayout() {
 
       {/* Content */}
       <div className="md:ml-[var(--spacing-sidebar-width,280px)] pt-14 md:pt-0 min-h-screen">
-        <Outlet />
+        <Outlet key={userChangeKey} />
       </div>
     </div>
   )

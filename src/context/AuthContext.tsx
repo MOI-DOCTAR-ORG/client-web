@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { scopeKey } from '../utils/storage'
+
 
 type User = {
-  name: string
+  firstName: string
+  lastName: string
+  username: string
   email: string
 }
 
@@ -28,25 +32,26 @@ type AuthState = {
 
 type AuthContextValue = AuthState & {
   signIn: (email: string) => void
-  signUp: (email: string, password: string) => void
+  signUp: (firstName: string, lastName: string, username: string, email: string, password: string) => void
   verifyOtp: (code: string) => boolean
   signOut: () => void
   sessions: TriageSession[]
   addSession: (session: TriageSession) => void
   removeSession: (id: string) => void
+  userChangeKey: number
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 function loadSessions(): TriageSession[] {
   try {
-    const data = localStorage.getItem('doctarr_sessions')
+    const data = localStorage.getItem(scopeKey('doctarr_sessions'))
     return data ? JSON.parse(data) : []
   } catch { return [] }
 }
 
 function saveSessions(sessions: TriageSession[]) {
-  try { localStorage.setItem('doctarr_sessions', JSON.stringify(sessions)) } catch {}
+  try { localStorage.setItem(scopeKey('doctarr_sessions'), JSON.stringify(sessions)) } catch {}
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -58,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { user: null, isAuthenticated: false, isLoading: false }
   })
   const [sessions, setSessions] = useState<TriageSession[]>(loadSessions)
+  const [userChangeKey, setUserChangeKey] = useState(0)
 
   useEffect(() => {
     if (state.isAuthenticated) {
@@ -68,13 +74,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => { saveSessions(sessions) }, [sessions])
 
   const signIn = useCallback((email: string) => {
-    const user = { name: email.split('@')[0], email }
+    const user: User = { firstName: '', lastName: '', username: '', email }
     setState({ user, isAuthenticated: false, isLoading: true })
+    setUserChangeKey(k => k + 1)
   }, [])
 
-  const signUp = useCallback((email: string, _password: string) => {
-    const user = { name: email.split('@')[0], email }
+  const signUp = useCallback((firstName: string, lastName: string, username: string, email: string, _password: string) => {
+    const user: User = { firstName, lastName, username, email }
     setState({ user, isAuthenticated: false, isLoading: true })
+    setUserChangeKey(k => k + 1)
+    try {
+      localStorage.setItem(scopeKey('doctarr_name'), `${firstName} ${lastName}`)
+    } catch {}
   }, [])
 
   const verifyOtp = useCallback((code: string) => {
@@ -92,9 +103,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => {
     setState({ user: null, isAuthenticated: false, isLoading: false })
     setSessions([])
+    setUserChangeKey(k => k + 1)
     try {
       localStorage.removeItem('doctarr_auth')
-      localStorage.removeItem('doctarr_sessions')
     } catch {}
   }, [])
 
@@ -107,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ ...state, signIn, signUp, verifyOtp, signOut, sessions, addSession, removeSession }}>
+    <AuthContext.Provider value={{ ...state, signIn, signUp, verifyOtp, signOut, sessions, addSession, removeSession, userChangeKey }}>
       {children}
     </AuthContext.Provider>
   )

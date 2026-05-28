@@ -130,13 +130,21 @@ export default function SymptomTrackerBodyMap() {
               <p className="text-secondary font-body-md text-center py-8">No entries yet. Log your first symptom above.</p>
             ) : (
               entries.map((entry, i) => (
-                <div key={i} className="relative pl-8 border-l-2 border-outline-variant">
+                <div key={i} className="relative pl-8 border-l-2 border-outline-variant group">
                   <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${entry.dot} border-4 border-white shadow-sm`} />
                   <div className="flex flex-col gap-1">
                     <span className="font-label-md text-caption text-secondary uppercase">{entry.date}</span>
                     <div className="flex items-center justify-between">
                       <h3 className="font-body-md font-bold text-on-surface">{entry.symptom}</h3>
-                      <span className={`${entry.labelBg} ${entry.labelText} font-label-md text-[12px] px-2 py-0.5 rounded-full uppercase`}>{entry.severity}</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`${entry.labelBg} ${entry.labelText} font-label-md text-[12px] px-2 py-0.5 rounded-full uppercase`}>{entry.severity}</span>
+                        <button
+                          onClick={() => setEntries(prev => prev.filter((_, idx) => idx !== i))}
+                          className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10"
+                        >
+                          <Icon icon="close" className="text-[14px]" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

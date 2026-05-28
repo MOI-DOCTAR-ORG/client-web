@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
+import { getUserInitials } from '../utils/getUserInitials'
 
 export default function NewTriageBodyMap() {
   const navigate = useNavigate()
@@ -105,8 +106,8 @@ export default function NewTriageBodyMap() {
                   <p className="font-body-md">{msg.text}</p>
                   <p className="text-caption text-on-primary-container mt-2 opacity-80 text-right">{msg.time}</p>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-                  <Icon icon="person" className="text-white text-[18px]" />
+                <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0 font-bold text-white text-xs">
+                  {getUserInitials()}
                 </div>
               </div>
             )

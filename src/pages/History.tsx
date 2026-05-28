@@ -313,8 +313,8 @@ function MedicalForm() {
                   <Icon icon="add" className="text-sm" /> Add Other
                 </button>
               ) : (
-                <div className="flex gap-2 items-center">
-                  <input className="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md outline-none focus:border-primary w-48" placeholder="Condition name" value={customConditionInput} onChange={e => setCustomConditionInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomCondition() } }} />
+                <div className="flex gap-2 items-center flex-wrap">
+                  <input className="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md outline-none focus:border-primary min-w-0 flex-1" placeholder="Condition name" value={customConditionInput} onChange={e => setCustomConditionInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomCondition() } }} />
                   <button onClick={addCustomCondition} className="bg-primary text-white px-3 py-2 rounded-lg font-label-md text-sm" type="button">Add</button>
                   <button onClick={() => { setShowCustomCondition(false); setCustomConditionInput('') }} className="text-secondary px-2 py-2 text-sm" type="button">Cancel</button>
                 </div>
@@ -340,8 +340,8 @@ function MedicalForm() {
               ))}
               {allergies.length === 0 && <p className="font-body-md text-secondary text-sm">No allergies listed.</p>}
             </div>
-            <div className="flex gap-2 max-w-md">
-              <input className="flex-1 bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-2 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Type allergy to add..." type="text" value={allergyInput} onChange={e => setAllergyInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }} />
+            <div className="flex gap-2 max-w-full">
+              <input className="flex-1 min-w-0 bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-2 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Type allergy to add..." type="text" value={allergyInput} onChange={e => setAllergyInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }} />
               <button className="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md hover:bg-surface-variant transition-colors" type="button" onClick={addAllergy}>Add</button>
             </div>
           </section>
@@ -428,7 +428,7 @@ export default function History() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   return (
-    <main className="min-h-screen flex flex-col bg-surface p-4 md:p-6">
+    <main className="min-h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
       <div className="bg-blob bg-primary/10 fixed top-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
       <div className="bg-blob bg-secondary-container/10 fixed bottom-[-100px] left-[-100px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
 

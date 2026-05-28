@@ -100,11 +100,11 @@ export default function Dashboard() {
           </div>
         </div>
       ) : (
-        <div className="bg-green-50 border border-green-200 rounded-[20px] p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-[20px] p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-800/40 flex items-center justify-center text-green-600 dark:text-green-300">
             <Icon icon="check_circle" className="icon-fill" />
           </div>
-          <p className="font-body-md text-green-800">Today's check-in saved! Feeling <strong>{mood?.toLowerCase()}</strong>.</p>
+          <p className="font-body-md text-green-800 dark:text-green-200">Today's check-in saved! Feeling <strong>{mood?.toLowerCase()}</strong>.</p>
         </div>
       )}
 

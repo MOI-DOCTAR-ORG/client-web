@@ -13,7 +13,7 @@ type SessionCardProps = {
 const severityStyles: Record<string, string> = {
   Urgent: 'bg-error-container text-error',
   Moderate: 'bg-amber-100 text-amber-800',
-  Stable: 'bg-green-100 text-green-700',
+  Stable: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
 }
 
 export default function SessionCard({

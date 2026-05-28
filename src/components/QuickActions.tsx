@@ -100,8 +100,8 @@ export default function QuickActions() {
       </div>
 
       {showWearableMsg && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl px-5 py-3 flex items-center gap-3 text-blue-800">
-          <Icon icon="info" className="text-blue-500" />
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-5 py-3 flex items-center gap-3 text-blue-800 dark:text-blue-200">
+          <Icon icon="info" className="text-blue-500 dark:text-blue-400" />
           <p className="font-body-md text-sm">Wearable integration coming soon. Your health data can be imported manually via lab results uploads.</p>
         </div>
       )}

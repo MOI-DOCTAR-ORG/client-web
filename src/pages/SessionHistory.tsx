@@ -6,9 +6,9 @@ import Icon from '../components/Icon'
 const filters = ['All Sessions', 'Low', 'Moderate', 'High']
 
 const severityConfig: Record<string, { severityClass: string; severityIcon: string }> = {
-  Urgent: { severityClass: 'bg-error text-on-error', severityIcon: 'warning' },
-  Moderate: { severityClass: 'bg-tertiary-fixed text-tertiary', severityIcon: 'info' },
-  Stable: { severityClass: 'bg-secondary-container text-secondary', severityIcon: 'check_circle' },
+  Urgent: { severityClass: 'bg-error text-on-error dark:bg-red-900 dark:text-red-200', severityIcon: 'warning' },
+  Moderate: { severityClass: 'bg-tertiary-fixed text-tertiary dark:bg-amber-900/40 dark:text-amber-300', severityIcon: 'info' },
+  Stable: { severityClass: 'bg-secondary-container text-secondary dark:bg-slate-700 dark:text-slate-300', severityIcon: 'check_circle' },
 }
 
 export default function SessionHistory() {
@@ -58,7 +58,7 @@ export default function SessionHistory() {
             ))}
           </div></div>
           <div className="flex gap-4 flex-wrap">
-            <div className="px-5 py-3 bg-surface-container-high rounded-xl border border-outline-variant/30 flex flex-col">
+            <div className="px-5 py-3 bg-surface-container-high dark:bg-slate-800 rounded-xl border border-outline-variant/30 flex flex-col">
               <span className="font-caption text-caption text-secondary uppercase tracking-wider">Total Triage</span>
               <span className="font-headline-md text-headline-md text-primary">{sessions.length}</span>
             </div>

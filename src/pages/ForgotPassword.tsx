@@ -52,8 +52,8 @@ export default function ForgotPassword() {
           </form>
         ) : (
           <div className="flex flex-col items-center gap-5 py-4">
-            <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center">
-              <Icon icon="check_circle" className="text-green-700 text-4xl" />
+            <div className="w-16 h-16 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+              <Icon icon="check_circle" className="text-green-700 dark:text-green-300 text-4xl" />
             </div>
             <p className="font-body-md text-body-md text-secondary text-center">
               If an account with <strong className="text-on-surface">{email}</strong> exists, you will receive a password reset link shortly.

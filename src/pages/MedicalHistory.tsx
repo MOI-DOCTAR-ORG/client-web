@@ -93,9 +93,9 @@ export default function MedicalHistory() {
         </div>
 
         {saved && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
-            <Icon icon="check_circle" className="text-green-600 icon-fill" />
-            <p className="font-body-md text-green-800">Your medical history has been saved successfully.</p>
+          <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 flex items-center gap-3">
+            <Icon icon="check_circle" className="text-green-600 dark:text-green-400 icon-fill" />
+            <p className="font-body-md text-green-800 dark:text-green-200">Your medical history has been saved successfully.</p>
           </div>
         )}
 

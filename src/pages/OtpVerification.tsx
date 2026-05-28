@@ -182,8 +182,8 @@ export default function OtpVerification() {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-8">
-              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                <Icon icon="check_circle" className="text-green-700 text-[48px]" />
+              <div className="w-20 h-20 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
+                <Icon icon="check_circle" className="text-green-700 dark:text-green-300 text-[48px]" />
               </div>
               <h2 className="font-headline-md text-headline-md text-on-surface mb-2">Verified Successfully</h2>
               <p className="text-secondary font-body-md text-center">Redirecting to your dashboard...</p>

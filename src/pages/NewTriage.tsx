@@ -27,9 +27,9 @@ export default function NewTriage() {
   }
 
   const severityOptions: { label: Severity; dot: string; border: string; hover: string }[] = [
-    { label: 'Mild', dot: 'bg-blue-400', border: 'border-blue-400', hover: 'hover:border-blue-400 hover:bg-blue-50' },
+    { label: 'Mild', dot: 'bg-blue-400', border: 'border-blue-400', hover: 'hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20' },
     { label: 'Moderate', dot: 'bg-yellow-400', border: 'border-primary', hover: '' },
-    { label: 'Severe', dot: 'bg-error', border: 'border-error', hover: 'hover:border-error hover:bg-red-50' },
+    { label: 'Severe', dot: 'bg-error', border: 'border-error', hover: 'hover:border-error hover:bg-red-50 dark:hover:bg-red-900/20' },
   ]
 
   return (

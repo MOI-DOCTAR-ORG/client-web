@@ -65,11 +65,11 @@ export default function CareDetails() {
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
         </div>
-        <div className="inline-flex items-center gap-3 px-6 py-4 bg-amber-50 border border-amber-200 rounded-xl">
+        <div className="inline-flex items-center gap-3 px-6 py-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
           <div className={`w-4 h-4 rounded-full animate-pulse ${reports.some(r => r.severity === 'Severe') ? 'bg-error' : reports.length > 0 ? 'bg-primary' : 'bg-amber-600'}`} />
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600">Status</span>
-            <span className="font-headline-md text-headline-md text-amber-600">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-600 dark:text-amber-400">Status</span>
+            <span className="font-headline-md text-headline-md text-amber-600 dark:text-amber-400">
               {reports.length === 0 ? 'No Reports' : reports.some(r => r.severity === 'Severe') ? 'Needs Attention' : 'Active Monitoring'}
             </span>
           </div>
@@ -125,7 +125,7 @@ export default function CareDetails() {
       {reports.length > 0 && (
         <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
           {reports.slice(0, 5).map(r => (
-            <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error-container text-error' : r.severity === 'Moderate' ? 'bg-amber-100 text-amber-700' : 'bg-surface-container text-primary'}`}>
+            <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error-container text-error' : r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'bg-surface-container text-primary'}`}>
               <Icon icon={r.severity === 'Severe' ? 'warning' : r.severity === 'Moderate' ? 'info' : 'check_circle'} className="text-[18px]" />
               {r.symptom}
             </span>
@@ -161,7 +161,7 @@ export default function CareDetails() {
                       </div>
                       <span className={`px-3 py-0.5 rounded-full text-caption font-bold uppercase ${
                         r.severity === 'Severe' ? 'bg-error text-on-error' :
-                        r.severity === 'Moderate' ? 'bg-amber-100 text-amber-700' :
+r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
                         'bg-secondary-container text-secondary'
                       }`}>{r.severity}</span>
                     </div>

@@ -27,7 +27,7 @@ export default function SessionCard({
   const navigate = useNavigate()
 
   return (
-    <div className="bg-white card-shadow rounded-[16px] p-6 hover:shadow-md transition-shadow group">
+    <div className="bg-surface-container-lowest card-shadow rounded-[16px] p-6 hover:shadow-md transition-shadow group">
       <div className="flex justify-between items-start mb-6">
         <span
           className={`px-3 py-1 rounded-full font-label-md text-xs ${severityStyles[severity]}`}

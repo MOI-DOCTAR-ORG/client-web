@@ -2,10 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+*, *::before, *::after {
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+html.light {
+  background-color: #ffffff;
+  color: #0f172a;
+  color-scheme: light;
+  --color-primary: #001bd4;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #dde1ff;
+  --color-on-primary-container: #001055;
+  --color-on-primary-fixed-variant: #ffffff;
+  --color-primary-fixed-dim: #bec6ff;
+  --color-secondary: #565e71;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #dae2f9;
+  --color-on-secondary-container: #131c2b;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #410002;
+  --color-surface: #f7f8ff;
+  --color-on-surface: #191b24;
+  --color-surface-container: #ecedf9;
+  --color-surface-container-low: #f1f2fe;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #e6e7f3;
+  --color-surface-container-highest: #e0e2ed;
+  --color-on-surface-variant: #44474f;
+  --color-on-background: #191b24;
+  --color-outline: #74777f;
+  --color-outline-variant: #c4c6d0;
+}
+
 body {
   font-family: Inter, sans-serif;
-  color: #151c27;
   min-height: 100vh;
+}
+
+html.dark {
+  background-color: #0f172a;
+  color: #f8fafc;
+  color-scheme: dark;
+  --color-primary: #9aa7ff;
+  --color-on-primary: #001f9c;
+  --color-primary-container: #002ad8;
+  --color-on-primary-container: #dde1ff;
+  --color-on-primary-fixed-variant: #001055;
+  --color-primary-fixed-dim: #bec6ff;
+  --color-secondary: #bec6dc;
+  --color-on-secondary: #283041;
+  --color-secondary-container: #3e4759;
+  --color-on-secondary-container: #dae2f9;
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+  --color-surface: #0f111b;
+  --color-on-surface: #e3e2ec;
+  --color-surface-container: #1b1d28;
+  --color-surface-container-low: #171925;
+  --color-surface-container-lowest: #0a0c16;
+  --color-surface-container-high: #262834;
+  --color-surface-container-highest: #313340;
+  --color-on-surface-variant: #c4c6d0;
+  --color-on-background: #e3e2ec;
+  --color-outline: #8e9099;
+  --color-outline-variant: #44474f;
 }
 
 @layer utilities {
@@ -17,8 +89,12 @@ body {
   }
 
   .card-shadow {
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
-    border: 1px solid #E5E7EB;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+  }
+
+  .dark .card-shadow {
+    border-color: #334155;
   }
 
   .sidebar-active-pill {
@@ -38,14 +114,22 @@ body {
   }
 
   .chat-container::-webkit-scrollbar-thumb {
-    background: #e5e7eb;
+    background: #c5c5d9;
     border-radius: 10px;
+  }
+
+  .dark .chat-container::-webkit-scrollbar-thumb {
+    background: #444556;
   }
 
   .glass-panel {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  .dark .glass-panel {
+    background: rgba(15, 23, 42, 0.7);
   }
 
   .gradient-blob {

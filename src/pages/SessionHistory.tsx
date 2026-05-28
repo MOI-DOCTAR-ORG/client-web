@@ -70,7 +70,7 @@ export default function SessionHistory() {
         </div>
 
         {sessions.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-dashed border-outline-variant/50 p-14 text-center">
+          <div className="bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant/50 p-14 text-center">
             <div className="w-20 h-20 mx-auto mb-5 bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
               <Icon icon="history" className="text-4xl" />
             </div>
@@ -161,7 +161,7 @@ export default function SessionHistory() {
             <p className="opacity-80 font-body-md max-w-lg mb-6">
               Completing your medical profile helps our AI provide better context for every session you start.
             </p>
-            <button onClick={() => navigate('/profile')} className="bg-white text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:scale-105 transition-transform">
+            <button onClick={() => navigate('/profile')} className="bg-surface-container-lowest text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:scale-105 transition-transform">
               Complete Profile
             </button>
           </div>

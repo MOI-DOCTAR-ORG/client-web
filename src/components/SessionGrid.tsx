@@ -7,7 +7,7 @@ export default function SessionGrid() {
 
   if (sessions.length === 0) {
     return (
-      <section className="bg-white rounded-2xl border border-dashed border-outline-variant/50 p-10 text-center">
+      <section className="bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant/50 p-10 text-center">
         <div className="w-16 h-16 mx-auto mb-4 bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
           <Icon icon="history" className="text-3xl" />
         </div>

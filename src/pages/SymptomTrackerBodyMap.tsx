@@ -39,14 +39,14 @@ export default function SymptomTrackerBodyMap() {
           <h1 className="font-headline-lg text-headline-lg text-on-surface">Symptom Tracker</h1>
           <p className="text-secondary font-body-md">Monitor your daily health and visualize trends over time.</p>
         </div>
-        <div className="flex items-center gap-stack-sm bg-white p-2 rounded-xl border border-outline-variant/30 shadow-sm">
+        <div className="flex items-center gap-stack-sm bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/30 shadow-sm">
           <Icon icon="calendar_month" className="text-primary" />
           <span className="font-label-md text-label-md pr-2">Today</span>
         </div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-        <section className="lg:col-span-12 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg">
+        <section className="lg:col-span-12 bg-surface-container-lowest rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
               <Icon icon="edit_note" />
@@ -95,7 +95,7 @@ export default function SymptomTrackerBodyMap() {
           </div>
         </section>
 
-        <section className="lg:col-span-8 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg flex flex-col">
+        <section className="lg:col-span-8 bg-surface-container-lowest rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-stack-lg flex flex-col">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-headline-md text-headline-md">30-Day Severity Trend</h2>
             <div className="flex gap-2">
@@ -121,7 +121,7 @@ export default function SymptomTrackerBodyMap() {
           </div>
         </section>
 
-        <section className="lg:col-span-4 bg-white rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col h-full">
+        <section className="lg:col-span-4 bg-surface-container-lowest rounded-[16px] border border-outline-variant shadow-[0px_4px_20px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col h-full">
           <div className="p-stack-lg border-b border-outline-variant/30">
             <h2 className="font-headline-md text-headline-md">Past Entries</h2>
           </div>

@@ -13,7 +13,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-surface">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-level-1 border border-secondary-fixed p-8 flex flex-col gap-6 relative z-10">
+      <div className="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-level-1 border border-secondary-fixed p-8 flex flex-col gap-6 relative z-10">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
             <Icon icon="lock_reset" className="text-4xl" />

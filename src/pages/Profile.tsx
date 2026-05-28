@@ -53,7 +53,7 @@ export default function Profile() {
 
       <div className="max-w-container-max-width w-full px-4 md:px-gutter py-stack-lg flex flex-col gap-gutter">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-          <div className="md:col-span-8 bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
+          <div className="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col md:flex-row items-center gap-8">
             <div className="relative">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold shadow-sm border-4 border-white overflow-hidden">
                 <span className="z-10">{name ? name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() : 'U'}</span>
@@ -86,15 +86,15 @@ export default function Profile() {
               <h4 className="font-headline-md text-headline-md mb-2">Health Passport</h4>
               <p className="font-label-md text-on-primary-container">Secure access to your medical records across 40+ providers.</p>
             </div>
-            <button onClick={() => navigate('/medical-history')} className="relative z-10 mt-6 bg-white text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
+            <button onClick={() => navigate('/medical-history')} className="relative z-10 mt-6 bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
               View Records
             </button>
-            <div className="absolute -right-8 -bottom-8 bg-white/10 w-48 h-48 rounded-full blur-3xl" />
+            <div className="absolute -right-8 -bottom-8 bg-surface-container-lowest/10 w-48 h-48 rounded-full blur-3xl" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-          <section className="md:col-span-7 bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+          <section className="md:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
             <div className="flex items-center gap-2 mb-6">
               <Icon icon="monitor_heart" className="text-primary" />
               <h3 className="font-headline-md text-headline-md">Health Profile</h3>
@@ -174,7 +174,7 @@ export default function Profile() {
           </section>
 
           <section className="md:col-span-5 flex flex-col gap-gutter">
-            <div className="bg-white border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
               <div className="flex items-center gap-2 mb-6">
                 <Icon icon="settings" className="text-primary" />
                 <h3 className="font-headline-md text-headline-md">Preferences</h3>

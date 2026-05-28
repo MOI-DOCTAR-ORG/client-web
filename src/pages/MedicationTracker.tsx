@@ -95,7 +95,7 @@ export default function MedicationTracker() {
         </div>
 
         {showForm && (
-          <div className="bg-white rounded-xl border border-outline-variant p-6 shadow-sm mb-6">
+          <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm mb-6">
             <h3 className="font-headline-md text-headline-md text-on-surface mb-4">New Medication</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex flex-col gap-1">

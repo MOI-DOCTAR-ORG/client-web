@@ -1,6 +1,8 @@
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import Icon from './Icon'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
+import ThemeToggle from './ThemeToggle'
 
 const primaryNav = [
   { label: 'Dashboard', icon: 'dashboard', to: '/' },
@@ -75,6 +77,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       </nav>
 
       <div className="mt-auto px-5 space-y-1 md:space-y-2 pt-4 border-t border-outline-variant/30">
+        <ThemeToggle />
         {bottomNav.map((item) => {
           const isSignOut = item.label === 'Sign Out'
           return (

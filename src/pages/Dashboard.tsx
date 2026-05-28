@@ -110,10 +110,10 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-gradient-to-br from-primary to-primary-container rounded-[24px] p-8 md:p-10 text-on-primary shadow-level-2 relative overflow-hidden flex flex-col justify-between min-h-[260px]">
-          <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-white/10 rounded-full blur-[40px]" />
+          <div className="absolute top-[-50%] right-[-10%] w-[300px] h-[300px] bg-surface-container-lowest/10 rounded-full blur-[40px]" />
           <div className="absolute bottom-[-20%] left-[-10%] w-[200px] h-[200px] bg-black/10 rounded-full blur-[40px]" />
           <div className="relative z-10 max-w-md">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/10">
+            <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/10">
               <Icon icon="verified_user" className="text-[18px]" />
               <span className="text-sm font-medium tracking-wide">AI-Powered Assessment</span>
             </div>
@@ -123,7 +123,7 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="relative z-10">
-            <button onClick={() => navigate('/new-triage')} className="bg-white text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] w-fit">
+            <button onClick={() => navigate('/new-triage')} className="bg-surface-container-lowest text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] w-fit">
               <Icon icon="add_circle" className="icon-fill" />
               Start New Triage
             </button>

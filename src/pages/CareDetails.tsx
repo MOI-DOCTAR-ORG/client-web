@@ -222,7 +222,7 @@ export default function CareDetails() {
 
       <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-6 bg-surface-container rounded-xl gap-4">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-white rounded-lg">
+          <div className="p-3 bg-surface-container-lowest rounded-lg">
             <Icon icon="verified_user" className="text-primary" />
           </div>
           <div>

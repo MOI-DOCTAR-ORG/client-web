@@ -47,7 +47,7 @@ export default function ReminderBanner() {
               </button>
             </>
           ) : (
-            <div className="flex flex-wrap gap-2 w-full bg-white rounded-xl border border-outline-variant p-3">
+            <div className="flex flex-wrap gap-2 w-full bg-surface-container-lowest rounded-xl border border-outline-variant p-3">
               <input className="flex-1 min-w-[200px] bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 font-body-md outline-none focus:border-primary" placeholder="e.g. Drink more water" value={reminderText} onChange={e => setReminderText(e.target.value)} />
               <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 font-body-md outline-none focus:border-primary" type="date" value={reminderDate} onChange={e => setReminderDate(e.target.value)} />
               <button onClick={addReminder} className="bg-primary text-white px-5 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors">Save</button>

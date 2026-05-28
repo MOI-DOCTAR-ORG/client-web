@@ -39,9 +39,9 @@ export default function NewTriage() {
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
       )}
       <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-80 bg-gradient-to-br from-primary to-primary-container p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface-container-lowest/10 rounded-full blur-2xl" />
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
+          <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-caption font-caption uppercase tracking-wider">Active Session</span>
           </div>
@@ -60,7 +60,7 @@ export default function NewTriage() {
               <span className="font-body-md">--</span>
             </div>
           </div>
-          <div className="mt-12 bg-white/10 rounded-xl p-4 border border-white/10">
+          <div className="mt-12 bg-surface-container-lowest/10 rounded-xl p-4 border border-white/10">
             <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2">
               <Icon icon="info" className="text-[20px]" />
               Clinical Context
@@ -77,7 +77,7 @@ export default function NewTriage() {
 
       {/* Right Chat Panel */}
       <section className="flex-grow flex flex-col bg-surface relative">
-        <header className="h-16 flex items-center justify-between px-gutter border-b border-outline-variant bg-white/80 backdrop-blur-md sticky top-0 z-20">
+        <header className="h-16 flex items-center justify-between px-gutter border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary-container/10 rounded-full flex items-center justify-center text-primary">
               <Icon icon="medical_information" />
@@ -110,7 +110,7 @@ export default function NewTriage() {
                 <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
                   <Icon icon="smart_toy" className="text-primary text-[20px]" />
                 </div>
-                <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
+                <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
                   <p className="font-body-md text-on-surface">{msg.text}</p>
                   <p className="text-caption text-secondary mt-2">{msg.time}</p>
                 </div>
@@ -134,7 +134,7 @@ export default function NewTriage() {
               <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
                 <Icon icon="smart_toy" className="text-primary text-[20px]" />
               </div>
-              <div className="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
+              <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
                 <p className="font-body-md text-on-surface">
                   I understand. On a scale of severity, how would you classify this pain right now?
                 </p>
@@ -190,7 +190,7 @@ export default function NewTriage() {
         {/* Bottom Input Bar */}
         <div className="absolute bottom-0 left-0 right-0 p-gutter bg-gradient-to-t from-surface via-surface to-transparent pt-12 pointer-events-none">
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
-            <div className="bg-white border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
                 <Icon icon="attach_file" />
               </button>

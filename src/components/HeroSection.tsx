@@ -17,7 +17,7 @@ export default function HeroSection() {
         </p>
         <Link
           to="/new-triage"
-          className="inline-block w-fit px-8 py-4 bg-white text-primary rounded-full font-label-md text-label-md hover:bg-surface-container transition-all hover:scale-105 active:scale-95 shadow-xl relative z-10"
+          className="inline-block w-fit px-8 py-4 bg-surface-container-lowest text-primary rounded-full font-label-md text-label-md hover:bg-surface-container transition-all hover:scale-105 active:scale-95 shadow-xl relative z-10"
         >
           Start New Triage
         </Link>
@@ -42,7 +42,7 @@ const dayData = [
 
 function TrendChart() {
   return (
-    <div className="bg-white card-shadow rounded-[16px] p-6 flex flex-col justify-between">
+    <div className="bg-surface-container-lowest card-shadow rounded-[16px] p-6 flex flex-col justify-between">
       <div>
         <h4 className="font-label-md text-label-md text-secondary mb-1">
           Symptom Trend

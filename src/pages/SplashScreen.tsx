@@ -17,8 +17,8 @@ export default function SplashScreen() {
 
   return (
     <main className="relative flex flex-col items-center justify-center min-h-screen w-full bg-primary-container overflow-hidden">
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] min-w-[400px] min-h-[400px] bg-white opacity-[0.03] rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-15%] right-[-5%] w-[60vw] h-[60vw] min-w-[500px] min-h-[500px] bg-white opacity-[0.05] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] min-w-[400px] min-h-[400px] bg-surface-container-lowest opacity-[0.03] rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-15%] right-[-5%] w-[60vw] h-[60vw] min-w-[500px] min-h-[500px] bg-surface-container-lowest opacity-[0.05] rounded-full blur-[120px] pointer-events-none" />
       <div
         className={`relative z-10 flex flex-col items-center px-gutter text-center transition-all duration-[1500ms] cubic-bezier(0.16,1,0.3,1) ${
           visible ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.95]'

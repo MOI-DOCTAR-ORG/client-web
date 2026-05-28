@@ -71,7 +71,7 @@ export default function QuickActions() {
           onClick={() => fileInputRef.current?.click()}
           className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
+          <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
             <Icon icon="upload_file" />
           </div>
           <p className="font-label-md text-on-surface">Upload Lab Results</p>
@@ -81,7 +81,7 @@ export default function QuickActions() {
           onClick={() => navigate('/medication-tracker')}
           className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
+          <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
             <Icon icon="pill" />
           </div>
           <p className="font-label-md text-on-surface">Medication List</p>
@@ -92,7 +92,7 @@ export default function QuickActions() {
             setShowWearableMsg(true)
             setTimeout(() => setShowWearableMsg(false), 4000)
           }}
-          className="md:col-span-2 p-6 border-2 border-dashed border-outline-variant rounded-[16px] flex items-center justify-center gap-4 text-secondary hover:bg-white hover:border-primary transition-all cursor-pointer"
+          className="md:col-span-2 p-6 border-2 border-dashed border-outline-variant rounded-[16px] flex items-center justify-center gap-4 text-secondary hover:bg-surface-container-lowest hover:border-primary transition-all cursor-pointer"
         >
           <Icon icon="add_circle" />
           <p className="font-body-md">Connect external wearable data (Apple Health, Fitbit)</p>
@@ -107,7 +107,7 @@ export default function QuickActions() {
       )}
 
       {uploads.length > 0 && (
-        <div className="bg-white border border-outline-variant rounded-[16px] overflow-hidden">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-[16px] overflow-hidden">
           <button
             onClick={() => setShowUploads(!showUploads)}
             className="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors"

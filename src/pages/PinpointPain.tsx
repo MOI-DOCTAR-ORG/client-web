@@ -87,10 +87,10 @@ export default function PinpointPain() {
         `}</style>
 
         <div className="absolute w-[500px] h-[500px] rounded-full blur-[80px] opacity-15 pointer-events-none"
-          style={{ background: '#001bd4', top: '-250px', left: '-250px' }}
+          style={{ background: 'var(--color-primary)', top: '-250px', left: '-250px' }}
         />
         <div className="absolute w-[400px] h-[400px] rounded-full blur-[80px] opacity-10 pointer-events-none"
-          style={{ background: '#2b3ef0', bottom: '-200px', right: '-200px' }}
+          style={{ background: 'var(--color-primary-container)', bottom: '-200px', right: '-200px' }}
         />
 
         <div className="flex-none p-6 md:p-8 border-b border-surface-container-high bg-surface/80 backdrop-blur-md flex justify-between items-start z-10">

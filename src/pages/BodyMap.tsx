@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { useTheme } from '../context/ThemeContext'
 
 type View = 'Front' | 'Back' | 'Left' | 'Right'
 type Severity = 'Mild' | 'Moderate' | 'Severe'
@@ -30,7 +31,7 @@ const backRegions = ['upper-back', 'lower-back', 'left-leg', 'right-leg']
 export default function BodyMap() {
   const navigate = useNavigate()
   const [currentView, setCurrentView] = useState<View>('Front')
-  const [darkMode, setDarkMode] = useState(false)
+  const { theme } = useTheme()
   const [selectedAreas, setSelectedAreas] = useState<SelectedArea[]>([])
   const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null)
 
@@ -76,9 +77,7 @@ export default function BodyMap() {
   const views: View[] = ['Front', 'Back', 'Left', 'Right']
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 md:p-gutter ${darkMode ? 'dark-mode-active' : ''}`}
-      style={{ backgroundColor: darkMode ? '#0F1117' : 'rgba(21,28,39,0.4)' }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-gutter bg-black/40">
       <div
         className="bg-surface w-full max-w-[1200px] h-[90vh] min-h-0 md:min-h-[600px] max-h-[850px] rounded-[16px] shadow-2xl flex flex-col overflow-hidden relative border border-outline-variant/50"
         style={{
@@ -104,13 +103,6 @@ export default function BodyMap() {
             <p className="font-body-md text-body-md text-on-surface-variant mt-1">Tap or click on the area where you feel pain</p>
           </div>
           <div className="flex items-center gap-4">
-            <button
-              className="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors flex items-center"
-              onClick={() => setDarkMode(!darkMode)}
-            >
-              <Icon icon={darkMode ? 'light_mode' : 'dark_mode'} className="text-[24px]" />
-            </button>
-            <div className="w-px h-6 bg-outline-variant/50 mx-2" />
             <button className="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors group">
               <Icon icon="close" className="text-[28px] group-hover:scale-110 transition-transform" />
             </button>
@@ -118,10 +110,8 @@ export default function BodyMap() {
         </div>
 
         <div className="flex-grow flex flex-col md:flex-row overflow-hidden z-0">
-          <div className={`flex-grow relative overflow-hidden ${darkMode ? 'bg-[#0F1117]' : 'bg-surface-container-lowest'}`}>
-            <div className="absolute inset-0 pointer-events-none transition-all duration-500"
-              style={darkMode ? { background: 'radial-gradient(circle, rgba(43,62,240,0.15) 0%, rgba(15,17,23,0) 70%)' } : {}}
-            />
+          <div className="flex-grow relative overflow-hidden bg-surface-container-lowest">
+            <div className="absolute inset-0 pointer-events-none transition-all duration-500 bg-primary/5" />
 
             <div className="absolute top-6 left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-1 md:gap-2 bg-surface/80 backdrop-blur-md p-2 rounded-full border border-outline-variant/30 shadow-sm z-10">
               {views.map((view) => (
@@ -150,7 +140,7 @@ export default function BodyMap() {
               <img
                 alt="3D Body Map Model"
                 className={`object-contain h-[90%] transition-all duration-300 ${
-                  darkMode
+                  theme === 'dark'
                     ? 'opacity-70 invert hue-rotate-180'
                     : 'opacity-80 grayscale mix-blend-multiply'
                 }`}
@@ -254,12 +244,12 @@ export default function BodyMap() {
               Skip
             </button>
             <div className="hidden sm:flex items-center gap-2 text-caption text-outline">
-              <Icon icon="verified_user" className="text-[18px] text-[#2B3EF0]" />
+              <Icon icon="verified_user" className="text-[18px] text-primary" />
               HIPAA Compliant
             </div>
           </div>
           <button
-            className="bg-[#2B3EF0] hover:bg-[#1a2bcf] text-white font-label-md text-label-md py-3 px-8 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(43,62,240,0.2)] hover:shadow-[0_6px_20px_rgba(43,62,240,0.3)] hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
+            className="bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3 px-8 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.2)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.3)] hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
             onClick={() => navigate('/pinpoint-pain')}
           >
             Confirm Pain Areas

@@ -21,6 +21,9 @@ export default function Profile() {
   const [newCondition, setNewCondition] = useState('')
   const [name, setName] = usePersistState('doctarr_name', '')
   const [email, setEmail] = usePersistState('doctarr_email', '')
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle')
+  const [nameError, setNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
 
   const addCondition = () => {
     const trimmed = newCondition.trim()
@@ -32,6 +35,33 @@ export default function Profile() {
 
   const removeCondition = (c: string) => {
     setConditions(conditions.filter(x => x !== c))
+  }
+
+  const handleSave = () => {
+    if (!name.trim()) {
+      setNameError('Name is required')
+      return
+    }
+    if (!email.trim()) {
+      setEmailError('Email is required')
+      return
+    }
+    setNameError('')
+    setEmailError('')
+    setSaveStatus('saved')
+    setTimeout(() => setSaveStatus('idle'), 3000)
+  }
+
+  const handleNameChange = (value: string) => {
+    setName(value)
+    setNameError('')
+    setSaveStatus('idle')
+  }
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value)
+    setEmailError('')
+    setSaveStatus('idle')
   }
 
   const ageOptions = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
@@ -62,19 +92,63 @@ export default function Profile() {
               </div>
             </div>
             <div className="text-center md:text-left flex-1 w-full">
-              <input
-                className="font-headline-lg text-headline-lg text-on-surface mb-1 bg-transparent border-b border-dashed border-outline-variant focus:border-primary focus:outline-none w-full max-w-xs"
-                placeholder="Your Name"
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
-              <input
-                className="font-body-md text-secondary mb-4 bg-transparent border-b border-dashed border-outline-variant focus:border-primary focus:outline-none w-full max-w-xs"
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+              <div className="mb-4">
+                <label className="block font-label-md text-label-md text-on-surface-variant mb-2">Full Name</label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    className={`flex-1 px-4 py-3 rounded-lg border font-body-md text-on-surface outline-none transition-all ${
+                      nameError
+                        ? 'border-error focus:border-error focus:ring-2 focus:ring-error/20'
+                        : 'border-outline-variant bg-surface-container-low focus:border-primary focus:ring-2 focus:ring-primary/20'
+                    }`}
+                    placeholder="e.g. John Doe"
+                    value={name}
+                    onChange={e => handleNameChange(e.target.value)}
+                  />
+                  {saveStatus === 'saved' && (
+                    <div className="flex items-center gap-1 text-green-600 dark:text-green-400 whitespace-nowrap">
+                      <Icon icon="check_circle" className="text-[18px]" />
+                      <span className="text-caption font-caption">Saved</span>
+                    </div>
+                  )}
+                </div>
+                {nameError && <p className="text-caption text-error mt-1">{nameError}</p>}
+              </div>
+              <div className="mb-4">
+                <label className="block font-label-md text-label-md text-on-surface-variant mb-2">Email Address</label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    className={`flex-1 px-4 py-3 rounded-lg border font-body-md text-on-surface outline-none transition-all ${
+                      emailError
+                        ? 'border-error focus:border-error focus:ring-2 focus:ring-error/20'
+                        : 'border-outline-variant bg-surface-container-low focus:border-primary focus:ring-2 focus:ring-primary/20'
+                    }`}
+                    type="email"
+                    placeholder="your.email@example.com"
+                    value={email}
+                    onChange={e => handleEmailChange(e.target.value)}
+                  />
+                  {saveStatus === 'saved' && (
+                    <div className="flex items-center gap-1 text-green-600 dark:text-green-400 whitespace-nowrap">
+                      <Icon icon="check_circle" className="text-[18px]" />
+                      <span className="text-caption font-caption">Saved</span>
+                    </div>
+                  )}
+                </div>
+                {emailError && <p className="text-caption text-error mt-1">{emailError}</p>}
+              </div>
+              <button
+                onClick={handleSave}
+                className={`px-6 py-2 rounded-full font-label-md text-label-md flex items-center gap-2 transition-all ${
+                  saveStatus === 'saved'
+                    ? 'bg-green-600 dark:bg-green-700 text-white'
+                    : 'bg-primary text-white hover:bg-primary/90'
+                }`}
+              >
+                <Icon icon={saveStatus === 'saved' ? 'check_circle' : 'save'} />
+                {saveStatus === 'saved' ? 'Saved!' : 'Save Profile'}
+              </button>
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start mt-4">
                 <span className="bg-surface-container-low border border-surface-variant px-3 py-1 rounded-full text-label-md font-label-md text-on-surface">Member</span>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-label-md border border-primary/20">Verified Identity</span>
               </div>

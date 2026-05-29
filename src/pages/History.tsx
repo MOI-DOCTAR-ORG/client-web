@@ -441,21 +441,23 @@ export default function History() {
         </div>
       </header>
 
-      <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max mb-8 flex-shrink-0">
-        {tabs.map(tab => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={
-              activeTab === tab.key
-                ? 'px-6 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm flex items-center gap-2'
-                : 'px-6 py-2 rounded-full font-label-md text-label-md text-secondary hover:text-primary transition-all flex items-center gap-2'
-            }
-          >
-            <Icon icon={tab.icon} className="text-[18px]" />
-            {tab.label}
-          </button>
-        ))}
+      <div className="overflow-x-auto mb-8 flex-shrink-0">
+        <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max">
+          {tabs.map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={
+                activeTab === tab.key
+                  ? 'px-4 md:px-6 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm flex items-center gap-2 whitespace-nowrap'
+                  : 'px-4 md:px-6 py-2 rounded-full font-label-md text-label-md text-secondary hover:text-primary transition-all flex items-center gap-2 whitespace-nowrap'
+              }
+            >
+              <Icon icon={tab.icon} className="text-[18px]" />
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">

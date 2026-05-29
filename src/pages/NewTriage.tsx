@@ -39,8 +39,7 @@ export default function NewTriage() {
       {showPanel && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
       )}
-      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-80 bg-gradient-to-br from-primary to-primary-container p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-surface-container-lowest/10 rounded-full blur-2xl" />
+      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-80 bg-primary p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -189,7 +188,7 @@ export default function NewTriage() {
         </div>
 
         {/* Bottom Input Bar */}
-        <div className="absolute bottom-0 left-0 right-0 p-gutter bg-gradient-to-t from-surface via-surface to-transparent pt-12 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 p-gutter bg-surface pt-12 pointer-events-none">
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
             <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">

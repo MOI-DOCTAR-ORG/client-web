@@ -58,7 +58,7 @@ export default function Profile() {
             <div className="relative">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold shadow-sm border-4 border-white overflow-hidden">
                 <span className="z-10">{getUserInitials()}</span>
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent" />
+
               </div>
             </div>
             <div className="text-center md:text-left flex-1 w-full">
@@ -90,7 +90,6 @@ export default function Profile() {
             <button onClick={() => navigate('/history?tab=medical')} className="relative z-10 mt-6 bg-surface-container-lowest text-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-max">
               View Records
             </button>
-            <div className="absolute -right-8 -bottom-8 bg-surface-container-lowest/10 w-48 h-48 rounded-full blur-3xl" />
           </div>
         </div>
 

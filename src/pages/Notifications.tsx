@@ -195,8 +195,6 @@ export default function Notifications() {
         </div>
       </div>
 
-      <div className="fixed top-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px] pointer-events-none -z-10" />
-      <div className="fixed bottom-[-5%] left-[20%] w-[30%] h-[30%] rounded-full bg-tertiary-container/5 blur-[100px] pointer-events-none -z-10" />
     </main>
   )
 }

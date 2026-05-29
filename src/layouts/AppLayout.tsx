@@ -15,10 +15,6 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen bg-background text-on-background font-body-md">
-      {/* Blobs - hidden on mobile */}
-      <div className="hidden md:block bg-blob w-[500px] h-[500px] bg-primary rounded-full top-[-10%] right-[-10%]" />
-      <div className="hidden md:block bg-blob w-[400px] h-[400px] bg-secondary rounded-full bottom-[-5%] left-[-5%]" />
-
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Mobile top bar */}

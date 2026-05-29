@@ -58,12 +58,6 @@ export default function SignUp() {
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface">
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full opacity-[0.05] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(0,27,212,0.05) 0%, rgba(249,249,255,0) 70%)' }}
-      />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full opacity-[0.08] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(43,62,240,0.08) 0%, rgba(249,249,255,0) 70%)' }}
-      />
       <main className="w-full max-w-md px-margin-mobile md:px-0 relative z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 shadow-sm">

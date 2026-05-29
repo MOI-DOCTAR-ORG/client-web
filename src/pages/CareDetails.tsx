@@ -53,9 +53,6 @@ export default function CareDetails() {
 
   return (
     <main className="min-h-screen p-4 md:p-6 max-w-container-max-width mx-auto bg-surface text-on-surface font-body-md">
-      <div className="blob bg-primary/15 w-[400px] h-[400px] fixed -top-20 -right-20 rounded-full blur-[80px] -z-10" />
-      <div className="blob bg-tertiary-container/15 w-[300px] h-[300px] fixed bottom-10 -left-10 rounded-full blur-[80px] -z-10" />
-
       <header className="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <nav className="flex items-center gap-2 text-secondary mb-2">
@@ -213,7 +210,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKXdX56RArmULZK_NoQ0L99HNEH3Smr4pCogZr1zloxe29vQZoB26L8Iu78idg7ZwHHUDKRyrKxSMcQWXPY2GAyGcUU_L5ikTUELOgPKOWXEE9Tb7l9pndYlQwpmnKXA5JJdpiAQwriLBBeAT0YoPgHW3irIWbiaGoOPswqOnYqvrc4_ts2NWwIzdymky9Sr03DYK7taoPrRNvjZihhWh501vmdR2fLafOADCKSzevfmE2SFGH3N4vyy5sxGrLAqa6CZyr0Qwj3n4"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-black/50 flex items-end p-6">
               <p className="text-white font-label-md">Your care details and AI triage insights will appear here.</p>
             </div>
           </div>

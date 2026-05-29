@@ -15,11 +15,6 @@ export default function AgeSelection() {
 
   return (
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-surface-container-low opacity-60 blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary-fixed opacity-20 blur-3xl" />
-      </div>
-
       <main className="w-full max-w-lg px-margin-mobile z-10 flex flex-col items-center">
         <div className="mb-stack-lg flex flex-col items-center gap-stack-sm">
           <Icon icon="medical_services" className="text-primary text-5xl" />

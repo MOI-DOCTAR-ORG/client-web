@@ -90,13 +90,6 @@ export default function BodyMap() {
           .pin-pulse::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; background-color: #2B3EF0; animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; z-index: -1; }
         `}</style>
 
-        <div className="ambient-blob absolute w-[500px] h-[500px] rounded-full blur-[80px] opacity-15 pointer-events-none"
-          style={{ background: '#2b3ef0', top: '-250px', left: '-250px' }}
-        />
-        <div className="ambient-blob absolute w-[400px] h-[400px] rounded-full blur-[80px] opacity-10 pointer-events-none"
-          style={{ background: '#2b3ef0', bottom: '-200px', right: '-200px' }}
-        />
-
         <div className="flex-none p-6 border-b border-surface-container-high bg-surface/80 backdrop-blur-md flex justify-between items-center z-10">
           <div>
             <h1 className="font-headline-lg text-headline-lg text-on-surface font-bold">Where do you feel pain?</h1>

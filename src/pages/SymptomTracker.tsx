@@ -26,9 +26,6 @@ export default function SymptomTracker() {
 
   return (
     <main className="min-h-screen p-4 md:p-6 max-w-[1200px] mx-auto font-body-md bg-surface">
-      <div className="bg-gradient-blob bg-primary/15 w-[500px] h-[500px] fixed -top-64 -right-64 rounded-full blur-[80px] -z-10" />
-      <div className="bg-gradient-blob bg-secondary/15 w-[400px] h-[400px] fixed bottom-0 -left-48 rounded-full blur-[80px] -z-10" />
-
       <header className="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="font-headline-lg text-headline-lg text-on-surface">Symptom Tracker</h1>
@@ -145,18 +142,25 @@ export default function SymptomTracker() {
           </div>
         </section>
 
-        <section onClick={() => navigate('/symptom-tracker-body-map')} className="lg:col-span-12 relative h-48 rounded-[16px] overflow-hidden group cursor-pointer">
+        <section onClick={() => navigate('/symptom-tracker-body-map')} className="lg:col-span-12 relative h-56 rounded-[16px] overflow-hidden group cursor-pointer">
           <img
             alt="AI Health Analysis"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKXdX56RArmULZK_NoQ0L99HNEH3Smr4pCogZr1zloxe29vQZoB26L8Iu78idg7ZwHHUDKRyrKxSMcQWXPY2GAyGcUU_L5ikTUELOgPKOWXEE9Tb7l9pndYlQwpmnKXA5JJdpiAQwriLBBeAT0YoPgHW3irIWbiaGoOPswqOnYqvrc4_ts2NWwIzdymky9Sr03DYK7taoPrRNvjZihhWh501vmdR2fLafOADCKSzevfmE2SFGH3N4vyy5sxGrLAqa6CZyr0Qwj3n4"
           />
-          <div className="absolute inset-0 bg-primary/85 dark:bg-slate-900/85 flex items-center p-stack-lg">
-            <div className="max-w-md text-white">
-              <h3 className="font-headline-md text-headline-md mb-2">AI Health Insights</h3>
-              <p className="font-body-md opacity-90">
-                Start logging your symptoms to unlock AI-powered health insights and trends.
-              </p>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 to-secondary/10 dark:bg-slate-900/90 backdrop-blur-sm flex items-center p-stack-lg z-10">
+            <div className="max-w-md">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center flex-shrink-0">
+                  <Icon icon="psychology" className="text-primary dark:text-primary-light" />
+                </div>
+                <div>
+                  <h3 className="font-headline-md text-headline-md mb-2 text-slate-900 dark:text-white">AI Health Insights</h3>
+                  <p className="font-body-md text-slate-700 dark:text-slate-100/90 leading-7">
+                    Start logging your symptoms to unlock AI-powered health insights and trends.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

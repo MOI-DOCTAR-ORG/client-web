@@ -86,13 +86,6 @@ export default function PinpointPain() {
           @keyframes modalEnter { from { opacity: 0; transform: scale(0.98) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         `}</style>
 
-        <div className="absolute w-[500px] h-[500px] rounded-full blur-[80px] opacity-15 pointer-events-none"
-          style={{ background: 'var(--color-primary)', top: '-250px', left: '-250px' }}
-        />
-        <div className="absolute w-[400px] h-[400px] rounded-full blur-[80px] opacity-10 pointer-events-none"
-          style={{ background: 'var(--color-primary-container)', bottom: '-200px', right: '-200px' }}
-        />
-
         <div className="flex-none p-6 md:p-8 border-b border-surface-container-high bg-surface/80 backdrop-blur-md flex justify-between items-start z-10">
           <div className="max-w-2xl">
             <h1 className="font-headline-lg text-headline-lg text-on-surface">Pinpoint Your Pain</h1>

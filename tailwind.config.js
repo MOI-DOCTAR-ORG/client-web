@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        background: 'var(--color-background)',
         primary: 'var(--color-primary)',
         'on-primary': 'var(--color-on-primary)',
         'primary-container': 'var(--color-primary-container)',

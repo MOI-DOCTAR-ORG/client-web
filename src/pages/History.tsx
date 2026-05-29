@@ -428,11 +428,8 @@ export default function History() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   return (
-    <main className="min-h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
-      <div className="bg-blob bg-primary/10 fixed top-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
-      <div className="bg-blob bg-secondary-container/10 fixed bottom-[-100px] left-[-100px] w-[600px] h-[600px] rounded-full blur-[120px] -z-10" />
-
-      <header className="flex justify-between items-center w-full mb-8">
+    <main className="h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
+      <header className="flex justify-between items-center w-full mb-8 flex-shrink-0">
         <div>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">History</h2>
           <p className="font-body-md text-secondary">View your triage sessions or update your medical profile.</p>
@@ -444,7 +441,7 @@ export default function History() {
         </div>
       </header>
 
-      <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max mb-8">
+      <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max mb-8 flex-shrink-0">
         {tabs.map(tab => (
           <button
             key={tab.key}
@@ -461,7 +458,9 @@ export default function History() {
         ))}
       </div>
 
-      {activeTab === 'sessions' ? <SessionsView /> : <MedicalForm />}
+      <div className="flex-1 overflow-y-auto min-h-0">
+        {activeTab === 'sessions' ? <SessionsView /> : <MedicalForm />}
+      </div>
     </main>
   )
 }

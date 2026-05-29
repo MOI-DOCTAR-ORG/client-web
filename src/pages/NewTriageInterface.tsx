@@ -42,8 +42,7 @@ export default function NewTriageInterface() {
 
       <main className="flex-1 max-w-container-max-width mx-auto w-full p-margin-mobile md:p-gutter flex flex-col md:flex-row gap-gutter h-[calc(100vh-64px)] pb-6 overflow-hidden">
         <aside className="w-full md:w-80 flex-shrink-0 flex flex-col gap-stack-md">
-          <div className="bg-gradient-to-br from-primary-fixed to-surface-container rounded-xl p-6 shadow-sm border border-outline-variant/20 flex-1 flex flex-col relative overflow-hidden">
-            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-primary-container rounded-full mix-blend-multiply opacity-10 filter blur-xl" />
+          <div className="bg-surface-container rounded-xl p-6 shadow-sm border border-outline-variant/20 flex-1 flex flex-col relative overflow-hidden">
             <div className="mb-6">
               <span className="inline-block px-3 py-1 bg-surface-container-highest text-on-surface-variant text-xs font-semibold rounded-full mb-3 shadow-sm border border-outline-variant/30">In Progress</span>
               <h3 className="font-headline-md text-headline-md text-on-primary-fixed font-bold">New Session</h3>

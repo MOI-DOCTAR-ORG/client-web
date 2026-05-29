@@ -107,12 +107,6 @@ export default function OtpVerification() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface bg-surface">
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[80px] opacity-30 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(0,27,212,0.15) 0%, rgba(249,249,255,0) 70%)' }}
-      />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[80px] opacity-30 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(43,62,240,0.1) 0%, rgba(249,249,255,0) 70%)' }}
-      />
       <main className="w-full max-w-[480px] px-margin-mobile md:px-0 relative z-10">
         <div className="bg-surface-container-lowest rounded-card border border-outline-variant shadow-level-1 p-8 md:p-10 flex flex-col items-center relative overflow-hidden transition-all duration-300">
           {!isVerified ? (

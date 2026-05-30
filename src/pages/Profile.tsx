@@ -756,16 +756,6 @@ export default function Profile() {
 
         {/* Footer */}
         <footer className="mt-8 mb-12 flex flex-col md:flex-row items-center justify-between py-6 border-t border-outline-variant gap-4">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="verified" className="text-primary text-xl" />
-              <span className="font-label-md text-on-surface">HIPAA COMPLIANT</span>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="lock" className="text-primary text-xl" />
-              <span className="font-label-md text-on-surface">AES-256 ENCRYPTED</span>
-            </div>
-          </div>
           <div className="flex gap-stack-lg">
             <a className="text-caption text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
             <a className="text-caption text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>

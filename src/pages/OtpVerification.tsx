@@ -1,35 +1,31 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
+import { useToastContext } from '../context/ToastContext'
 
 export default function OtpVerification() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { verifyEmail, resendVerificationCode } = useAuth()
+  const { verifyEmail, isAuthenticated } = useAuth()
+  const { addToast } = useToastContext()
+
   const email = (location.state as { email?: string } | null)?.email || 'your email'
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
-  const [timeLeft, setTimeLeft] = useState(45)
-  const [canResend, setCanResend] = useState(false)
-  const [isVerified, setIsVerified] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   useEffect(() => {
-    if (timeLeft <= 0) {
-      setCanResend(true)
-      return
-    }
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1)
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [timeLeft])
-
-  useEffect(() => {
     inputRefs.current[0]?.focus()
   }, [])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
 
   const focusInput = useCallback((index: number) => {
     if (index >= 0 && index < 6) {
@@ -79,129 +75,117 @@ export default function OtpVerification() {
   }
 
   const handleResend = () => {
-    if (!canResend) return
-    setTimeLeft(45)
-    setCanResend(false)
     setOtp(Array(6).fill(''))
-    setIsVerified(false)
     setIsError(false)
     setErrorMsg('')
-    resendVerificationCode()
+    addToast('Code resent successfully', 'success')
     setTimeout(() => focusInput(0), 50)
   }
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = otp.join('')
     if (code.length !== 6) {
       setIsError(true)
       setErrorMsg('Please enter the full 6-digit code.')
       return
     }
+
+    // TODO: Replace with real backend verification
+    setIsVerifying(true)
+
+    await new Promise(resolve => setTimeout(resolve, 1500))
+
     const ok = verifyEmail(code)
     if (ok) {
-      setIsVerified(true)
-      setTimeout(() => navigate('/sign-in', { replace: true }), 2000)
+      navigate('/', { replace: true })
     } else {
+      setIsVerifying(false)
       setIsError(true)
-      setErrorMsg('Invalid code. Please try again.')
+      setErrorMsg('Verification failed. Please try again.')
     }
   }
 
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60)
-    const s = seconds % 60
-    return `${m}:${s < 10 ? '0' : ''}${s}`
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface bg-surface">
-      <main className="w-full max-w-[480px] px-margin-mobile md:px-0 relative z-10">
-        <div className="bg-surface-container-lowest rounded-card border border-outline-variant shadow-level-1 p-8 md:p-10 flex flex-col items-center relative overflow-hidden transition-all duration-300">
-          {!isVerified ? (
-            <>
-              <div className="mb-8 flex flex-col items-center">
-                <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 text-primary">
-                  <Icon icon="mark_email_read" className="text-[32px]" />
-                </div>
-                <h1 className="font-headline-md text-headline-md text-center text-on-surface">Verify Your Email</h1>
-                <p className="mt-2 text-secondary font-body-md text-center">
-                  We've sent a 6-digit code to <br />
-                  <span className="font-semibold text-on-surface">{email}</span>
-                </p>
-              </div>
-
-              <form className="w-full flex flex-col items-center" onSubmit={(e) => e.preventDefault()}>
-                <div className="flex justify-center gap-2 md:gap-3 mb-8 w-full">
-                  {otp.map((digit, i) => (
-                    <input
-                      key={i}
-                      ref={(el) => { inputRefs.current[i] = el }}
-                      autoComplete="one-time-code"
-                      autoFocus={i === 0}
-                      className={`w-12 h-14 md:w-14 md:h-16 text-center font-headline-md text-headline-md rounded-input border bg-surface text-on-surface transition-all duration-200 outline-none ${
-                        isError && !digit ? 'border-error' : 'border-outline-variant'
-                      } ${isError && !digit ? '' : 'focus:border-primary focus:shadow-[0_0_0_2px_rgba(0,27,212,0.2)]'}`}
-                      maxLength={1}
-                      type="text"
-                      inputMode="numeric"
-                      value={digit}
-                      onChange={(e) => handleChange(i, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(i, e)}
-                      onPaste={i === 0 ? handlePaste : undefined}
-                    />
-                  ))}
-                </div>
-
-                {isError && (
-                  <p className="font-caption text-caption text-error mb-4 flex items-center gap-1 -mt-4">
-                    <Icon icon="error" className="text-[16px]" />
-                    {errorMsg}
-                  </p>
-                )}
-
-                <button
-                  className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-4 rounded-full transition-colors duration-200 flex justify-center items-center gap-2 disabled:opacity-40"
-                  type="button"
-                  onClick={handleVerify}
-                  disabled={otp.some(d => !d)}
-                >
-                  Verify Email
-                </button>
-              </form>
-
-              <div className="mt-6 flex items-center justify-center gap-1 font-body-md">
-                <span className="text-secondary">Didn't receive the code?</span>
-                <button
-                  className={`text-primary hover:text-primary/90 font-semibold transition-colors duration-200 ${
-                    !canResend ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  disabled={!canResend}
-                  onClick={handleResend}
-                >
-                  {canResend ? 'Resend Code Now' : `Resend code in ${formatTime(timeLeft)}`}
-                </button>
-              </div>
-
-              <Link to="/sign-in" className="mt-4 text-secondary hover:text-primary transition-colors font-label-md text-label-md">
-                Back to Sign In
-              </Link>
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-8">
-              <div className="w-20 h-20 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
-                <Icon icon="check_circle" className="text-green-700 dark:text-green-300 text-[48px]" />
-              </div>
-              <h2 className="font-headline-md text-headline-md text-on-surface mb-2">Email Verified!</h2>
-              <p className="text-secondary font-body-md text-center">Redirecting to sign in...</p>
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
+      <main className="w-full max-w-[440px]">
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-6 sm:p-8 md:p-10 flex flex-col items-center gap-6 md:gap-8 animate-fade-in">
+          {/* Icon */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+              <Icon icon="mark_email_read" className="text-[32px]" />
             </div>
-          )}
-        </div>
+            <div className="text-center">
+              <h1 className="font-headline-md text-headline-md text-on-surface font-bold">Verify Your Email</h1>
+              <p className="mt-2 text-secondary font-body-md text-body-md">
+                Enter the verification code sent to
+              </p>
+              <p className="font-label-md text-label-md text-on-surface font-semibold mt-0.5">{email}</p>
+            </div>
+          </div>
 
-        <div className="mt-8 text-center">
-          <Link className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-md text-label-md" to="/sign-in">
-            <Icon icon="arrow_back" className="text-[20px]" />
-            Back to Sign In
-          </Link>
+          {/* OTP Input */}
+          <div className="flex justify-center gap-2 md:gap-3 w-full">
+            {otp.map((digit, i) => (
+              <input
+                key={i}
+                ref={(el) => { inputRefs.current[i] = el }}
+                autoComplete="one-time-code"
+                autoFocus={i === 0}
+                className={`w-11 h-13 sm:w-12 sm:h-14 md:w-14 md:h-16 text-center font-headline-md text-headline-md rounded-xl border bg-surface text-on-surface transition-all duration-200 outline-none ${
+                  isError && !digit ? 'border-error animate-shake' : 'border-outline-variant'
+                } ${isError && !digit ? '' : 'focus:border-primary focus:ring-2 focus:ring-primary/20'}
+                  ${isVerifying ? 'opacity-50 pointer-events-none' : ''}`}
+                maxLength={1}
+                type="text"
+                inputMode="numeric"
+                value={digit}
+                onChange={(e) => handleChange(i, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(i, e)}
+                onPaste={i === 0 ? handlePaste : undefined}
+                disabled={isVerifying}
+                aria-label={`Digit ${i + 1} of 6`}
+              />
+            ))}
+          </div>
+
+          {/* Error */}
+          {isError && (
+            <p className="font-caption text-caption text-error flex items-center gap-1 -mt-2" role="alert">
+              <Icon icon="error" className="text-[16px]" />
+              {errorMsg}
+            </p>
+          )}
+
+          {/* Verify Button */}
+          <button
+            className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3.5 md:py-3 rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:ring-2 focus:ring-primary/30 focus:outline-none shadow-sm hover:shadow-md active:scale-[0.98]"
+            type="button"
+            onClick={handleVerify}
+            disabled={otp.some(d => !d) || isVerifying}
+            aria-label="Verify email code"
+          >
+            {isVerifying ? (
+              <>
+                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                Verifying...
+              </>
+            ) : (
+              'Verify Email'
+            )}
+          </button>
+
+          {/* Resend */}
+          <div className="flex items-center justify-center gap-1.5 font-body-md">
+            <span className="text-secondary text-sm">Didn't receive the code?</span>
+            <button
+              className="text-primary hover:text-primary/80 font-semibold transition-colors duration-200 focus:outline-none focus:underline text-sm disabled:opacity-50"
+              disabled={isVerifying}
+              onClick={handleResend}
+              aria-label="Resend verification code"
+            >
+              Resend Code
+            </button>
+          </div>
         </div>
       </main>
     </div>

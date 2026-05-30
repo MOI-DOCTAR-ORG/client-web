@@ -229,6 +229,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const verifyEmail = useCallback((code: string): boolean => {
+    // TODO: Replace with real backend verification
     if (code.length !== 6) return false
 
     const users = getUsers()
@@ -238,7 +239,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const updated = users.map(u => u.id === currentUser.id ? { ...u, verified: true } : u)
     saveUsers(updated)
     clearVerificationCode()
-    setState(prev => prev.user ? { ...prev, user: { ...prev.user, verified: true } } : prev)
+
+    const verifiedUser = updated.find(u => u.id === currentUser.id)!
+    const tokens = generateTokens(verifiedUser.id)
+    try { localStorage.setItem(SESSION_KEY, JSON.stringify(tokens)) } catch {}
+    try { localStorage.setItem('doctarr_current_user_email', verifiedUser.email) } catch {}
+
+    setState({ user: verifiedUser, isAuthenticated: true, isLoading: false })
+    setUserChangeKey(k => k + 1)
     return true
   }, [state.user])
 

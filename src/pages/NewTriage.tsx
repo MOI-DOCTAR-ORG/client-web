@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
 import { getUserInitials } from '../utils/getUserInitials'
+import LianaAvatar from '../components/LianaAvatar'
 
 type Severity = 'Mild' | 'Moderate' | 'Severe'
 
@@ -16,7 +17,7 @@ export default function NewTriage() {
   const [messages, setMessages] = useState([
     {
       role: 'ai',
-      text: 'Hello. I am here to help prioritize your healthcare needs. Could you please describe what you are feeling and when the symptoms started?',
+      text: "Hi, I'm LIANA, your personal health assistant. I'm here to help you with your health questions, symptoms, and navigating MoiDoctar. How can I help you today?",
       time: 'Sent at ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
     },
   ])
@@ -79,12 +80,10 @@ export default function NewTriage() {
       <section className="flex-grow flex flex-col bg-surface relative">
         <header className="h-16 flex items-center justify-between px-gutter border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md sticky top-0 z-20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-container/10 rounded-full flex items-center justify-center text-primary">
-              <Icon icon="medical_information" />
-            </div>
+            <LianaAvatar size="sm" />
             <div>
-              <p className="font-label-md text-label-md">AI Medical Triage Assistant</p>
-              <p className="text-caption text-secondary">Neural Diagnosis Engine v4.2</p>
+              <p className="font-label-md text-label-md font-bold">LIANA</p>
+              <p className="text-caption text-secondary">Your Personal Health Assistant · MoiDoctar</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -107,8 +106,8 @@ export default function NewTriage() {
           {messages.map((msg, i) => (
             msg.role === 'ai' ? (
               <div key={i} className="flex gap-4 max-w-full md:max-w-2xl">
-                <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-                  <Icon icon="smart_toy" className="text-primary text-[20px]" />
+                <div className="shrink-0">
+                  <LianaAvatar size="sm" />
                 </div>
                 <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
                   <p className="font-body-md text-on-surface">{msg.text}</p>
@@ -131,8 +130,8 @@ export default function NewTriage() {
           {/* AI Message with Severity Triage */}
           {messages.length > 1 && (
             <div className="flex gap-4 max-w-full md:max-w-2xl">
-              <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-                <Icon icon="smart_toy" className="text-primary text-[20px]" />
+              <div className="shrink-0">
+                <LianaAvatar size="sm" />
               </div>
               <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
                 <p className="font-body-md text-on-surface">
@@ -161,8 +160,8 @@ export default function NewTriage() {
           {/* Triage Result Card */}
           {messages.length > 1 && selectedSeverity && (
             <div className="flex gap-4 max-w-full md:max-w-2xl">
-              <div className="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
-                <Icon icon="smart_toy" className="text-primary text-[20px]" />
+              <div className="shrink-0">
+                <LianaAvatar size="sm" />
               </div>
               <div className="bg-surface-container-low border border-outline-variant rounded-2xl rounded-tl-none p-6 shadow-md w-full border-l-4 border-l-tertiary-container">
                 <div className="flex justify-between items-start mb-4">

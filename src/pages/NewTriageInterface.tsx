@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { getUserInitials } from '../utils/getUserInitials'
+import LianaAvatar from '../components/LianaAvatar'
 
 const initialMessages = [
   { role: 'ai', text: "Hello. I'm ready to help assess your symptoms. Could you please describe what you're feeling and when it started?" },
@@ -61,15 +62,13 @@ export default function NewTriageInterface() {
               </div>
             </div>
             <div className="mt-auto pt-4 border-t border-primary/10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center">
-                  <Icon icon="psychology" className="text-primary" />
+                <div className="flex items-center gap-3">
+                  <LianaAvatar size="sm" />
+                  <div>
+                    <p className="font-label-md text-label-md text-on-surface font-bold">LIANA</p>
+                    <p className="font-caption text-caption text-secondary">Your Personal Health Assistant</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-label-md text-label-md text-on-surface font-bold">Moidoctar AI</p>
-                  <p className="font-caption text-caption text-secondary">Analyzing continuously</p>
-                </div>
-              </div>
             </div>
           </div>
         </aside>
@@ -79,8 +78,8 @@ export default function NewTriageInterface() {
             {messages.map((msg, i) => (
               msg.role === 'ai' ? (
                 <div key={i} className="flex gap-4 max-w-[85%]">
-                  <div className="w-8 h-8 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center mt-1">
-                    <Icon icon="smart_toy" className="text-on-primary text-[18px]" />
+                  <div className="mt-1">
+                    <LianaAvatar size="sm" />
                   </div>
                   <div className="bg-surface-container-low p-4 rounded-2xl rounded-tl-sm border border-outline-variant/20 shadow-sm">
                     <p className="font-body-md text-body-md text-on-surface">{msg.text}</p>

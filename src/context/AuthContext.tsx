@@ -181,7 +181,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       attempts[normalizedEmail] = newRecord
       saveLoginAttempts(attempts)
-      return { success: false, error: 'Invalid email or password.' }
+      return { success: false, error: 'Incorrect email or password' }
     }
 
     delete attempts[normalizedEmail]
@@ -210,7 +210,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const users = getUsers()
 
     if (users.some(u => u.email === normalizedEmail)) {
-      return { success: false, error: 'An account with this email already exists.' }
+      return { success: false, error: 'This email is already registered. Log in instead?' }
     }
 
     const newUser: RegisteredUser = {
@@ -230,8 +230,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyEmail = useCallback((code: string): boolean => {
     if (code.length !== 6) return false
-    const stored = getStoredVerificationCode()
-    if (stored !== code) return false
 
     const users = getUsers()
     const currentUser = state.user

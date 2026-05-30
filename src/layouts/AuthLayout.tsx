@@ -1,5 +1,6 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import OfflineBanner from '../components/OfflineBanner'
 
 export default function AuthLayout() {
   const { isAuthenticated } = useAuth()
@@ -10,6 +11,7 @@ export default function AuthLayout() {
 
   return (
     <div className="min-h-screen bg-background">
+      <OfflineBanner />
       <Outlet />
     </div>
   )

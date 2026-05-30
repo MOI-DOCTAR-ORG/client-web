@@ -53,7 +53,7 @@ export default function Notifications() {
         icon: 'rocket_launch',
         iconBg: 'bg-primary-container/10',
         iconColor: 'text-primary',
-        title: 'Welcome to moidoctar',
+        title: 'Welcome to MoiDoctar',
         time: 'Just now',
         body: 'Start a triage session to log your symptoms and get AI-powered health guidance.',
         actions: [{ label: 'Start Triage', primary: true, to: '/new-triage' }],

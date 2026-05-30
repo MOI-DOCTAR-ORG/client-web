@@ -1,16 +1,19 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
 
 export default function OtpVerification() {
   const navigate = useNavigate()
-  const { verifyOtp } = useAuth()
+  const location = useLocation()
+  const { verifyEmail, resendVerificationCode } = useAuth()
+  const email = (location.state as { email?: string } | null)?.email || 'your email'
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
   const [timeLeft, setTimeLeft] = useState(45)
   const [canResend, setCanResend] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function OtpVerification() {
     newOtp[index] = digit
     setOtp(newOtp)
     setIsError(false)
+    setErrorMsg('')
     if (index < 5) focusInput(index + 1)
   }
 
@@ -81,6 +85,8 @@ export default function OtpVerification() {
     setOtp(Array(6).fill(''))
     setIsVerified(false)
     setIsError(false)
+    setErrorMsg('')
+    resendVerificationCode()
     setTimeout(() => focusInput(0), 50)
   }
 
@@ -88,14 +94,16 @@ export default function OtpVerification() {
     const code = otp.join('')
     if (code.length !== 6) {
       setIsError(true)
+      setErrorMsg('Please enter the full 6-digit code.')
       return
     }
-    const ok = verifyOtp(code)
+    const ok = verifyEmail(code)
     if (ok) {
       setIsVerified(true)
-      setTimeout(() => navigate('/'), 1500)
+      setTimeout(() => navigate('/sign-in', { replace: true }), 2000)
     } else {
       setIsError(true)
+      setErrorMsg('Invalid code. Please try again.')
     }
   }
 
@@ -113,12 +121,12 @@ export default function OtpVerification() {
             <>
               <div className="mb-8 flex flex-col items-center">
                 <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 text-primary">
-                  <Icon icon="shield_person" className="text-[32px]" />
+                  <Icon icon="mark_email_read" className="text-[32px]" />
                 </div>
-                <h1 className="font-headline-md text-headline-md text-center text-on-surface">Enter Verification Code</h1>
+                <h1 className="font-headline-md text-headline-md text-center text-on-surface">Verify Your Email</h1>
                 <p className="mt-2 text-secondary font-body-md text-center">
                   We've sent a 6-digit code to <br />
-                  <span className="font-semibold text-on-surface">your email address</span>
+                  <span className="font-semibold text-on-surface">{email}</span>
                 </p>
               </div>
 
@@ -147,7 +155,7 @@ export default function OtpVerification() {
                 {isError && (
                   <p className="font-caption text-caption text-error mb-4 flex items-center gap-1 -mt-4">
                     <Icon icon="error" className="text-[16px]" />
-                    Invalid code. Please try again.
+                    {errorMsg}
                   </p>
                 )}
 
@@ -157,7 +165,7 @@ export default function OtpVerification() {
                   onClick={handleVerify}
                   disabled={otp.some(d => !d)}
                 >
-                  Verify Account
+                  Verify Email
                 </button>
               </form>
 
@@ -173,23 +181,27 @@ export default function OtpVerification() {
                   {canResend ? 'Resend Code Now' : `Resend code in ${formatTime(timeLeft)}`}
                 </button>
               </div>
+
+              <Link to="/sign-in" className="mt-4 text-secondary hover:text-primary transition-colors font-label-md text-label-md">
+                Back to Sign In
+              </Link>
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-8">
               <div className="w-20 h-20 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
                 <Icon icon="check_circle" className="text-green-700 dark:text-green-300 text-[48px]" />
               </div>
-              <h2 className="font-headline-md text-headline-md text-on-surface mb-2">Verified Successfully</h2>
-              <p className="text-secondary font-body-md text-center">Redirecting to your dashboard...</p>
+              <h2 className="font-headline-md text-headline-md text-on-surface mb-2">Email Verified!</h2>
+              <p className="text-secondary font-body-md text-center">Redirecting to sign in...</p>
             </div>
           )}
         </div>
 
         <div className="mt-8 text-center">
-          <a className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-md text-label-md" href="#">
-            <Icon icon="help" className="text-[20px]" />
-            Contact Support
-          </a>
+          <Link className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-md text-label-md" to="/sign-in">
+            <Icon icon="arrow_back" className="text-[20px]" />
+            Back to Sign In
+          </Link>
         </div>
       </main>
     </div>

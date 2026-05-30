@@ -25,7 +25,7 @@ export default function NewTriageInterface() {
           <button className="text-on-surface p-2 rounded-full hover:bg-surface-variant transition-colors">
             <Icon icon="menu" />
           </button>
-          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">moidoctar</h1>
+          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">MoiDoctar</h1>
         </div>
         <div className="hidden md:block">
           <h2 className="font-headline-md text-headline-md font-bold text-on-surface">New Triage Session</h2>

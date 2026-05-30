@@ -18,7 +18,7 @@ export default function AgeSelection() {
       <main className="w-full max-w-lg px-margin-mobile z-10 flex flex-col items-center">
         <div className="mb-stack-lg flex flex-col items-center gap-stack-sm">
           <Icon icon="medical_services" className="text-primary text-5xl" />
-          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">moidoctar</h1>
+          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">MoiDoctar</h1>
         </div>
 
         <div className="bg-surface-container-lowest w-full rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant p-stack-lg flex flex-col gap-stack-lg">

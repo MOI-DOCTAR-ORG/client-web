@@ -30,7 +30,7 @@ export default function SplashScreen() {
           />
         </div>
         <h1 className="font-headline-xl text-headline-xl text-on-primary tracking-tight mb-stack-sm">
-          moidoctar
+          MoiDoctar
         </h1>
         <p className="font-body-lg text-body-lg text-primary-fixed-dim uppercase tracking-[0.2em]">
           Health Triage

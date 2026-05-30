@@ -31,7 +31,7 @@ export default function InstallPrompt() {
       <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary flex-shrink-0">
         <Icon icon="download" />
       </div>
-      <p className="flex-1 font-body-md text-sm text-on-surface">Install moidoctar for quick access.</p>
+      <p className="flex-1 font-body-md text-sm text-on-surface">Install MoiDoctar for quick access.</p>
       <button onClick={handleInstall} className="bg-primary text-white px-5 py-2 rounded-full font-label-md text-sm hover:bg-primary/90 transition-colors">
         Install
       </button>

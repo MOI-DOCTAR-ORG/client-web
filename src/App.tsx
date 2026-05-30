@@ -30,7 +30,7 @@ export default function App() {
         <Route path="/splash" element={<SplashScreen />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/otp-verification" element={<OtpVerification />} />
+        <Route path="/verify-email" element={<OtpVerification />} />
         <Route path="/age-selection" element={<AgeSelection />} />
         <Route path="/body-map" element={<BodyMap />} />
         <Route path="/pinpoint-pain" element={<PinpointPain />} />

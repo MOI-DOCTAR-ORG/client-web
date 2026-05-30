@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import InstallPrompt from '../components/InstallPrompt'
+import OfflineBanner from '../components/OfflineBanner'
 import { useAuth } from '../context/AuthContext'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
 import Icon from '../components/Icon'
@@ -26,13 +27,14 @@ export default function AppLayout() {
           <Icon icon="menu" className="text-2xl" />
         </button>
         <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
-          moidoctar
+          MoiDoctar
         </h1>
         <div className="w-8" />
       </div>
 
       {/* Install PWA prompt */}
       <InstallPrompt />
+      <OfflineBanner />
 
       {/* Content */}
       <div className="md:ml-[var(--spacing-sidebar-width,280px)] pt-14 md:pt-0 min-h-screen">

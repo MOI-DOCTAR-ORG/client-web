@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
@@ -8,14 +8,16 @@ type Strength = 'Weak' | 'Medium' | 'Strong'
 export default function SignUp() {
   const navigate = useNavigate()
   const { signUp } = useAuth()
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [username, setUsername] = useState('')
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [touched, setTouched] = useState({ email: false })
 
+  const emailError = touched.email && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Enter a valid email address.' : ''
   const passwordsMatch = confirmPassword.length === 0 || password === confirmPassword
 
   const hasLength = password.length >= 8
@@ -48,13 +50,42 @@ export default function SignUp() {
     return 'text-green-500'
   }
 
-  const requirements = useCallback(() => {
-    return [
-      { label: 'At least 8 characters', met: hasLength },
-      { label: 'Contains a letter', met: hasLetter },
-      { label: 'Contains a number', met: hasNumber },
-    ]
-  }, [hasLength, hasLetter, hasNumber])
+  const requirements = [
+    { label: 'At least 8 characters', met: hasLength },
+    { label: 'Contains a letter', met: hasLetter },
+    { label: 'Contains a number', met: hasNumber },
+  ]
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setTouched(prev => ({ ...prev, email: true }))
+
+    if (!fullName.trim() || !email.trim() || !password) {
+      setError('Please fill in all required fields.')
+      return
+    }
+    if (emailError) {
+      setError('Please enter a valid email address.')
+      return
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.')
+      return
+    }
+    setIsSubmitting(true)
+    const result = signUp(fullName.trim(), email.trim(), password)
+    setIsSubmitting(false)
+    if (result.success) {
+      navigate('/verify-email', { state: { email: email.trim() } })
+    } else {
+      setError(result.error)
+    }
+  }
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-body-md text-on-surface">
@@ -63,71 +94,34 @@ export default function SignUp() {
           <div className="flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low mb-4 shadow-sm">
             <Icon icon="medical_services" className="text-primary text-4xl" />
           </div>
-          <h1 className="font-headline-xl text-headline-xl text-primary text-center">moidoctar</h1>
+          <h1 className="font-headline-xl text-headline-xl text-primary text-center">MoiDoctar</h1>
           <p className="font-body-md text-body-md text-secondary mt-2">Create your secure account</p>
         </div>
 
         <div className="bg-surface-container-lowest rounded-xl border border-secondary-fixed shadow-[0px_4px_20px_rgba(0,0,0,0.03)] p-8">
-          <form className="space-y-6" onSubmit={(e) => {
-            e.preventDefault()
-            if (password !== confirmPassword) return
-            signUp(firstName, lastName, username, email, password)
-            navigate('/otp-verification')
-          }}>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="block font-label-md text-label-md text-on-surface" htmlFor="firstName">First Name</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Icon icon="badge" className="text-outline" />
-                  </div>
-                  <input
-                    className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                    id="firstName"
-                    name="firstName"
-                    placeholder="John"
-                    required
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="block font-label-md text-label-md text-on-surface" htmlFor="lastName">Last Name</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Icon icon="badge" className="text-outline" />
-                  </div>
-                  <input
-                    className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Doe"
-                    required
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-              </div>
+          {error && (
+            <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-error-container/20 border border-error/30 text-error mb-6">
+              <Icon icon="error" className="text-xl shrink-0" />
+              <p className="font-body-md text-sm">{error}</p>
             </div>
+          )}
 
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <label className="block font-label-md text-label-md text-on-surface" htmlFor="username">Username</label>
+              <label className="block font-label-md text-label-md text-on-surface" htmlFor="fullName">Full Name</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Icon icon="person" className="text-outline" />
+                  <Icon icon="badge" className="text-outline" />
                 </div>
                 <input
                   className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  id="username"
-                  name="username"
-                  placeholder="johndoe"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="John Doe"
                   required
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
             </div>
@@ -139,7 +133,9 @@ export default function SignUp() {
                   <Icon icon="mail" className="text-outline" />
                 </div>
                 <input
-                  className="w-full pl-12 pr-4 py-3 bg-surface-container-low border border-secondary-fixed rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className={`w-full pl-12 pr-4 py-3 bg-surface-container-low border rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
+                    emailError ? 'border-error focus:ring-error' : 'border-secondary-fixed focus:border-primary'
+                  }`}
                   id="email"
                   name="email"
                   placeholder="name@example.com"
@@ -147,8 +143,15 @@ export default function SignUp() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
                 />
               </div>
+              {emailError && (
+                <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
+                  <Icon icon="error" className="text-[14px]" />
+                  {emailError}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -169,7 +172,6 @@ export default function SignUp() {
                 />
                 <button
                   className="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-primary transition-colors"
-                  id="togglePassword"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -218,7 +220,7 @@ export default function SignUp() {
                 ))}
               </div>
               <ul className="space-y-2 mt-4">
-                {requirements().map((req, i) => (
+                {requirements.map((req, i) => (
                   <li
                     key={i}
                     className={`flex items-center gap-2 font-caption text-caption transition-colors ${
@@ -233,11 +235,15 @@ export default function SignUp() {
             </div>
 
             <button
-              className="w-full bg-primary hover:bg-primary/90 text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary hover:bg-primary/90 text-on-primary rounded-full py-3 font-label-md text-label-md transition-colors duration-200 mt-6 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               type="submit"
-              disabled={password !== confirmPassword || password.length === 0}
+              disabled={password !== confirmPassword || password.length === 0 || isSubmitting}
             >
-              Create Account
+              {isSubmitting ? (
+                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                'Create Account'
+              )}
             </button>
           </form>
 
@@ -248,17 +254,12 @@ export default function SignUp() {
           </div>
 
           <div className="flex justify-center gap-4 mb-6">
-            <button onClick={() => { signUp('Google', 'User', 'googleuser', 'google-user@gmail.com', 'google-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Google">
+            <button onClick={() => { signUp('Demo User', 'demo@example.com', 'Demo1234'); navigate('/verify-email', { state: { email: 'demo@example.com' } }) }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Quick sign up">
               <svg viewBox="0 0 24 24" className="w-5 h-5">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-            </button>
-            <button onClick={() => { signUp('Apple', 'User', 'appleuser', 'apple-user@icloud.com', 'apple-auth'); navigate('/otp-verification') }} className="w-12 h-12 flex items-center justify-center rounded-full border border-secondary-fixed bg-surface-container-lowest hover:bg-surface-container-low transition-colors" aria-label="Sign up with Apple">
-              <svg viewBox="0 0 24 24" className="w-5 h-5">
-                <path fill="currentColor" className="text-black dark:text-white" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
               </svg>
             </button>
           </div>

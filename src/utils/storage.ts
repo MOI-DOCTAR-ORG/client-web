@@ -1,10 +1,6 @@
 function getCurrentUserEmail(): string {
   try {
-    const stored = localStorage.getItem('doctarr_auth')
-    if (!stored) return ''
-    const parsed = JSON.parse(stored)
-    if (parsed?.user?.email) return parsed.user.email
-    return ''
+    return localStorage.getItem('doctarr_current_user_email') || ''
   } catch {
     return ''
   }

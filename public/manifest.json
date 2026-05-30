@@ -1,6 +1,6 @@
 {
-  "name": "moidoctar",
-  "short_name": "moidoctar",
+  "name": "MoiDoctar",
+  "short_name": "MoiDoctar",
   "description": "AI-Powered Health Triage Dashboard — Log symptoms, track medications, and get medical-grade triage guidance.",
   "start_url": "/",
   "display": "standalone",

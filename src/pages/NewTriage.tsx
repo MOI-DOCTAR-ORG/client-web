@@ -93,7 +93,7 @@ export default function NewTriage() {
             >
               <Icon icon={showPanel ? 'close' : 'info'} />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/history')}>
+            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/app/history')}>
               <Icon icon="history" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
@@ -174,7 +174,7 @@ export default function NewTriage() {
                   Based on your reports, we recommend monitoring your symptoms and consulting a healthcare professional if they persist.
                 </p>
                 <div className="flex gap-3">
-                  <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
+                  <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/app/care-details') }}>
                     View Care Details
                   </button>
                   <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">

@@ -38,7 +38,7 @@ export default function Notifications() {
           title: `${s.condition} — ${s.severity}`,
           time: s.date,
           body: s.description,
-          actions: [{ label: 'View Details', primary: true, to: '/care-details' }],
+          actions: [{ label: 'View Details', primary: true, to: '/app/care-details' }],
           read: false,
         })
       }
@@ -56,7 +56,7 @@ export default function Notifications() {
         title: 'Welcome to MoiDoctar',
         time: 'Just now',
         body: 'Start a triage session to log your symptoms and get AI-powered health guidance.',
-        actions: [{ label: 'Start Triage', primary: true, to: '/new-triage' }],
+        actions: [{ label: 'Start Triage', primary: true, to: '/app/new-triage' }],
         read: false,
       })
     }
@@ -72,7 +72,7 @@ export default function Notifications() {
         title: 'Complete Your Profile',
         time: 'Ongoing',
         body: 'Filling out your medical history helps our AI provide more accurate assessments.',
-        actions: [{ label: 'Update Profile', primary: false, to: '/profile' }],
+        actions: [{ label: 'Update Profile', primary: false, to: '/app/profile' }],
         read: true,
       })
     }
@@ -114,7 +114,7 @@ export default function Notifications() {
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Notifications</h2>
         </div>
         <div className="flex items-center gap-stack-md">
-          <button onClick={() => navigate('/profile')} className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
+          <button onClick={() => navigate('/app/profile')} className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
             <Icon icon="settings" />
           </button>
           <div className="w-10 h-10 rounded-full bg-secondary-container overflow-hidden flex items-center justify-center text-on-secondary-container font-bold">

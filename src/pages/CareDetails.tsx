@@ -56,7 +56,7 @@ export default function CareDetails() {
       <header className="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <nav className="flex items-center gap-2 text-secondary mb-2">
-            <button onClick={() => navigate('/history')} className="text-caption font-caption">History</button>
+            <button onClick={() => navigate('/app/history')} className="text-caption font-caption">History</button>
             <Icon icon="chevron_right" className="text-[16px]" />
             <span className="text-caption font-caption text-primary font-bold">Care Details</span>
           </nav>
@@ -259,7 +259,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
             <p className="text-caption text-secondary">This analysis is AI-driven and for informational purposes only. In case of emergency, call local medical services immediately.</p>
           </div>
         </div>
-        <button onClick={() => navigate('/new-triage')} className="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all transform active:scale-95 shadow-lg shadow-primary/20">
+        <button onClick={() => navigate('/app/new-triage')} className="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all transform active:scale-95 shadow-lg shadow-primary/20">
           <Icon icon="add" />
           Start New Triage
         </button>

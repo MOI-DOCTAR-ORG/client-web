@@ -52,7 +52,7 @@ export default function SymptomTrackerBodyMap() {
               <Icon icon="edit_note" />
             </div>
             <h2 className="font-headline-md text-headline-md">New Log Entry</h2>
-            <button onClick={() => navigate('/body-map')} className="ml-auto bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
+            <button onClick={() => navigate('/app/symptom-tracker')} className="ml-auto bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 px-4 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-2">
               <Icon icon="accessibility_new" className="text-[20px]" />
               <span>Show on Body</span>
             </button>

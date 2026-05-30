@@ -88,7 +88,7 @@ function SessionsView() {
               ? 'Your completed triage sessions will appear here. Start a new session to begin.'
               : `No sessions match "${activeFilter}" severity.`}
           </p>
-          <button onClick={() => navigate('/new-triage')} className="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors">
+          <button onClick={() => navigate('/app/new-triage')} className="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors">
             <Icon icon="add" />
             Start New Triage
           </button>
@@ -119,7 +119,7 @@ function SessionsView() {
                   <p className="text-on-surface-variant font-body-md line-clamp-1">{s.description}</p>
                 </div>
                 <div className="flex items-center gap-4 w-full lg:w-auto">
-                  <button onClick={() => navigate('/care-details')} className="flex-1 lg:flex-none px-6 py-3 border border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary-fixed transition-colors">
+                  <button onClick={() => navigate('/app/care-details')} className="flex-1 lg:flex-none px-6 py-3 border border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary-fixed transition-colors">
                     View Details
                   </button>
                 </div>
@@ -435,7 +435,7 @@ export default function History() {
           <p className="font-body-md text-secondary">View your triage sessions or update your medical profile.</p>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
+          <button onClick={() => navigate('/app/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
             <Icon icon="notifications" />
           </button>
         </div>

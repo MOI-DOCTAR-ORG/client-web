@@ -93,7 +93,7 @@ export default function NewTriageBodyMap() {
             >
               <Icon icon={showPanel ? 'close' : 'info'} />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/history')}>
+            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/app/history')}>
               <Icon icon="history" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
@@ -139,7 +139,7 @@ export default function NewTriageBodyMap() {
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   <button
-                    onClick={() => navigate('/symptom-tracker-body-map')}
+                    onClick={() => navigate('/app/symptom-tracker-body-map')}
                     className="px-5 py-2 rounded-full border border-primary bg-primary-container/10 text-primary hover:bg-primary-container/20 transition-all font-label-md text-label-md flex items-center gap-2"
                   >
                     <Icon icon="body_system" className="text-[18px]" />
@@ -194,7 +194,7 @@ export default function NewTriageBodyMap() {
                         statusLabel: 'Review Sent',
                         statusIcon: 'clinical_notes',
                       })
-                      navigate('/care-details')
+                      navigate('/app/care-details')
                     }}
                   >
                     View Care Details

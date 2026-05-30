@@ -14,7 +14,7 @@ export default function NotFound() {
           The page you are looking for doesn't exist or has been moved.
         </p>
         <Link
-          to="/"
+          to="/app"
           className="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-3 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors"
         >
           <Icon icon="arrow_back" />

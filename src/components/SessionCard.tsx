@@ -47,7 +47,7 @@ export default function SessionCard({
           <Icon icon={statusIcon} className="text-[18px]" />
           {statusLabel}
         </span>
-        <button onClick={() => navigate('/care-details')} className="text-primary font-label-md hover:underline">
+        <button onClick={() => navigate('/app/care-details')} className="text-primary font-label-md hover:underline">
           View Details
         </button>
       </div>

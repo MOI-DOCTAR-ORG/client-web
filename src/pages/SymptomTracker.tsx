@@ -142,7 +142,7 @@ export default function SymptomTracker() {
           </div>
         </section>
 
-        <section onClick={() => navigate('/symptom-tracker-body-map')} className="lg:col-span-12 relative h-56 rounded-[16px] overflow-hidden group cursor-pointer">
+        <section onClick={() => navigate('/app/symptom-tracker-body-map')} className="lg:col-span-12 relative h-56 rounded-[16px] overflow-hidden group cursor-pointer">
           <img
             alt="AI Health Analysis"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

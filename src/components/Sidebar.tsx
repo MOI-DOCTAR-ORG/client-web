@@ -5,14 +5,14 @@ import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from './ThemeToggle'
 
 const primaryNav = [
-  { label: 'Dashboard', icon: 'dashboard', to: '/' },
-  { label: 'New Triage', icon: 'medical_services', to: '/new-triage' },
-  { label: 'History', icon: 'history', to: '/history' },
-  { label: 'Care Details', icon: 'local_hospital', to: '/care-details' },
-  { label: 'Symptom Tracker', icon: 'monitor_heart', to: '/symptom-tracker' },
-  { label: 'Medications', icon: 'pill', to: '/medication-tracker' },
-  { label: 'Notifications', icon: 'notifications', to: '/notifications' },
-  { label: 'Profile', icon: 'person', to: '/profile' },
+  { label: 'Dashboard', icon: 'dashboard', to: '/app' },
+  { label: 'New Triage', icon: 'medical_services', to: '/app/new-triage' },
+  { label: 'History', icon: 'history', to: '/app/history' },
+  { label: 'Care Details', icon: 'local_hospital', to: '/app/care-details' },
+  { label: 'Symptom Tracker', icon: 'monitor_heart', to: '/app/symptom-tracker' },
+  { label: 'Medications', icon: 'pill', to: '/app/medication-tracker' },
+  { label: 'Notifications', icon: 'notifications', to: '/app/notifications' },
+  { label: 'Profile', icon: 'person', to: '/app/profile' },
 ]
 
 const bottomNav = [
@@ -42,7 +42,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   const sidebarContent = (
     <>
-      <Link to="/" onClick={handleNav} className="px-4 md:px-8 mb-6 md:mb-10 flex items-center gap-3">
+      <Link to="/app" onClick={handleNav} className="px-4 md:px-8 mb-6 md:mb-10 flex items-center gap-3">
         <img src="/doctarr.jpeg" alt="MoiDoctar" className="w-10 h-10 rounded-lg object-cover" />
         <div>
           <h1 className="font-headline-md text-headline-md font-extrabold text-primary">

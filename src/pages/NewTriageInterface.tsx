@@ -108,7 +108,7 @@ export default function NewTriageInterface() {
                   <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold rounded-full uppercase tracking-wide">Pending</span>
                 </div>
                 <p className="font-body-md text-[14px] text-on-surface-variant mb-4">Assessment will appear once more information is gathered.</p>
-                <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30" onClick={() => navigate('/care-details')}>
+                <button className="w-full py-2.5 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold hover:bg-surface-variant transition-colors border border-outline-variant/30" onClick={() => navigate('/app/care-details')}>
                   View Detailed Care Pathway
                 </button>
               </div>

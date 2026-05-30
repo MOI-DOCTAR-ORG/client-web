@@ -16,7 +16,7 @@ export default function HeroSection() {
           3 minutes.
         </p>
         <Link
-          to="/new-triage"
+          to="/app/new-triage"
           className="inline-block w-fit px-8 py-4 bg-surface-container-lowest text-primary rounded-full font-label-md text-label-md hover:bg-surface-container transition-all hover:scale-105 active:scale-95 shadow-xl relative z-10"
         >
           Start New Triage

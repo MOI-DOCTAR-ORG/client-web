@@ -23,7 +23,7 @@ export default function OtpVerification() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true })
+      navigate('/app', { replace: true })
     }
   }, [isAuthenticated, navigate])
 
@@ -97,7 +97,7 @@ export default function OtpVerification() {
 
     const ok = verifyEmail(code)
     if (ok) {
-      navigate('/', { replace: true })
+      navigate('/app', { replace: true })
     } else {
       setIsVerifying(false)
       setIsError(true)

@@ -276,7 +276,7 @@ export default function Profile() {
               Unsaved
             </span>
           )}
-          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
+          <button onClick={() => navigate('/app/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
             <Icon icon="notifications" className="text-secondary" />
           </button>
           <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">

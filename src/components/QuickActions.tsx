@@ -78,7 +78,7 @@ export default function QuickActions() {
         </button>
 
         <button
-          onClick={() => navigate('/medication-tracker')}
+          onClick={() => navigate('/app/medication-tracker')}
           className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
           <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">

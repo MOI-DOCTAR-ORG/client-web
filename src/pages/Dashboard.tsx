@@ -73,7 +73,7 @@ export default function Dashboard() {
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{greeting()}</h2>
           <p className="font-body-md text-secondary">Here is your health overview for today.</p>
         </div>
-        <button onClick={() => navigate('/profile')} className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold hover:opacity-80 transition-opacity">
+        <button onClick={() => navigate('/app/profile')} className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold hover:opacity-80 transition-opacity">
           {getUserInitials()}
         </button>
       </header>
@@ -126,7 +126,7 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="relative z-10">
-            <button onClick={() => navigate('/new-triage')} className="bg-surface-container-lowest text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] w-fit">
+            <button onClick={() => navigate('/app/new-triage')} className="bg-surface-container-lowest text-primary hover:bg-surface-container-lowest rounded-full px-8 py-3.5 font-label-md text-label-md transition-all shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] w-fit">
               <Icon icon="add_circle" className="icon-fill" />
               Start New Triage
             </button>
@@ -208,7 +208,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <h3 className="font-headline-md text-headline-md text-on-surface">Recent Sessions</h3>
         {sessions.length > 0 && (
-          <button onClick={() => navigate('/history')} className="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all">
+          <button onClick={() => navigate('/app/history')} className="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all">
             See all activity{' '}
             <Icon icon="arrow_forward" className="text-[18px]" />
           </button>

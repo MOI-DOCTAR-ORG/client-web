@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
 import GoogleIcon from '../components/GoogleIcon'
 import AppleIcon from '../components/AppleIcon'
 
 export default function SignIn() {
+  const navigate = useNavigate()
   const { signIn } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -49,6 +50,12 @@ export default function SignIn() {
     const result = signIn(email.trim(), password, rememberMe)
     setIsSubmitting(false)
     if (!result.success) {
+      if (result.verificationRequired) {
+        navigate('/verify-email', {
+          state: { email: result.email || email.trim(), verificationCode: result.verificationCode },
+        })
+        return
+      }
       setError(result.error)
       setShakeKey(k => k + 1)
       if (result.lockedUntil) setLockedUntil(result.lockedUntil)

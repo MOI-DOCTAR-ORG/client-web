@@ -7,11 +7,13 @@ import { useToastContext } from '../context/ToastContext'
 export default function OtpVerification() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { verifyEmail, isAuthenticated } = useAuth()
+  const { verifyEmail, isAuthenticated, resendVerificationCode, pendingVerificationEmail } = useAuth()
   const { addToast } = useToastContext()
 
-  const email = (location.state as { email?: string } | null)?.email || 'your email'
+  const routeState = location.state as { email?: string; verificationCode?: string } | null
+  const email = routeState?.email || pendingVerificationEmail || 'your email'
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
+  const [previewCode, setPreviewCode] = useState(routeState?.verificationCode || '')
   const [isVerifying, setIsVerifying] = useState(false)
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
@@ -78,7 +80,15 @@ export default function OtpVerification() {
     setOtp(Array(6).fill(''))
     setIsError(false)
     setErrorMsg('')
-    addToast('Code resent successfully', 'success')
+    const result = resendVerificationCode()
+    if (result.success) {
+      setPreviewCode(result.code)
+      addToast(`Code resent. Use ${result.code}`, 'success')
+    } else {
+      setIsError(true)
+      setErrorMsg(result.error)
+      addToast(result.error, 'error')
+    }
     setTimeout(() => focusInput(0), 50)
   }
 
@@ -90,7 +100,6 @@ export default function OtpVerification() {
       return
     }
 
-    // TODO: Replace with real backend verification
     setIsVerifying(true)
 
     await new Promise(resolve => setTimeout(resolve, 1500))
@@ -101,7 +110,7 @@ export default function OtpVerification() {
     } else {
       setIsVerifying(false)
       setIsError(true)
-      setErrorMsg('Verification failed. Please try again.')
+      setErrorMsg('Verification failed. Check the code and try again.')
     }
   }
 
@@ -120,6 +129,11 @@ export default function OtpVerification() {
                 Enter the verification code sent to
               </p>
               <p className="font-label-md text-label-md text-on-surface font-semibold mt-0.5">{email}</p>
+              {previewCode && (
+                <p className="mt-3 rounded-full bg-primary/10 px-4 py-2 font-label-md text-label-md text-primary">
+                  Preview code: {previewCode}
+                </p>
+              )}
             </div>
           </div>
 

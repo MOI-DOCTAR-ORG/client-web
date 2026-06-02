@@ -19,10 +19,10 @@ export default function ToastContainer({ toasts, onRemove }: { toasts: Toast[]; 
             'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200'
           }`}
         >
-          <Icon icon={t.type === 'success' ? 'check_circle' : t.type === 'error' ? 'error' : 'info'} className={`icon-fill ${t.type === 'success' ? 'text-green-600 dark:text-green-400' : t.type === 'error' ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-blue-400'}`} />
+          <Icon icon={t.type === 'success' ? 'check_circle' : t.type === 'error' ? 'error' : 'info'} size="lg" className={`icon-fill ${t.type === 'success' ? 'text-green-600 dark:text-green-400' : t.type === 'error' ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-blue-400'}`} />
           <p className="font-body-md flex-1">{t.message}</p>
           <button onClick={() => onRemove(t.id)} className="opacity-60 hover:opacity-100 transition-opacity">
-            <Icon icon="close" className="text-[18px]" />
+            <Icon icon="close" size="sm" />
           </button>
         </div>
       ))}

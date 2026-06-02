@@ -63,7 +63,7 @@ export default function NewTriage() {
           </div>
           <div className="mt-12 bg-surface-container-lowest/10 rounded-xl p-4 border border-white/10">
             <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2">
-              <Icon icon="info" className="text-[20px]" />
+              <Icon icon="info" size="md" />
               Clinical Context
             </h3>
             <p className="text-caption font-caption leading-relaxed text-white/80">
@@ -91,13 +91,13 @@ export default function NewTriage() {
               className="md:hidden p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary"
               onClick={() => setShowPanel(!showPanel)}
             >
-              <Icon icon={showPanel ? 'close' : 'info'} />
+              <Icon icon={showPanel ? 'close' : 'info'} size="md" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/history')}>
-              <Icon icon="history" />
+              <Icon icon="history" size="md" />
             </button>
             <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
-              <Icon icon="more_vert" />
+              <Icon icon="more_vert" size="md" />
             </button>
           </div>
         </header>
@@ -178,7 +178,7 @@ export default function NewTriage() {
                     View Care Details
                   </button>
                   <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
-                    <Icon icon="share" />
+                    <Icon icon="share" size="md" />
                   </button>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function NewTriage() {
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
             <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
-                <Icon icon="attach_file" />
+                <Icon icon="attach_file" size="md" />
               </button>
               <input
                 className="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-secondary px-2"
@@ -203,15 +203,10 @@ export default function NewTriage() {
               />
               <div className="flex items-center gap-1">
                 <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    mic
-                  </span>
+                  <Icon icon="mic" size="md" />
                 </button>
                 <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center" onClick={handleSend}>
-                  <Icon icon="send" />
+                  <Icon icon="send" size="md" />
                 </button>
               </div>
             </div>

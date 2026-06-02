@@ -119,7 +119,7 @@ export default function OtpVerification() {
           {/* Icon */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-              <Icon icon="mark_email_read" className="text-[32px]" />
+              <Icon icon="mark_email_read" size="xl" />
             </div>
             <div className="text-center">
               <h1 className="font-headline-md text-headline-md text-on-surface font-bold">Verify Your Email</h1>
@@ -158,7 +158,7 @@ export default function OtpVerification() {
           {/* Error */}
           {isError && (
             <p className="font-caption text-caption text-error flex items-center gap-1 -mt-2" role="alert">
-              <Icon icon="error" className="text-[16px]" />
+              <Icon icon="error" size="sm" />
               {errorMsg}
             </p>
           )}

@@ -6,7 +6,7 @@ export default function HeroSection() {
     <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-gutter">
       <div className="md:col-span-2 relative overflow-hidden rounded-[16px] p-10 bg-primary text-on-primary shadow-lg flex flex-col justify-center min-h-[300px]">
         <div className="absolute right-[-5%] top-[-10%] opacity-20 transform rotate-12">
-          <Icon icon="health_and_safety" className="text-[200px]" />
+          <Icon icon="health_and_safety" size="3xl" />
         </div>
         <h3 className="font-headline-xl text-headline-xl mb-4 relative z-10">
           Check your symptoms now.

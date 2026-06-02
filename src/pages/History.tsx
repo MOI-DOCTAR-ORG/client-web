@@ -124,7 +124,7 @@ function SessionsView() {
       ) : filteredSessions.length === 0 ? (
         <div className="bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant/50 p-14 text-center">
           <div className="w-20 h-20 mx-auto mb-5 bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
-            <Icon icon="history" className="text-4xl" />
+            <Icon icon="history" size="2xl" />
           </div>
           <h3 className="font-headline-md text-headline-md text-on-surface mb-2">No triage history</h3>
           <p className="font-body-md text-body-md text-secondary max-w-md mx-auto mb-6">
@@ -133,7 +133,7 @@ function SessionsView() {
               : `No sessions match "${activeFilter}" severity.`}
           </p>
           <button onClick={() => navigate('/new-triage')} className="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors">
-            <Icon icon="add" />
+            <Icon icon="add" size="md" />
             Start New Triage
           </button>
         </div>
@@ -156,7 +156,7 @@ function SessionsView() {
                       {s.condition}
                     </span>
                     <span className={`px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1 ${config.severityClass}`}>
-                      <Icon icon={config.severityIcon} className="text-[14px]" />
+                      <Icon icon={config.severityIcon} size="xs" />
                       {s.severity}
                     </span>
                   </div>
@@ -177,7 +177,7 @@ function SessionsView() {
         <div className="mt-12 flex justify-center">
           <nav className="flex items-center gap-2">
             <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors text-secondary">
-              <Icon icon="chevron_left" />
+              <Icon icon="chevron_left" size="md" />
             </button>
             {[1, 2, 3].map(p => (
               <button
@@ -193,7 +193,7 @@ function SessionsView() {
               </button>
             ))}
             <button onClick={() => setCurrentPage(Math.min(3, currentPage + 1))} className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors text-secondary">
-              <Icon icon="chevron_right" />
+              <Icon icon="chevron_right" size="md" />
             </button>
           </nav>
         </div>
@@ -270,7 +270,7 @@ function MedicalForm() {
     <section className="max-w-container-max-width w-full mx-auto">
       {saved && (
         <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 flex items-center gap-3">
-          <Icon icon="check_circle" className="text-green-600 dark:text-green-400 icon-fill" />
+          <Icon icon="check_circle" size="lg" className="text-green-600 dark:text-green-400 icon-fill" />
           <p className="font-body-md text-green-800 dark:text-green-200">Your medical history has been saved successfully.</p>
         </div>
       )}
@@ -280,7 +280,7 @@ function MedicalForm() {
           <section>
             <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
               <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                <Icon icon="badge" className="text-sm" />
+                <Icon icon="badge" size="sm" />
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Personal Information</h3>
             </div>
@@ -313,7 +313,7 @@ function MedicalForm() {
                 <input className="w-full bg-error-container/20 border border-error rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none" id="hist-emergency" type="tel" placeholder="(555) 000-0000" value={emergencyContact} onChange={e => setEmergencyContact(e.target.value)} />
                 {!emergencyContact && (
                   <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
-                    <Icon icon="error" className="text-[14px]" />
+                    <Icon icon="error" size="xs" />
                     This field is recommended.
                   </p>
                 )}
@@ -324,7 +324,7 @@ function MedicalForm() {
           <section>
             <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
               <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                <Icon icon="vital_signs" className="text-sm" />
+                <Icon icon="vital_signs" size="sm" />
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Existing Conditions</h3>
             </div>
@@ -348,13 +348,13 @@ function MedicalForm() {
                 <span key={c} className="px-4 py-2 rounded-full border border-primary bg-primary/10 text-primary font-label-md text-label-md flex items-center gap-2">
                   {c}
                   <button type="button" onClick={() => removeCustomCondition(c)} className="hover:text-error transition-colors">
-                    <Icon icon="close" className="text-[14px]" />
+                    <Icon icon="close" size="xs" />
                   </button>
                 </span>
               ))}
               {!showCustomCondition ? (
                 <button onClick={() => setShowCustomCondition(true)} className="px-4 py-2 rounded-full border border-dashed border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
-                  <Icon icon="add" className="text-sm" /> Add Other
+                  <Icon icon="add" size="sm" /> Add Other
                 </button>
               ) : (
                 <div className="flex gap-2 items-center flex-wrap">
@@ -369,7 +369,7 @@ function MedicalForm() {
           <section>
             <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
               <div className="w-8 h-8 rounded-full bg-error-container/30 flex items-center justify-center text-error">
-                <Icon icon="warning" className="text-sm" />
+                <Icon icon="warning" size="sm" />
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Allergies</h3>
             </div>
@@ -378,7 +378,7 @@ function MedicalForm() {
                 <div key={allergy} className="px-4 py-2 rounded-full border border-error/50 bg-error-container text-on-error-container font-label-md text-label-md flex items-center gap-2">
                   {allergy}
                   <button aria-label={`Remove ${allergy}`} className="hover:text-error transition-colors" type="button" onClick={() => removeAllergy(allergy)}>
-                    <Icon icon="close" className="text-[16px]" />
+                    <Icon icon="close" size="sm" />
                   </button>
                 </div>
               ))}
@@ -393,7 +393,7 @@ function MedicalForm() {
           <section>
             <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
               <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                <Icon icon="prescriptions" className="text-sm" />
+                <Icon icon="prescriptions" size="sm" />
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Current Medications</h3>
             </div>
@@ -424,7 +424,7 @@ function MedicalForm() {
                         </td>
                         <td className="py-2 px-4 text-right">
                           <button onClick={() => removeMedication(i)} aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
-                            <Icon icon="delete" className="text-[20px]" />
+                            <Icon icon="delete" size="md" />
                           </button>
                         </td>
                       </tr>
@@ -434,14 +434,14 @@ function MedicalForm() {
               </table>
             </div>
             <button onClick={addMedication} className="px-4 py-2 rounded-full border border-primary text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary-fixed/30 transition-colors" type="button">
-              <Icon icon="add" className="text-sm" /> Add Medication
+              <Icon icon="add" size="sm" /> Add Medication
             </button>
           </section>
 
           <section>
             <div className="flex items-center gap-3 mb-6 border-b border-outline-variant/20 pb-4">
               <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
-                <Icon icon="content_cut" className="text-sm" />
+                <Icon icon="content_cut" size="sm" />
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Past Surgeries</h3>
             </div>
@@ -451,7 +451,7 @@ function MedicalForm() {
 
         <div className="bg-surface-container-low p-6 md:p-8 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2 text-on-surface-variant">
-            <Icon icon="lock" className="text-primary" />
+            <Icon icon="lock" size="md" className="text-primary" />
             <p className="font-caption text-caption">Your data is HIPAA compliant and securely encrypted.</p>
           </div>
           <div className="flex gap-4 w-full sm:w-auto">
@@ -480,7 +480,7 @@ export default function History() {
         </div>
         <div className="flex items-center gap-4">
           <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
-            <Icon icon="notifications" />
+            <Icon icon="notifications" size="md" />
           </button>
         </div>
       </header>
@@ -497,7 +497,7 @@ export default function History() {
                   : 'px-4 md:px-6 py-2 rounded-full font-label-md text-label-md text-secondary hover:text-primary transition-all flex items-center gap-2 whitespace-nowrap'
               }
             >
-              <Icon icon={tab.icon} className="text-[18px]" />
+              <Icon icon={tab.icon} size="sm" />
               {tab.label}
             </button>
           ))}

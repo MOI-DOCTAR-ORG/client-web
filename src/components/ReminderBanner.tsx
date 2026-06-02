@@ -27,7 +27,7 @@ export default function ReminderBanner() {
     <div className="space-y-3">
       {reminders.map((r, i) => (
         <div key={i} className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex items-center gap-4">
-          <Icon icon="priority_high" className="text-amber-600 dark:text-amber-400" />
+          <Icon icon="priority_high" size="lg" className="text-amber-600 dark:text-amber-400" />
           <p className="font-body-md text-amber-800 dark:text-amber-200 flex-1">
             <strong>Reminder:</strong> {r.text}
             {r.date && <span className="text-sm ml-2 opacity-70">({r.date})</span>}
@@ -42,7 +42,7 @@ export default function ReminderBanner() {
             <>
               <p className="font-body-md text-secondary text-sm">No reminders set.</p>
               <button onClick={() => setShowForm(true)} className="text-primary font-label-md text-sm flex items-center gap-1 hover:underline">
-                <Icon icon="add" className="text-[16px]" />
+                <Icon icon="add" size="sm" />
                 Add a health reminder
               </button>
             </>

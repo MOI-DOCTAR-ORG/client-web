@@ -111,7 +111,7 @@ export default function MedicationTracker() {
             <p className="font-body-md text-body-md text-secondary mt-1">Manage your prescriptions and daily schedule.</p>
           </div>
           <button onClick={() => setShowForm(!showForm)} className="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-colors shadow-sm self-start md:self-auto">
-            <Icon icon={showForm ? 'close' : 'add'} className="text-[20px]" />
+            <Icon icon={showForm ? 'close' : 'add'} size="md" />
             {showForm ? 'Cancel' : 'Add Medication'}
           </button>
         </div>
@@ -146,7 +146,7 @@ export default function MedicationTracker() {
               </div>
               <div className="flex items-end">
                 <button onClick={addMedication} disabled={saving || !medName.trim() || !medDosage.trim()} className="w-full bg-primary text-white py-3 rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-40">
-                  {saving ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Icon icon="check_circle" />}
+                  {saving ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Icon icon="check_circle" size="md" />}
                   Save Medication
                 </button>
               </div>
@@ -176,7 +176,7 @@ export default function MedicationTracker() {
                     {scheduleGroups.map(({ freq, items }) => (
                       <div key={freq}>
                         <h4 className="font-caption text-caption text-secondary uppercase tracking-wider mb-3 flex items-center gap-2">
-                          <Icon icon={freqConfig[freq].icon} className="text-[16px]" /> {freqConfig[freq].label}
+                          <Icon icon={freqConfig[freq].icon} size="sm" /> {freqConfig[freq].label}
                         </h4>
                         <div className="flex flex-col gap-3">
                           {items.map(item => (
@@ -205,7 +205,7 @@ export default function MedicationTracker() {
               </div>
               {active.length === 0 ? (
                 <div className="bg-surface rounded-xl border border-outline-variant p-12 shadow-sm flex flex-col items-center justify-center text-center">
-                  <Icon icon="medication" className="text-4xl text-outline mb-4" />
+                  <Icon icon="medication" size="2xl" className="text-outline mb-4" />
                   <p className="font-body-md text-secondary">No active prescriptions yet.</p>
                   <p className="font-caption text-caption text-outline mt-1">Add medications to track your prescriptions and refill schedule.</p>
                 </div>
@@ -219,7 +219,7 @@ export default function MedicationTracker() {
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                              <Icon icon="medication" className="text-[24px]" />
+                              <Icon icon="medication" size="lg" />
                             </div>
                             <div>
                               <h4 className="font-label-md text-label-md text-on-surface text-lg">{med.name}</h4>
@@ -227,15 +227,15 @@ export default function MedicationTracker() {
                             </div>
                           </div>
                           <button onClick={() => stopMedication(med.id)} className="opacity-0 group-hover:opacity-100 p-1 text-outline hover:text-error transition-all" title="Stop medication">
-                            <Icon icon="stop_circle" />
+                            <Icon icon="stop_circle" size="md" />
                           </button>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-6">
                           <span className="inline-flex items-center gap-1 bg-surface-container-highest text-on-surface-variant font-caption text-caption px-3 py-1 rounded-full">
-                            <Icon icon={cfg.icon} className="text-[14px]" /> {cfg.label}
+                            <Icon icon={cfg.icon} size="xs" /> {cfg.label}
                           </span>
                           <span className="inline-flex items-center gap-1 bg-surface-container-highest text-on-surface-variant font-caption text-caption px-3 py-1 rounded-full">
-                            <Icon icon="schedule" className="text-[14px]" /> {med.time}
+                            <Icon icon="schedule" size="xs" /> {med.time}
                           </span>
                         </div>
                         <div className="mt-auto">

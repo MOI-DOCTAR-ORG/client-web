@@ -1,4 +1,5 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react'
+import Icon from '../Icon'
 
 type Props = { children: ReactNode; fallback?: ReactNode }
 type State = { hasError: boolean; error: Error | null }
@@ -20,7 +21,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         this.props.fallback || (
           <div className="min-h-screen flex items-center justify-center bg-background">
             <div className="text-center max-w-md p-8">
-              <span className="material-symbols-outlined text-6xl text-error mb-4">error</span>
+              <Icon icon="error" size="3xl" className="text-error mb-4" />
               <h1 className="font-headline-lg text-headline-lg text-on-surface mb-2">Something went wrong</h1>
               <p className="font-body-md text-secondary mb-6">{this.state.error?.message}</p>
               <button

@@ -17,7 +17,7 @@ export default function AgeSelection() {
     <div className="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       <main className="w-full max-w-lg px-margin-mobile z-10 flex flex-col items-center">
         <div className="mb-stack-lg flex flex-col items-center gap-stack-sm">
-          <Icon icon="medical_services" className="text-primary text-5xl" />
+          <Icon icon="medical_services" size="2xl" className="text-primary" />
           <h1 className="font-headline-md text-headline-md font-extrabold text-primary">MoiDoctar</h1>
         </div>
 
@@ -44,9 +44,9 @@ export default function AgeSelection() {
                     {opt.label}
                   </span>
                   {isSelected ? (
-                    <Icon icon="check_circle" className="text-primary" />
+                    <Icon icon="check_circle" size="md" className="text-primary" />
                   ) : (
-                    <Icon icon="radio_button_unchecked" className="text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Icon icon="radio_button_unchecked" size="md" className="text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
                 </button>
               )
@@ -64,7 +64,7 @@ export default function AgeSelection() {
         </div>
 
         <div className="mt-stack-lg flex items-center gap-2 text-secondary">
-          <Icon icon="lock" className="text-sm" />
+          <Icon icon="lock" size="sm" />
           <span className="font-caption text-caption uppercase tracking-widest">HIPAA Compliant</span>
         </div>
       </main>

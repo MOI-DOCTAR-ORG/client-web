@@ -67,7 +67,7 @@ export default function PinpointPain() {
                 style={{ top: region.top, left: region.left, right: region.right }}
                 onClick={() => toggleRegion(region.id)}
               >
-                {isSelected && <Icon icon="check" className="text-on-primary text-3xl" />}
+                {isSelected && <Icon icon="check" size="xl" className="text-on-primary" />}
               </button>
             )
           })}
@@ -94,7 +94,7 @@ export default function PinpointPain() {
             </p>
           </div>
           <button className="p-3 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors group" onClick={() => navigate('/body-map')}>
-            <Icon icon="close" className="text-[28px] group-hover:scale-110 transition-transform" />
+            <Icon icon="close" size="xl" className="group-hover:scale-110 transition-transform" />
           </button>
         </div>
 
@@ -126,7 +126,7 @@ export default function PinpointPain() {
           </div>
           <button className="order-1 md:order-2 w-full md:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 px-10 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.39)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.23)] hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" onClick={() => navigate('/')}>
             Confirm Location
-            <Icon icon="arrow_forward" className="text-lg" />
+            <Icon icon="arrow_forward" size="sm" />
           </button>
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function SessionCard({
       </p>
       <div className="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
         <span className="flex items-center gap-2 text-secondary text-caption">
-          <Icon icon={statusIcon} className="text-[18px]" />
+          <Icon icon={statusIcon} size="sm" />
           {statusLabel}
         </span>
         <button onClick={() => navigate('/care-details')} className="text-primary font-label-md hover:underline">

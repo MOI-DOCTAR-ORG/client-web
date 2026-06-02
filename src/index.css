@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --icon-xs: 12px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+  --icon-2xl: 48px;
+  --icon-3xl: 64px;
+}
+
 @font-face {
   font-family: 'Material Symbols Outlined';
   src: url('https://fonts.gstatic.com/s/materialsymbolsoutlined/v138/kJF1BvYX7BgnkSrUz7mAaCZ6THa6NwDR.woff2') format('woff2');
@@ -14,7 +24,7 @@
   font-family: 'Material Symbols Outlined' !important;
   font-weight: normal;
   font-style: normal;
-  font-size: 1.5rem;
+  font-size: var(--icon-md);
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;

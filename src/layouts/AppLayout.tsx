@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
-import InstallPrompt from '../components/InstallPrompt'
 import OfflineBanner from '../components/OfflineBanner'
 import { useAuth } from '../context/AuthContext'
 import LoadingSpinner from '../components/ui/LoadingSpinner'
@@ -24,7 +23,7 @@ export default function AppLayout() {
           onClick={() => setSidebarOpen(true)}
           className="p-2 text-secondary hover:text-primary rounded-lg"
         >
-          <Icon icon="menu" className="text-2xl" />
+          <Icon icon="menu" size="lg" />
         </button>
         <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
           MoiDoctar
@@ -32,8 +31,6 @@ export default function AppLayout() {
         <div className="w-8" />
       </div>
 
-      {/* Install PWA prompt */}
-      <InstallPrompt />
       <OfflineBanner />
 
       {/* Content */}

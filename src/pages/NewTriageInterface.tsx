@@ -24,7 +24,7 @@ export default function NewTriageInterface() {
       <header className="flex justify-between items-center w-full px-margin-mobile md:px-gutter h-16 max-w-container-max-width mx-auto bg-surface/80 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-4 md:hidden">
           <button className="text-on-surface p-2 rounded-full hover:bg-surface-variant transition-colors">
-            <Icon icon="menu" />
+            <Icon icon="menu" size="lg" />
           </button>
           <h1 className="font-headline-md text-headline-md font-extrabold text-primary">MoiDoctar</h1>
         </div>
@@ -33,7 +33,7 @@ export default function NewTriageInterface() {
         </div>
         <div className="flex items-center gap-4">
           <button className="text-secondary hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full p-2 transition-all">
-            <Icon icon="notifications" />
+            <Icon icon="notifications" size="lg" />
           </button>
           <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity">
             {getUserInitials()}
@@ -48,7 +48,7 @@ export default function NewTriageInterface() {
               <span className="inline-block px-3 py-1 bg-surface-container-highest text-on-surface-variant text-xs font-semibold rounded-full mb-3 shadow-sm border border-outline-variant/30">In Progress</span>
               <h3 className="font-headline-md text-headline-md text-on-primary-fixed font-bold">New Session</h3>
               <p className="font-caption text-caption text-secondary mt-1 flex items-center gap-1">
-                <Icon icon="schedule" className="text-[14px]" /> Started {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                <Icon icon="schedule" size="xs" /> Started {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
               </p>
             </div>
             <div className="flex-1">
@@ -120,7 +120,7 @@ export default function NewTriageInterface() {
           <div className="p-4 bg-surface-container-lowest border-t border-outline-variant/30">
             <div className="flex items-center gap-2 bg-surface-container-low rounded-xl p-2 border border-outline-variant/40 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
               <button className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-variant shrink-0" title="Attach Photo">
-                <Icon icon="add_a_photo" />
+                <Icon icon="add_a_photo" size="md" />
               </button>
               <input
                 className="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md placeholder:text-outline p-2 min-w-0"
@@ -131,10 +131,10 @@ export default function NewTriageInterface() {
                 onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               />
               <button className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-variant shrink-0" title="Voice Input">
-                <Icon icon="mic" />
+                <Icon icon="mic" size="md" />
               </button>
               <button className="p-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors shrink-0 ml-1 shadow-sm flex items-center justify-center w-10 h-10" title="Send" onClick={handleSend}>
-                <Icon icon="send" className="text-[20px]" />
+                <Icon icon="send" size="md" />
               </button>
             </div>
             <div className="text-center mt-2">

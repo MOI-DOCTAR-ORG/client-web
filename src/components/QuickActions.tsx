@@ -72,7 +72,7 @@ export default function QuickActions() {
           className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
           <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
-            <Icon icon="upload_file" />
+            <Icon icon="upload_file" size="xl" />
           </div>
           <p className="font-label-md text-on-surface">Upload Lab Results</p>
         </button>
@@ -82,7 +82,7 @@ export default function QuickActions() {
           className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
           <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
-            <Icon icon="pill" />
+            <Icon icon="pill" size="xl" />
           </div>
           <p className="font-label-md text-on-surface">Medication List</p>
         </button>
@@ -94,14 +94,14 @@ export default function QuickActions() {
           }}
           className="md:col-span-2 p-6 border-2 border-dashed border-outline-variant rounded-[16px] flex items-center justify-center gap-4 text-secondary hover:bg-surface-container-lowest hover:border-primary transition-all cursor-pointer"
         >
-          <Icon icon="add_circle" />
+          <Icon icon="add_circle" size="lg" />
           <p className="font-body-md">Connect external wearable data (Apple Health, Fitbit)</p>
         </button>
       </div>
 
       {showWearableMsg && (
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-5 py-3 flex items-center gap-3 text-blue-800 dark:text-blue-200">
-          <Icon icon="info" className="text-blue-500 dark:text-blue-400" />
+          <Icon icon="info" size="lg" className="text-blue-500 dark:text-blue-400" />
           <p className="font-body-md text-sm">Wearable integration coming soon. Your health data can be imported manually via lab results uploads.</p>
         </div>
       )}
@@ -113,10 +113,10 @@ export default function QuickActions() {
             className="w-full flex items-center justify-between p-4 hover:bg-surface-container-low transition-colors"
           >
             <div className="flex items-center gap-2">
-              <Icon icon="folder" className="text-primary" />
+              <Icon icon="folder" size="lg" className="text-primary" />
               <span className="font-label-md text-on-surface">Uploaded Lab Results ({uploads.length})</span>
             </div>
-            <Icon icon={showUploads ? 'expand_less' : 'expand_more'} className="text-secondary" />
+            <Icon icon={showUploads ? 'expand_less' : 'expand_more'} size="lg" className="text-secondary" />
           </button>
 
           {showUploads && (
@@ -129,7 +129,7 @@ export default function QuickActions() {
                     </div>
                   ) : (
                     <div className="w-12 h-12 rounded-lg bg-error-container/20 flex items-center justify-center text-error flex-shrink-0">
-                      <Icon icon="picture_as_pdf" />
+                      <Icon icon="picture_as_pdf" size="lg" />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
@@ -141,13 +141,13 @@ export default function QuickActions() {
                     download={file.name}
                     className="p-2 text-secondary hover:text-primary transition-colors opacity-0 group-hover:opacity-100"
                   >
-                    <Icon icon="download" />
+                    <Icon icon="download" size="md" />
                   </a>
                   <button
                     onClick={() => removeFile(file.id)}
                     className="p-2 text-secondary hover:text-error transition-colors opacity-0 group-hover:opacity-100"
                   >
-                    <Icon icon="delete" />
+                    <Icon icon="delete" size="md" />
                   </button>
                 </div>
               ))}

@@ -32,7 +32,7 @@ export default function SymptomTracker() {
           <p className="text-secondary font-body-md">Monitor your daily health and visualize trends over time.</p>
         </div>
         <div className="flex items-center gap-stack-sm bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/30 shadow-sm">
-          <Icon icon="calendar_month" className="text-primary" />
+          <Icon icon="calendar_month" size="lg" className="text-primary" />
           <span className="font-label-md text-label-md pr-2">Today</span>
         </div>
       </header>
@@ -41,7 +41,7 @@ export default function SymptomTracker() {
         <section className="lg:col-span-12 bg-surface-container-lowest rounded-[16px] border border-outline-variant/30 shadow-sm p-stack-lg">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
-              <Icon icon="edit_note" />
+              <Icon icon="edit_note" size="md" />
             </div>
             <h2 className="font-headline-md text-headline-md">New Log Entry</h2>
           </div>
@@ -79,7 +79,7 @@ export default function SymptomTracker() {
           <div className="mt-8 flex justify-end">
             <button onClick={handleSaveEntry} className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
               <span>Save Entry</span>
-              <Icon icon="arrow_forward" />
+              <Icon icon="arrow_forward" size="md" />
             </button>
           </div>
         </section>
@@ -131,7 +131,7 @@ export default function SymptomTracker() {
                           onClick={() => setTimelineEntries(prev => prev.filter((_, idx) => idx !== i))}
                           className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10"
                         >
-                          <Icon icon="close" className="text-[14px]" />
+                          <Icon icon="close" size="xs" />
                         </button>
                       </div>
                     </div>
@@ -152,7 +152,7 @@ export default function SymptomTracker() {
             <div className="max-w-md">
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center flex-shrink-0">
-                  <Icon icon="psychology" className="text-primary dark:text-primary-light" />
+                  <Icon icon="psychology" size="xl" className="text-primary dark:text-primary-light" />
                 </div>
                 <div>
                   <h3 className="font-headline-md text-headline-md mb-2 text-slate-900 dark:text-white">AI Health Insights</h3>

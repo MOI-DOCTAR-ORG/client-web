@@ -12,8 +12,8 @@ export default function Header() {
         </p>
       </div>
       <div className="flex items-center gap-4">
-        <button className="material-symbols-outlined p-2 hover:bg-surface-container rounded-full transition-colors text-on-surface-variant">
-          notifications
+        <button className="p-2 hover:bg-surface-container rounded-full transition-colors text-on-surface-variant">
+          <Icon icon="notifications" size="lg" />
         </button>
       </div>
     </header>

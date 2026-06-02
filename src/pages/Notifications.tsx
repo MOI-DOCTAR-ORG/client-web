@@ -111,13 +111,13 @@ export default function Notifications() {
       {/* <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-margin-mobile md:px-gutter h-16 flex justify-between items-center border-b border-outline-variant md:border-none">
         <div className="flex items-center gap-4">
           <button className="md:hidden p-2 text-secondary">
-            <Icon icon="menu" />
+            <Icon icon="menu" size="lg" />
           </button>
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Notifications</h2>
         </div>
         <div className="flex items-center gap-stack-md">
           <button onClick={() => navigate('/profile')} className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
-            <Icon icon="settings" />
+            <Icon icon="settings" size="lg" />
           </button>
           <div className="w-10 h-10 rounded-full bg-secondary-container overflow-hidden flex items-center justify-center text-on-secondary-container font-bold">
             {getUserInitials()}
@@ -137,7 +137,7 @@ export default function Notifications() {
         <div className="flex flex-col gap-10">
           {Object.keys(grouped).length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <Icon icon="notifications_off" className="text-5xl text-outline mb-4" />
+              <Icon icon="notifications_off" size="2xl" className="text-outline mb-4" />
               <h3 className="font-headline-md text-headline-md text-on-surface mb-2">No notifications yet</h3>
               <p className="font-body-md text-secondary text-center max-w-sm">You will see alerts for triage updates, medication reminders, and health insights here once available.</p>
             </div>
@@ -159,7 +159,7 @@ export default function Notifications() {
                     {items.map((n) => (
                       <div key={n.id} className="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm flex items-start gap-4 transition-all hover:border-primary/30 relative group">
                         <div className={`w-12 h-12 rounded-full ${n.iconBg} flex items-center justify-center shrink-0`}>
-                          <Icon icon={n.icon} className={n.iconColor} />
+                          <Icon icon={n.icon} size="lg" className={n.iconColor} />
                         </div>
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-1">
@@ -185,7 +185,7 @@ export default function Notifications() {
                           )}
                         </div>
                         <button onClick={() => dismiss(n.id)} className="opacity-0 group-hover:opacity-100 absolute top-4 right-4 p-1 text-outline hover:text-error transition-all">
-                          <Icon icon="close" />
+                          <Icon icon="close" size="sm" />
                         </button>
                       </div>
                     ))}

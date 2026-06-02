@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="text-center max-w-md">
         <div className="w-20 h-20 mx-auto mb-6 bg-surface-container-low rounded-full flex items-center justify-center text-primary">
-          <Icon icon="error" className="text-5xl" />
+          <Icon icon="error" size="2xl" />
         </div>
         <h1 className="font-headline-xl text-headline-xl text-on-surface mb-2">404</h1>
         <p className="font-headline-md text-headline-md text-secondary mb-4">Page not found</p>
@@ -17,7 +17,7 @@ export default function NotFound() {
           to="/"
           className="inline-flex items-center gap-2 bg-primary text-on-primary px-8 py-3 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors"
         >
-          <Icon icon="arrow_back" />
+          <Icon icon="arrow_back" size="md" />
           Back to Dashboard
         </Link>
       </div>

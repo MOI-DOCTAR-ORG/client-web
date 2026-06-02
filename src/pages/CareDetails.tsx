@@ -57,7 +57,7 @@ export default function CareDetails() {
         <div>
           <nav className="flex items-center gap-2 text-secondary mb-2">
             <button onClick={() => navigate('/history')} className="text-caption font-caption">History</button>
-            <Icon icon="chevron_right" className="text-[16px]" />
+            <Icon icon="chevron_right" size="sm" />
             <span className="text-caption font-caption text-primary font-bold">Care Details</span>
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
@@ -88,7 +88,7 @@ export default function CareDetails() {
               <span className="text-caption ml-1 opacity-70">{count === 1 ? 'report' : 'reports'}</span>
               {count > 0 && (
                 <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-current/20">
-                  <Icon icon={statuses[sev].icon} className="text-[14px]" />
+                  <Icon icon={statuses[sev].icon} size="xs" />
                   <span className="text-[11px] font-bold uppercase tracking-wider">{statuses[sev].label}</span>
                 </div>
               )}
@@ -101,7 +101,7 @@ export default function CareDetails() {
       <section className="bg-surface-container-lowest rounded-xl p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
-            <Icon icon="edit_note" />
+            <Icon icon="edit_note" size="lg" />
           </div>
           <h3 className="font-headline-md text-headline-md">Report Your Symptoms</h3>
         </div>
@@ -136,7 +136,7 @@ export default function CareDetails() {
         </div>
         <div className="flex justify-end">
           <button onClick={submitReport} className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all flex items-center gap-2">
-            <Icon icon="clinical_notes" />
+            <Icon icon="clinical_notes" size="lg" />
             Submit Report
           </button>
         </div>
@@ -147,7 +147,7 @@ export default function CareDetails() {
         <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
           {reports.slice(0, 5).map(r => (
             <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error-container text-error' : r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'bg-surface-container text-primary'}`}>
-              <Icon icon={r.severity === 'Severe' ? 'warning' : r.severity === 'Moderate' ? 'info' : 'check_circle'} className="text-[18px]" />
+              <Icon icon={r.severity === 'Severe' ? 'warning' : r.severity === 'Moderate' ? 'info' : 'check_circle'} size="sm" />
               {r.symptom}
             </span>
           ))}
@@ -159,7 +159,7 @@ export default function CareDetails() {
           <section className="bg-surface-container-lowest rounded-xl p-8 lifted-card transition-all duration-700 opacity-100 translate-y-0 border border-outline-variant/20 shadow-sm">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
-                <Icon icon="psychology" className="text-[28px]" />
+                <Icon icon="psychology" size="xl" />
               </div>
               <h3 className="font-headline-md text-headline-md">Your Reports</h3>
             </div>
@@ -190,7 +190,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
                           onClick={() => setReports(prev => prev.filter(x => x.id !== r.id))}
                           className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10"
                         >
-                          <Icon icon="close" className="text-[14px]" />
+                          <Icon icon="close" size="xs" />
                         </button>
                       </div>
                     </div>
@@ -219,7 +219,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
         <div className="lg:col-span-1 flex flex-col gap-gutter">
           <section className="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/20 shadow-sm h-full">
             <div className="flex items-center gap-3 mb-6">
-              <Icon icon="assignment_turned_in" className="text-primary" />
+              <Icon icon="assignment_turned_in" size="lg" className="text-primary" />
               <h3 className="font-headline-md text-headline-md">Next Steps</h3>
             </div>
             <ul className="space-y-6">
@@ -252,7 +252,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
       <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-6 bg-surface-container rounded-xl gap-4">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-surface-container-lowest rounded-lg">
-            <Icon icon="verified_user" className="text-primary" />
+              <Icon icon="verified_user" size="lg" className="text-primary" />
           </div>
           <div>
             <h4 className="font-label-md text-label-md">Medical Disclaimer</h4>
@@ -260,7 +260,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
           </div>
         </div>
         <button onClick={() => navigate('/new-triage')} className="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all transform active:scale-95 shadow-lg shadow-primary/20">
-          <Icon icon="add" />
+          <Icon icon="add" size="md" />
           Start New Triage
         </button>
       </footer>

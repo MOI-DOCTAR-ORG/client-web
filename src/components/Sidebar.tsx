@@ -68,7 +68,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                   : 'text-secondary pl-5 hover:text-primary transition-colors duration-200'
               }`}
             >
-              <Icon icon={item.icon} className="text-xl md:text-2xl" />
+              <Icon icon={item.icon} size="lg" />
               <span className="font-label-md text-label-md">{item.label}</span>
             </Link>
           )
@@ -87,7 +87,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 isSignOut ? 'text-secondary hover:text-error' : 'text-secondary'
               }`}
             >
-              <Icon icon={item.icon} className="text-xl md:text-2xl" />
+              <Icon icon={item.icon} size="lg" />
               <span className="font-label-md text-label-md">{item.label}</span>
             </button>
           )

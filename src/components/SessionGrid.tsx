@@ -9,7 +9,7 @@ export default function SessionGrid() {
     return (
       <section className="bg-surface-container-lowest rounded-2xl border border-dashed border-outline-variant/50 p-10 text-center">
         <div className="w-16 h-16 mx-auto mb-4 bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
-          <Icon icon="history" className="text-3xl" />
+          <Icon icon="history" size="2xl" />
         </div>
         <h4 className="font-headline-md text-headline-md text-on-surface mb-2">No sessions yet</h4>
         <p className="font-body-md text-body-md text-secondary max-w-sm mx-auto">

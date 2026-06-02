@@ -97,7 +97,7 @@ export default function BodyMap() {
           </div>
           <div className="flex items-center gap-4">
             <button className="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors group">
-              <Icon icon="close" className="text-[28px] group-hover:scale-110 transition-transform" />
+              <Icon icon="close" size="xl" className="group-hover:scale-110 transition-transform" />
             </button>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function BodyMap() {
                 className="px-3 py-2 rounded-full text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors flex items-center gap-1"
                 onClick={() => setCurrentView('Front')}
               >
-                <Icon icon="refresh" className="text-[18px]" />
+                <Icon icon="refresh" size="sm" />
               </button>
             </div>
 
@@ -154,14 +154,14 @@ export default function BodyMap() {
                     style={{ top: region.top, left: region.left, right: region.right }}
                     onClick={() => handleRegionClick(region.id)}
                   >
-                    {isSelected && <Icon icon="check" className="text-on-primary text-3xl" />}
+                    {isSelected && <Icon icon="check" size="xl" className="text-on-primary" />}
                     {isSelected && <div className="absolute inset-[-4px] rounded-full bg-primary animate-ping opacity-0 pointer-events-none" style={{ animationDuration: '2s' }} />}
                   </button>
                 )
               })}
 
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-surface/80 backdrop-blur-md rounded-full text-caption font-caption text-on-surface-variant border border-outline-variant/30 shadow-sm pointer-events-none">
-                <Icon icon="360" className="text-[16px]" />
+                <Icon icon="360" size="sm" />
                 Drag to rotate • Scroll to zoom
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function BodyMap() {
             <div className="flex-grow overflow-y-auto p-4 bg-surface-container-lowest/50">
               {selectedAreas.length === 0 ? (
                 <div className="text-center py-12 px-4 opacity-50">
-                  <Icon icon="touch_app" className="text-4xl text-outline mb-2" />
+                  <Icon icon="touch_app" size="2xl" className="text-outline mb-2" />
                   <p className="text-label-md font-label-md text-on-surface-variant">Tap the 3D model to select areas</p>
                 </div>
               ) : (
@@ -194,7 +194,7 @@ export default function BodyMap() {
                         {area.label}
                       </h3>
                       <button className="text-secondary hover:text-error transition-colors" onClick={() => removeArea(area.id)}>
-                        <Icon icon="delete" className="text-[20px]" />
+                        <Icon icon="delete" size="md" />
                       </button>
                     </div>
                     <div className="mb-4">
@@ -237,7 +237,7 @@ export default function BodyMap() {
               Skip
             </button>
             <div className="hidden sm:flex items-center gap-2 text-caption text-outline">
-              <Icon icon="verified_user" className="text-[18px] text-primary" />
+              <Icon icon="verified_user" size="sm" className="text-primary" />
               HIPAA Compliant
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function BodyMap() {
             onClick={() => navigate('/pinpoint-pain')}
           >
             Confirm Pain Areas
-            <Icon icon="arrow_forward" className="text-lg" />
+            <Icon icon="arrow_forward" size="sm" />
           </button>
         </div>
       </div>

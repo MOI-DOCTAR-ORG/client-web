@@ -256,12 +256,12 @@ export default function Profile() {
         <div className="flex items-center gap-stack-md">
           {dirty && (
             <span className="hidden sm:inline-flex items-center gap-1 text-caption text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-3 py-1 rounded-full">
-              <Icon icon="edit_note" className="text-[16px]" />
+              <Icon icon="edit_note" size="sm" />
               Unsaved
             </span>
           )}
           <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
-            <Icon icon="notifications" className="text-secondary" />
+            <Icon icon="notifications" size="lg" className="text-secondary" />
           </button>
           <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
             {getUserInitials()}
@@ -284,7 +284,7 @@ export default function Profile() {
                 )}
               </div>
               <label className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 cursor-pointer flex items-center justify-center transition-opacity">
-                <Icon icon="camera_alt" className="text-white text-3xl" />
+                <Icon icon="camera_alt" size="xl" className="text-white" />
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
@@ -297,7 +297,7 @@ export default function Profile() {
                   onClick={removePhoto}
                   className="absolute -top-1 -right-1 w-7 h-7 bg-error text-white rounded-full flex items-center justify-center shadow-md hover:bg-red-700 transition-colors"
                 >
-                  <Icon icon="close" className="text-[16px]" />
+                  <Icon icon="close" size="sm" />
                 </button>
               )}
             </div>
@@ -445,7 +445,7 @@ export default function Profile() {
                     <span className="w-2 h-2 rounded-full bg-error" />
                     {a}
                     <button onClick={() => removeAllergy(a)} className="text-secondary hover:text-error transition-colors ml-1">
-                      <Icon icon="close" className="text-[14px]" />
+                      <Icon icon="close" size="xs" />
                     </button>
                   </span>
                 ))}
@@ -459,7 +459,7 @@ export default function Profile() {
                   onKeyDown={e => { if (e.key === 'Enter') addAllergy() }}
                 />
                 <button onClick={addAllergy} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors">
-                  <Icon icon="add" />
+                  <Icon icon="add" size="md" />
                 </button>
               </div>
             </div>
@@ -473,7 +473,7 @@ export default function Profile() {
                     <span className="w-2 h-2 rounded-full bg-tertiary" />
                     {c}
                     <button onClick={() => removeCondition(c)} className="text-secondary hover:text-error transition-colors ml-1">
-                      <Icon icon="close" className="text-[14px]" />
+                      <Icon icon="close" size="xs" />
                     </button>
                   </span>
                 ))}
@@ -487,7 +487,7 @@ export default function Profile() {
                   onKeyDown={e => { if (e.key === 'Enter') addCondition() }}
                 />
                 <button onClick={addCondition} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors">
-                  <Icon icon="add" />
+                  <Icon icon="add" size="md" />
                 </button>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function Profile() {
                         <p className="text-caption text-secondary">{m.dosage} &middot; {m.frequency}</p>
                       </div>
                       <button onClick={() => removeMedication(i)} className="text-secondary hover:text-error transition-colors">
-                        <Icon icon="close" className="text-[18px]" />
+                        <Icon icon="close" size="sm" />
                       </button>
                     </div>
                   ))}
@@ -532,7 +532,7 @@ export default function Profile() {
                     onKeyDown={e => { if (e.key === 'Enter') addMedication() }}
                   />
                   <button onClick={addMedication} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors self-stretch">
-                    <Icon icon="add" />
+                    <Icon icon="add" size="md" />
                   </button>
                 </div>
               </div>
@@ -639,7 +639,7 @@ export default function Profile() {
                 <div className="space-y-2">
                   {form.appointmentHistory.map((a, i) => (
                     <div key={i} className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
-                      <Icon icon="event" className="text-primary text-xl" />
+                      <Icon icon="event" size="lg" className="text-primary" />
                       <div className="flex-1">
                         <p className="font-label-md text-on-surface">{a.reason}</p>
                         <p className="text-caption text-secondary">{a.date} &middot; {a.doctor}</p>
@@ -656,7 +656,7 @@ export default function Profile() {
                 <div className="space-y-2">
                   {form.medicalRecords.map((r, i) => (
                     <div key={i} className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
-                      <Icon icon="description" className="text-primary text-xl" />
+                      <Icon icon="description" size="lg" className="text-primary" />
                       <div className="flex-1">
                         <p className="font-label-md text-on-surface">{r.name}</p>
                         <p className="text-caption text-secondary">{r.type} &middot; {new Date(r.uploadedAt).toLocaleDateString()}</p>
@@ -676,7 +676,7 @@ export default function Profile() {
             disabled={saving || !dirty}
             className="flex-1 py-3 px-6 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Icon icon={saving ? 'hourglass_top' : dirty ? 'save' : 'check_circle'} />
+            <Icon icon={saving ? 'hourglass_top' : dirty ? 'save' : 'check_circle'} size="md" />
             {saving ? 'Saving...' : dirty ? 'Save Changes' : 'Saved'}
           </button>
         </div>
@@ -686,7 +686,7 @@ export default function Profile() {
           <div className="bg-error/5 p-6 md:p-8">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center text-error">
-                <Icon icon="delete_forever" className="text-2xl" />
+                <Icon icon="delete_forever" size="lg" />
               </div>
               <div>
                 <h3 className="font-headline-md text-headline-md text-on-surface">Delete Account</h3>
@@ -694,14 +694,14 @@ export default function Profile() {
               </div>
             </div>
             <div className="bg-error-container/10 border border-error/20 rounded-lg p-4 mb-5 flex items-start gap-3">
-              <Icon icon="warning" className="text-error shrink-0 mt-0.5" />
+              <Icon icon="warning" size="lg" className="text-error shrink-0 mt-0.5" />
               <p className="text-caption text-on-surface-variant">
                 This action <strong>cannot be undone</strong>. All your medical records, triage sessions, medication data, and personal information will be permanently deleted.
               </p>
             </div>
             {!showDeleteConfirm ? (
               <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
-                <Icon icon="delete" className="text-xl" />
+                <Icon icon="delete" size="lg" />
                 Delete My Account
               </button>
             ) : (
@@ -729,7 +729,7 @@ export default function Profile() {
                     onClick={() => { signOut(); navigate('/splash') }}
                     className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <Icon icon="delete_forever" className="text-xl" />
+                    <Icon icon="delete_forever" size="lg" />
                     Permanently Delete
                   </button>
                 </div>
@@ -742,11 +742,11 @@ export default function Profile() {
         <footer className="mt-8 mb-12 flex flex-col md:flex-row items-center justify-between py-6 border-t border-outline-variant gap-4">
           <div className="flex items-center gap-6">
             {/* <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="verified" className="text-primary text-xl" />
+              <Icon icon="verified" size="lg" className="text-primary" />
               <span className="font-label-md text-on-surface">HIPAA COMPLIANT</span>
             </div> */}
             {/* <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="lock" className="text-primary text-xl" />
+              <Icon icon="lock" size="lg" className="text-primary" />
               <span className="font-label-md text-on-surface">AES-256 ENCRYPTED</span>
             </div> */}
           </div>
@@ -763,7 +763,7 @@ export default function Profile() {
           <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl modal-animate" onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <Icon icon="lock" className="text-2xl" />
+                <Icon icon="lock" size="lg" />
               </div>
               <div>
                 <h3 className="font-headline-md text-headline-md text-on-surface">Confirm Password</h3>
@@ -826,14 +826,14 @@ function SectionCard({
         onClick={onToggle}
         className="w-full flex items-center gap-3 px-6 py-4 hover:bg-surface-container-low transition-colors text-left"
       >
-        <Icon icon={icon} className="text-primary" />
+        <Icon icon={icon} size="lg" className="text-primary" />
         <h3 className="font-headline-md text-headline-md text-on-surface flex-1">{title}</h3>
         {completed && (
           <span className="text-green-600 dark:text-green-400">
-            <Icon icon="check_circle" className="text-xl" />
+            <Icon icon="check_circle" size="lg" />
           </span>
         )}
-        <Icon icon={isOpen ? 'expand_less' : 'expand_more'} className="text-secondary" />
+        <Icon icon={isOpen ? 'expand_less' : 'expand_more'} size="lg" className="text-secondary" />
       </button>
       {isOpen && (
         <div className="px-6 pb-6">

@@ -11,7 +11,7 @@ export default function ThemeToggle() {
         onClick={toggleTheme}
         className="w-full flex items-center gap-3 md:gap-stack-md pl-2.5 py-2.5 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors text-sm md:text-base text-left"
       >
-        <Icon icon={theme === 'dark' ? 'light_mode' : 'dark_mode'} className="text-xl md:text-2xl" />
+        <Icon icon={theme === 'dark' ? 'light_mode' : 'dark_mode'} size="lg" />
         <span className="font-label-md text-label-md">
           {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </span>

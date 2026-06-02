@@ -170,7 +170,7 @@ export default function SignUp() {
             role="alert"
             aria-live="polite"
           >
-            <Icon icon="error" className="text-xl shrink-0 mt-0.5" aria-hidden="true" />
+            <Icon icon="error" size="lg" className="shrink-0 mt-0.5" aria-hidden="true" />
             <p className="font-body-md text-sm flex-1">{error}</p>
           </div>
         )}
@@ -187,7 +187,7 @@ export default function SignUp() {
             {oauthLoading === 'google' ? (
               <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
             ) : (
-              <GoogleIcon className="w-5 h-5" />
+              <GoogleIcon size="md" />
             )}
             Continue with Google
           </button>
@@ -201,7 +201,7 @@ export default function SignUp() {
             {oauthLoading === 'apple' ? (
               <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
             ) : (
-              <AppleIcon className="w-5 h-5" />
+              <AppleIcon size="md" />
             )}
             Continue with Apple
           </button>
@@ -220,7 +220,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-name">Full Name</label>
             <div className="relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 border-secondary-fixed">
-              <Icon icon="badge" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+              <Icon icon="badge" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
               <input
                 id="signup-name"
                 className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
@@ -240,7 +240,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-email">Email Address</label>
             <div className={`relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low ${emailError ? inputError : inputNormal}`}>
-              <Icon icon="mail" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+              <Icon icon="mail" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
               <input
                 id="signup-email"
                 className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
@@ -257,7 +257,7 @@ export default function SignUp() {
             </div>
             {emailError && (
               <p id="signup-email-error" className="font-caption text-caption text-error mt-0.5 flex items-center gap-1" role="alert">
-                <Icon icon="error" className="text-[14px]" aria-hidden="true" />
+                <Icon icon="error" size="xs" aria-hidden="true" />
                 Enter a valid email address.
               </p>
             )}
@@ -267,7 +267,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-1.5">
             <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-password">Password</label>
             <div className="relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 border-secondary-fixed">
-              <Icon icon="lock" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+              <Icon icon="lock" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
               <input
                 id="signup-password"
                 className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-10 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
@@ -287,7 +287,7 @@ export default function SignUp() {
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                 tabIndex={-1}
               >
-                <Icon icon={showPassword ? 'visibility' : 'visibility_off'} aria-hidden="true" />
+                <Icon icon={showPassword ? 'visibility' : 'visibility_off'} size="sm" aria-hidden="true" />
               </button>
             </div>
             {/* Strength bar + requirements */}
@@ -311,7 +311,7 @@ export default function SignUp() {
                         req.met ? 'text-green-500' : 'text-secondary'
                       }`}
                     >
-                      <Icon icon="check_circle" className="text-[16px]" aria-hidden="true" />
+                      <Icon icon="check_circle" size="sm" aria-hidden="true" />
                       {req.label}
                     </li>
                   ))}
@@ -326,7 +326,7 @@ export default function SignUp() {
             <div className={`relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low ${
               touched.confirm && !passwordsMatch ? inputError : inputNormal
             }`}>
-              <Icon icon="lock" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+              <Icon icon="lock" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
               <input
                 id="signup-confirm"
                 className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
@@ -342,7 +342,7 @@ export default function SignUp() {
             </div>
             {touched.confirm && !passwordsMatch && confirmPassword.length > 0 && (
               <p className="font-caption text-caption text-error mt-0.5 flex items-center gap-1" role="alert">
-                <Icon icon="error" className="text-[14px]" aria-hidden="true" />
+                <Icon icon="error" size="xs" aria-hidden="true" />
                 Passwords do not match.
               </p>
             )}

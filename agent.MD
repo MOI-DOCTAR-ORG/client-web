@@ -12,6 +12,28 @@ and folders to understand what already exists. Match the existing
 patterns exactly. Do not introduce new patterns unless explicitly 
 instructed.
 
+## Synchronization Rule
+Agents must keep `main` synchronized with `origin/main` without
+overwriting remote work.
+
+Before starting work:
+1. Run `git fetch origin main`
+2. Run `git status --short --branch`
+3. If local `main` is behind, run `git rebase origin/main`
+
+Before pushing:
+1. Run `git fetch origin main`
+2. Rebase local work on top of the latest remote: `git rebase origin/main`
+3. Resolve any conflicts by keeping the latest `origin/main` structure as the base and reapplying only the intended task changes.
+4. Confirm no conflict markers remain: `rg -n "<{7}|={7}|>{7}" .`
+5. Run `npm run build`
+6. Run `git diff --check`
+7. Run `git status --short --branch`
+8. Push with `git push origin main`
+
+If push is rejected, do not force push. Fetch, rebase, verify, and push again.
+Use `git push --force` or `git push --force-with-lease` only when the user explicitly asks for a history rewrite.
+
 ## Stack
 - Vite (build tool)
 - React 18+ (UI framework)

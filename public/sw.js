@@ -1,5 +1,5 @@
-const CACHE = 'doctarr-v1'
-const ASSETS = ['/', '/index.html', '/doctarr.jpeg']
+const CACHE = 'doctarr-v2'
+const ASSETS = ['/', '/index.html', '/moidoctar-logo.svg']
 const PRECACHE = ['/', '/index.html']
 
 self.addEventListener('install', (event) => {

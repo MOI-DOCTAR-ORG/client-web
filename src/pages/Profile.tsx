@@ -726,7 +726,7 @@ export default function Profile() {
                   </button>
                   <button
                     disabled={deleteConfirmText !== 'DELETE'}
-                    onClick={() => { signOut(); navigate('/splash') }}
+                    onClick={() => { signOut(); navigate('/sign-in') }}
                     className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <Icon icon="delete_forever" size="lg" />

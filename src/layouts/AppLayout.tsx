@@ -11,7 +11,7 @@ export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   if (isLoading) return <LoadingSpinner text="Verifying session..." />
-  if (!isAuthenticated) return <Navigate to="/splash" replace />
+  if (!isAuthenticated) return <Navigate to="/sign-in" replace />
 
   return (
     <div className="min-h-screen bg-background text-on-background font-body-md">

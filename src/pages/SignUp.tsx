@@ -1,10 +1,25 @@
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
 import GoogleIcon from '../components/GoogleIcon'
 import AppleIcon from '../components/AppleIcon'
+import AuthShell from '../components/auth/AuthShell'
+import {
+  authDivider,
+  authErrorBanner,
+  authField,
+  authFormStack,
+  authInput,
+  authInputFrame,
+  authInputFrameError,
+  authInputIcon,
+  authLabel,
+  authLink,
+  authPrimaryButton,
+  authSecondaryButton,
+} from '../components/auth/authStyles'
 
 export default function SignUp() {
   const navigate = useNavigate()
@@ -19,10 +34,9 @@ export default function SignUp() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null)
   const [shakeKey, setShakeKey] = useState(0)
-
   const [touched, setTouched] = useState({ name: false, email: false, password: false, confirm: false })
 
-  const emailError = touched.email && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  const emailError = touched.email && email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   const passwordsMatch = password === confirmPassword
   const hasMinLen = password.length >= 8
   const hasUpper = /[A-Z]/.test(password)
@@ -48,11 +62,21 @@ export default function SignUp() {
     return 'bg-green-500'
   }, [strengthScore, password.length])
 
-  useEffect(() => {
-    if (error) {
-      // reset shake key to allow re-shake on next error
-    }
-  }, [error])
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const result = await signInWithGoogle(tokenResponse.access_token)
+      setOauthLoading(null)
+      if (!result.success) {
+        setError(result.error)
+        setShakeKey(k => k + 1)
+      }
+    },
+    onError: () => {
+      setOauthLoading(null)
+      setError('Google sign-in failed. Please try again.')
+      setShakeKey(k => k + 1)
+    },
+  })
 
   const validate = () => {
     if (!fullName.trim() || !email.trim() || !password || !confirmPassword) {
@@ -99,22 +123,6 @@ export default function SignUp() {
     }
   }
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const result = await signInWithGoogle(tokenResponse.access_token)
-      setOauthLoading(null)
-      if (!result.success) {
-        setError(result.error)
-        setShakeKey(k => k + 1)
-      }
-    },
-    onError: () => {
-      setOauthLoading(null)
-      setError('Google sign-in failed. Please try again.')
-      setShakeKey(k => k + 1)
-    },
-  })
-
   const handleApple = useCallback(() => {
     setOauthLoading('apple')
     setError('')
@@ -132,98 +140,69 @@ export default function SignUp() {
     { label: '1 special character', met: hasSpecial },
   ]
 
-  const inputBase = 'w-full bg-surface-container-low border rounded-xl px-4 py-3.5 md:py-3 font-body-md text-body-md text-on-surface outline-none transition-all duration-200 placeholder:text-secondary-fixed-dim'
-  const inputNormal = 'border-secondary-fixed focus:border-primary focus:ring-2 focus:ring-primary/20'
-  const inputError = 'border-error focus:border-error focus:ring-2 focus:ring-error/20'
-
-  function inputWrapper(error?: boolean) {
-    return `${inputBase} ${error ? inputError : inputNormal}`
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
-      <div
-        key={shakeKey}
-        className={`w-full max-w-[440px] bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-6 sm:p-8 md:p-10 flex flex-col gap-5 md:gap-6 animate-fade-in ${
-          error ? 'animate-shake' : ''
-        }`}
-      >
-        {/* Logo + Tagline */}
-        <div className="flex flex-col items-center gap-3 text-center">
-          <img src="/doctarr.jpeg" alt="MoiDoctar" className="w-14 h-14 md:w-16 md:h-16 rounded-xl object-cover shadow-sm" />
-          <div>
-            <h1 className="font-headline-xl text-headline-xl text-primary font-extrabold tracking-tight">MoiDoctar</h1>
-            <p className="font-body-md text-body-md text-secondary mt-0.5">Health Triage</p>
-          </div>
-        </div>
-
-        {/* Headline */}
-        <div className="text-center">
-          <h2 className="font-headline-md text-headline-md text-on-surface font-bold">Create your account</h2>
-          <p className="font-body-md text-body-md text-secondary mt-1">Join MoiDoctar and take control of your health</p>
-        </div>
-
-        {/* Error banner */}
+    <AuthShell
+      title="Create your account"
+      subtitle="Set up your profile and start managing your health triage history."
+      maxWidthClass="max-w-[500px]"
+      footer={
+        <>
+          Already have an account?{' '}
+          <Link className={authLink} to="/sign-in">Log in</Link>
+        </>
+      }
+    >
+      <div key={shakeKey} className={`${authFormStack} ${error ? 'animate-shake' : ''}`}>
         {error && (
-          <div
-            className="flex items-start gap-3 px-4 py-3 rounded-xl bg-error-container/20 border border-error/30 text-error"
-            role="alert"
-            aria-live="polite"
-          >
-            <Icon icon="error" size="lg" className="shrink-0 mt-0.5" aria-hidden="true" />
-            <p className="font-body-md text-sm flex-1">{error}</p>
+          <div className={authErrorBanner} role="alert" aria-live="polite">
+            <Icon icon="error" size="lg" className="mt-0.5 shrink-0" aria-hidden="true" />
+            <p className="flex-1">{error}</p>
           </div>
         )}
 
-        {/* OAuth Buttons */}
-        <div className="flex flex-col gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <button
             type="button"
             onClick={() => { setError(''); setOauthLoading('google'); googleLogin() }}
             disabled={oauthLoading !== null}
             aria-label="Continue with Google"
-            className="w-full flex items-center justify-center gap-3 py-3.5 md:py-3 rounded-xl border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 font-label-md text-label-md text-on-surface disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className={authSecondaryButton}
           >
             {oauthLoading === 'google' ? (
-              <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
+              <span className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
             ) : (
-              <GoogleIcon size="md" />
+              <GoogleIcon size="lg" />
             )}
-            Continue with Google
+            Google
           </button>
           <button
             type="button"
             onClick={handleApple}
             disabled={oauthLoading !== null}
             aria-label="Continue with Apple"
-            className="w-full flex items-center justify-center gap-3 py-3.5 md:py-3 rounded-xl border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-200 font-label-md text-label-md text-on-surface disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className={authSecondaryButton}
           >
             {oauthLoading === 'apple' ? (
-              <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
+              <span className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
             ) : (
-              <AppleIcon size="md" />
+              <AppleIcon size="lg" />
             )}
-            Continue with Apple
+            Apple
           </button>
         </div>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3" role="separator" aria-orientation="horizontal">
-          <div className="h-px bg-secondary-fixed flex-1" />
-          <span className="font-caption text-caption text-secondary shrink-0">or continue with email</span>
-          <div className="h-px bg-secondary-fixed flex-1" />
+        <div className={authDivider} role="separator" aria-orientation="horizontal">
+          or continue with email
         </div>
 
-        {/* Form */}
-        <form className="flex flex-col gap-4 md:gap-5" onSubmit={handleSubmit} noValidate>
-          {/* Full Name */}
-          <div className="flex flex-col gap-1.5">
-            <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-name">Full Name</label>
-            <div className="relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 border-secondary-fixed">
-              <Icon icon="badge" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+          <div className={authField}>
+            <label className={authLabel} htmlFor="signup-name">Full Name</label>
+            <div className={authInputFrame}>
+              <Icon icon="badge" size="lg" className={authInputIcon} aria-hidden="true" />
               <input
                 id="signup-name"
-                className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
+                className={authInput}
                 type="text"
                 placeholder="John Doe"
                 autoComplete="name"
@@ -236,14 +215,13 @@ export default function SignUp() {
             </div>
           </div>
 
-          {/* Email */}
-          <div className="flex flex-col gap-1.5">
-            <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-email">Email Address</label>
-            <div className={`relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low ${emailError ? inputError : inputNormal}`}>
-              <Icon icon="mail" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+          <div className={authField}>
+            <label className={authLabel} htmlFor="signup-email">Email Address</label>
+            <div className={emailError ? authInputFrameError : authInputFrame}>
+              <Icon icon="mail" size="lg" className={authInputIcon} aria-hidden="true" />
               <input
                 id="signup-email"
-                className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
+                className={authInput}
                 type="email"
                 placeholder="name@example.com"
                 autoComplete="email"
@@ -257,20 +235,19 @@ export default function SignUp() {
             </div>
             {emailError && (
               <p id="signup-email-error" className="font-caption text-caption text-error mt-0.5 flex items-center gap-1" role="alert">
-                <Icon icon="error" size="xs" aria-hidden="true" />
+                <Icon icon="error" size="sm" aria-hidden="true" />
                 Enter a valid email address.
               </p>
             )}
           </div>
 
-          {/* Password */}
-          <div className="flex flex-col gap-1.5">
-            <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-password">Password</label>
-            <div className="relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 border-secondary-fixed">
-              <Icon icon="lock" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+          <div className={authField}>
+            <label className={authLabel} htmlFor="signup-password">Password</label>
+            <div className={authInputFrame}>
+              <Icon icon="lock" size="lg" className={authInputIcon} aria-hidden="true" />
               <input
                 id="signup-password"
-                className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-10 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
+                className={`${authInput} pr-12`}
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Create a password"
                 autoComplete="new-password"
@@ -283,14 +260,13 @@ export default function SignUp() {
               <button
                 type="button"
                 onClick={() => setShowPassword(p => !p)}
-                className="absolute right-3.5 text-secondary hover:text-on-surface transition-colors p-1 focus:outline-none focus:text-primary"
+                className="auth-password-toggle absolute right-3.5 p-1 focus:outline-none focus:text-primary"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                tabIndex={-1}
               >
-                <Icon icon={showPassword ? 'visibility' : 'visibility_off'} size="sm" aria-hidden="true" />
+                <Icon icon={showPassword ? 'visibility' : 'visibility_off'} size="lg" aria-hidden="true" />
               </button>
             </div>
-            {/* Strength bar + requirements */}
+
             {password.length > 0 && (
               <div className="mt-2 space-y-2 animate-fade-in" id="password-requirements">
                 <div className="flex justify-between items-center">
@@ -304,9 +280,9 @@ export default function SignUp() {
                   />
                 </div>
                 <ul className="space-y-1.5 mt-3">
-                  {requirements.map((req, i) => (
+                  {requirements.map((req) => (
                     <li
-                      key={i}
+                      key={req.label}
                       className={`flex items-center gap-2 font-caption text-caption transition-colors duration-300 ${
                         req.met ? 'text-green-500' : 'text-secondary'
                       }`}
@@ -320,16 +296,13 @@ export default function SignUp() {
             )}
           </div>
 
-          {/* Confirm Password */}
-          <div className="flex flex-col gap-1.5">
-            <label className="font-label-md text-label-md text-on-surface" htmlFor="signup-confirm">Confirm Password</label>
-            <div className={`relative flex items-center border rounded-xl transition-all duration-200 bg-surface-container-low ${
-              touched.confirm && !passwordsMatch ? inputError : inputNormal
-            }`}>
-              <Icon icon="lock" size="sm" className="ml-3.5 text-secondary shrink-0" aria-hidden="true" />
+          <div className={authField}>
+            <label className={authLabel} htmlFor="signup-confirm">Confirm Password</label>
+            <div className={touched.confirm && !passwordsMatch ? authInputFrameError : authInputFrame}>
+              <Icon icon="lock" size="lg" className={authInputIcon} aria-hidden="true" />
               <input
                 id="signup-confirm"
-                className="w-full bg-transparent border-none py-3.5 md:py-3 pl-2.5 pr-3.5 font-body-md text-body-md focus:ring-0 rounded-xl text-on-surface placeholder-secondary-fixed-dim outline-none"
+                className={authInput}
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Re-enter your password"
                 autoComplete="new-password"
@@ -342,13 +315,12 @@ export default function SignUp() {
             </div>
             {touched.confirm && !passwordsMatch && confirmPassword.length > 0 && (
               <p className="font-caption text-caption text-error mt-0.5 flex items-center gap-1" role="alert">
-                <Icon icon="error" size="xs" aria-hidden="true" />
+                <Icon icon="error" size="sm" aria-hidden="true" />
                 Passwords do not match.
               </p>
             )}
           </div>
 
-          {/* Terms */}
           <label className="flex items-start gap-2.5 cursor-pointer group">
             <input
               type="checkbox"
@@ -359,22 +331,21 @@ export default function SignUp() {
             />
             <span className="font-body-md text-sm text-on-surface group-hover:text-primary transition-colors">
               I agree to the{' '}
-              <a href="#" className="text-primary hover:underline focus:outline-none focus:underline" onClick={(e) => e.preventDefault()}>Terms of Service</a>
+              <a href="#" className={authLink} onClick={(e) => e.preventDefault()}>Terms of Service</a>
               {' '}and{' '}
-              <a href="#" className="text-primary hover:underline focus:outline-none focus:underline" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+              <a href="#" className={authLink} onClick={(e) => e.preventDefault()}>Privacy Policy</a>
             </span>
           </label>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={!fullName.trim() || !email.trim() || !password || !confirmPassword || !agreeTerms || isSubmitting}
-            className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3.5 md:py-3 rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:ring-2 focus:ring-primary/30 focus:outline-none shadow-sm hover:shadow-md active:scale-[0.98]"
+            className={authPrimaryButton}
             aria-label="Create your account"
           >
             {isSubmitting ? (
               <>
-                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
                 Creating account...
               </>
             ) : (
@@ -382,13 +353,7 @@ export default function SignUp() {
             )}
           </button>
         </form>
-
-        {/* Bottom link */}
-        <p className="text-center font-body-md text-body-md text-secondary">
-          Already have an account?{' '}
-          <Link className="text-primary font-bold hover:underline focus:outline-none focus:underline" to="/sign-in">Log in</Link>
-        </p>
       </div>
-    </div>
+    </AuthShell>
   )
 }

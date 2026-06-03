@@ -10,7 +10,7 @@ export default function AuthLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-background text-on-background">
       <OfflineBanner />
       <Outlet />
     </div>

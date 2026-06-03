@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Icon from '../components/Icon'
+import AuthShell from '../components/auth/AuthShell'
+import {
+  authErrorBanner,
+  authLink,
+  authPrimaryButton,
+} from '../components/auth/authStyles'
 import { useAuth } from '../context/AuthContext'
 import { useToastContext } from '../context/ToastContext'
 import { getAccessToken } from '../services/api'
@@ -113,93 +119,75 @@ export default function OtpVerification() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
-      <main className="w-full max-w-[440px]">
-        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-6 sm:p-8 md:p-10 flex flex-col items-center gap-6 md:gap-8 animate-fade-in">
-          {/* Icon */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-              <Icon icon="mark_email_read" size="xl" />
-            </div>
-            <div className="text-center">
-              <h1 className="font-headline-md text-headline-md text-on-surface font-bold">Verify Your Email</h1>
-              <p className="mt-2 text-secondary font-body-md text-body-md">
-                Enter the verification code sent to
-              </p>
-              <p className="font-label-md text-label-md text-on-surface font-semibold mt-0.5">{email}</p>
-            </div>
-          </div>
-
-          {/* OTP Input */}
-          <div className="flex justify-center gap-2 md:gap-3 w-full">
-            {otp.map((digit, i) => (
-              <input
-                key={i}
-                ref={(el) => { inputRefs.current[i] = el }}
-                autoComplete="one-time-code"
-                autoFocus={i === 0}
-                className={`w-11 h-13 sm:w-12 sm:h-14 md:w-14 md:h-16 text-center font-headline-md text-headline-md rounded-xl border bg-surface text-on-surface transition-all duration-200 outline-none ${
-                  isError && !digit ? 'border-error animate-shake' : 'border-outline-variant'
-                } ${isError && !digit ? '' : 'focus:border-primary focus:ring-2 focus:ring-primary/20'}
-                  ${isVerifying ? 'opacity-50 pointer-events-none' : ''}`}
-                maxLength={1}
-                type="text"
-                inputMode="numeric"
-                value={digit}
-                onChange={(e) => handleChange(i, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(i, e)}
-                onPaste={i === 0 ? handlePaste : undefined}
-                disabled={isVerifying}
-                aria-label={`Digit ${i + 1} of 6`}
-              />
-            ))}
-          </div>
-
-          {/* Error */}
-          {isError && (
-            <p className="font-caption text-caption text-error flex items-center gap-1 -mt-2" role="alert">
-              <Icon icon="error" size="sm" />
-              {errorMsg}
-            </p>
-          )}
-
-          {/* Verify Button */}
-          <button
-            className="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3.5 md:py-3 rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:ring-2 focus:ring-primary/30 focus:outline-none shadow-sm hover:shadow-md active:scale-[0.98]"
-            type="button"
-            onClick={handleVerify}
-            disabled={otp.some(d => !d) || isVerifying}
-            aria-label="Verify email code"
-          >
-            {isVerifying ? (
-              <>
-                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
-                Verifying...
-              </>
-            ) : (
-              'Verify Email'
-            )}
-          </button>
-
-          {/* Resend */}
-          <div className="flex items-center justify-center gap-1.5 font-body-md">
-            <span className="text-secondary text-sm">Didn't receive the code?</span>
-            <button
-              className="text-primary hover:text-primary/80 font-semibold transition-colors duration-200 focus:outline-none focus:underline text-sm disabled:opacity-50 flex items-center gap-1"
-              disabled={isVerifying || isResending}
-              onClick={handleResend}
-              aria-label="Resend verification code"
-            >
-              {isResending ? (
-                <>
-                  <span className="w-3 h-3 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
-                  Sending...
-                </>
-              ) : 'Resend Code'}
-            </button>
-          </div>
+    <AuthShell
+      title="Verify your email"
+      subtitle={
+        <>
+          Enter the verification code sent to <span className="font-semibold text-on-surface">{email}</span>.
+        </>
+      }
+    >
+      <div className="auth-form-stack flex flex-col gap-6">
+        <div className="flex justify-center gap-2 sm:gap-3 w-full">
+          {otp.map((digit, i) => (
+            <input
+              key={i}
+              ref={(el) => { inputRefs.current[i] = el }}
+              autoComplete="one-time-code"
+              autoFocus={i === 0}
+              className={`auth-otp-input ${isError && !digit ? 'auth-otp-input-error animate-shake' : ''} ${
+                isVerifying ? 'opacity-50 pointer-events-none' : ''
+              }`}
+              maxLength={1}
+              type="text"
+              inputMode="numeric"
+              value={digit}
+              onChange={(e) => handleChange(i, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(i, e)}
+              onPaste={i === 0 ? handlePaste : undefined}
+              disabled={isVerifying}
+              aria-label={`Digit ${i + 1} of 6`}
+            />
+          ))}
         </div>
-      </main>
-    </div>
+
+        {isError && (
+          <div className={authErrorBanner} role="alert" aria-live="polite">
+            <Icon icon="error" size="lg" className="mt-0.5 shrink-0" aria-hidden="true" />
+            <p className="flex-1">{errorMsg}</p>
+          </div>
+        )}
+
+        <button
+          className={authPrimaryButton}
+          type="button"
+          onClick={handleVerify}
+          disabled={otp.some(d => !d) || isVerifying}
+          aria-label="Verify email code"
+        >
+          {isVerifying ? (
+            <>
+              <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+              Verifying...
+            </>
+          ) : (
+            'Verify Email'
+          )}
+        </button>
+
+        <div className="flex flex-wrap items-center justify-center gap-1.5 font-body-md">
+          <span className="text-secondary text-sm">Didn&apos;t receive the code?</span>
+          <button
+            className={`${authLink} text-sm disabled:opacity-50 disabled:cursor-not-allowed`}
+            disabled={isVerifying || isResending}
+            onClick={handleResend}
+            aria-label="Resend verification code"
+            type="button"
+          >
+            {isResending ? 'Sending...' : 'Resend Code'}
+          </button>
+        </div>
+      </div>
+    </AuthShell>
   )
 }

@@ -3,7 +3,6 @@ import AppLayout from './layouts/AppLayout'
 import AuthLayout from './layouts/AuthLayout'
 import Dashboard from './pages/Dashboard'
 import NewTriage from './pages/NewTriage'
-import SplashScreen from './pages/SplashScreen'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import OtpVerification from './pages/OtpVerification'
@@ -27,7 +26,6 @@ export default function App() {
     <Routes>
       {/* Auth pages - no sidebar, redirect to app if authenticated */}
       <Route element={<AuthLayout />}>
-        <Route path="/splash" element={<SplashScreen />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/verify-email" element={<OtpVerification />} />

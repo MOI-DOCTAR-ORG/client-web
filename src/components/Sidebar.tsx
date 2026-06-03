@@ -36,14 +36,14 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   const handleSignOut = () => {
     signOut()
-    navigate('/splash')
+    navigate('/sign-in')
     onClose()
   }
 
   const sidebarContent = (
     <>
       <Link to="/" onClick={handleNav} className="px-4 md:px-8 mb-6 md:mb-10 flex items-center gap-3">
-        <img src="/doctarr.jpeg" alt="MoiDoctar" className="w-10 h-10 rounded-lg object-cover" />
+        <img src="/moidoctar-logo.svg" alt="MoiDoctar" className="w-10 h-10 object-contain" />
         <div>
           <h1 className="font-headline-md text-headline-md font-extrabold text-primary">
             MoiDoctar

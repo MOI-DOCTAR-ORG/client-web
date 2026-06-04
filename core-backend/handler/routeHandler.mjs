@@ -22,6 +22,9 @@ class routeHandler {
   async authenticateManually(req, res) {
     try {
       const { email, password, type, fullName, countryType } = req.body;
+      if (!email || !password || !type) {
+        return res.status(400).json({ err: "missing_required_fields" });
+      }
       const _verificationCode = helper.generateVericationCode();
 
       if (type === "SIGNUP_MANUALLY") {
@@ -32,17 +35,18 @@ class routeHandler {
           return res.status(402).json({ err: "account_exist" });
         }
         const encryptPassword = helper.encryptPassword(password);
-        const refreshToken = helper.createRefreshToken({
-          email: email.toLowerCase().trim(),
-        });
         const newAcct = new User({
           userName: fullName,
           email: email.toLowerCase().trim(),
           password: encryptPassword,
           verificationCode: _verificationCode,
-          refreshToken,
           demographics: { country: countryType },
         });
+        await newAcct.save();
+        const refreshToken = helper.createRefreshToken({
+          userId: newAcct._id,
+        });
+        newAcct.refreshToken = refreshToken;
         await newAcct.save();
         const userSessionToken = helper.createSessionToken({
           userId: newAcct._id,
@@ -92,6 +96,7 @@ class routeHandler {
           refreshToken,
         });
       }
+      return res.status(400).json({ err: "invalid_auth_type" });
     } catch (err) {
       if (err.isAuthError) return res.status(401).json({ err: "auth_failed" });
       res.status(500).json({ err: "something went wrong" });
@@ -267,8 +272,12 @@ class routeHandler {
       });
       if (query) {
         query.isVerified = true;
+        query.verificationCode = undefined;
+        const refreshToken = helper.createRefreshToken({ userId: query._id });
+        query.refreshToken = refreshToken;
         await query.save();
-        res.status(200).json({ msg: "successful" });
+        const authorization = helper.createSessionToken({ userId: query._id });
+        res.status(200).json({ msg: "successful", authorization, refreshToken });
       } else {
         res.status(403).json({ msg: "invalid_code" });
       }
@@ -360,6 +369,7 @@ class routeHandler {
         return res.status(404).json({ err: "user_not_found" });
       }
       user.password = helper.encryptPassword(newPassword);
+      user.verificationCode = undefined;
       await user.save();
       res.status(200).json({ msg: "successful" });
     } catch (err) {

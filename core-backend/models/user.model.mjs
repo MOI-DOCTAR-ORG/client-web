@@ -49,12 +49,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    unique: true,
     sparse: true,
   },
   verificationCode: {
     type: String,
-    unique: true,
     sparse: true,
   },
   refreshToken: {

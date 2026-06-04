@@ -44,6 +44,7 @@ export type TriageSession = {
 }
 
 type AuthTokens = { authorization: string; refreshToken: string }
+type VerifyResponse = { msg: string; authorization?: string; refreshToken?: string }
 
 type LoginResult =
   | { success: true }
@@ -196,7 +197,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyEmail = useCallback(async (code: string): Promise<boolean> => {
     try {
-      await api.post<{ msg: string }>('/auth/verify', { verificationCode: code })
+      const res = await api.post<VerifyResponse>('/auth/verify', { verificationCode: code })
+      if (res.authorization && res.refreshToken) {
+        setTokens(res.authorization, res.refreshToken)
+      }
       const user = await fetchUser()
       if (!user) return false
       seedLocalStorage(user)

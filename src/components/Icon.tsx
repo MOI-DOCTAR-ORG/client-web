@@ -57,6 +57,14 @@ function getLocalIcon(icon: string) {
           <path d="M12 8v7M8.5 11.5h7" />
         </>
       )
+    case 'clinical_notes':
+      return (
+        <>
+          <path d="M8 4.5h8M9 3.5h6v3H9z" />
+          <rect x="5" y="5.5" width="14" height="16" rx="2.5" />
+          <path d="M8.5 11h7M8.5 14.5h7M8.5 18h4.5" />
+        </>
+      )
     case 'lock':
       return (
         <>
@@ -77,6 +85,22 @@ function getLocalIcon(icon: string) {
           <rect x="4" y="5" width="16" height="12" rx="2.5" />
           <path d="M8 11h2l1.2-2.3 2 5 1.3-2.7H17" />
           <path d="M9 20h6M12 17v3" />
+        </>
+      )
+    case 'medical_services':
+      return (
+        <>
+          <rect x="4" y="7" width="16" height="13" rx="2.5" />
+          <path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7" />
+          <path d="M12 10.5v6M9 13.5h6" />
+        </>
+      )
+    case 'medication':
+      return (
+        <>
+          <path d="m5.8 14.2 8.4-8.4a3.1 3.1 0 0 1 4.4 4.4l-8.4 8.4a3.1 3.1 0 0 1-4.4-4.4Z" />
+          <path d="m10 10 4 4" />
+          <path d="M15.5 19.2c1.9.8 3.8.4 5-1.3" />
         </>
       )
     case 'pin':

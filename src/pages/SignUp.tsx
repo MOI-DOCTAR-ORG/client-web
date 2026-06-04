@@ -145,6 +145,7 @@ export default function SignUp() {
       title="Create your account"
       subtitle="Set up your profile and start managing your health triage history."
       maxWidthClass="max-w-[500px]"
+      visualPosition="left"
       footer={
         <>
           Already have an account?{' '}

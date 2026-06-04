@@ -4,6 +4,7 @@ import Icon from '../components/Icon'
 import AuthShell from '../components/auth/AuthShell'
 import {
   authErrorBanner,
+  authFormStack,
   authLink,
   authPrimaryButton,
 } from '../components/auth/authStyles'
@@ -24,6 +25,12 @@ export default function OtpVerification() {
   const [isError, setIsError] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const otpInputClass = [
+    'h-14 w-[clamp(2.35rem,13.5vw,3.6rem)] rounded-2xl border border-outline-variant bg-surface-container-lowest/70',
+    'text-center font-headline-md text-2xl font-extrabold leading-none text-on-surface outline-none shadow-[0_10px_24px_rgba(15,23,42,0.06)]',
+    'transition duration-200 ease-out focus:-translate-y-0.5 focus:border-primary focus:ring-4 focus:ring-primary/15',
+    'sm:h-16 sm:w-14 sm:text-[1.75rem] dark:border-outline/40 dark:bg-surface-container-high/70',
+  ].join(' ')
 
   useEffect(() => {
     inputRefs.current[0]?.focus()
@@ -127,7 +134,7 @@ export default function OtpVerification() {
         </>
       }
     >
-      <div className="auth-form-stack flex flex-col gap-6">
+      <div className={`${authFormStack} gap-6`}>
         <div className="flex justify-center gap-2 sm:gap-3 w-full">
           {otp.map((digit, i) => (
             <input
@@ -135,7 +142,7 @@ export default function OtpVerification() {
               ref={(el) => { inputRefs.current[i] = el }}
               autoComplete="one-time-code"
               autoFocus={i === 0}
-              className={`auth-otp-input ${isError && !digit ? 'auth-otp-input-error animate-shake' : ''} ${
+              className={`${otpInputClass} ${isError && !digit ? 'border-error ring-4 ring-error/15 animate-shake' : ''} ${
                 isVerifying ? 'opacity-50 pointer-events-none' : ''
               }`}
               maxLength={1}

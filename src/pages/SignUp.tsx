@@ -260,7 +260,7 @@ export default function SignUp() {
               <button
                 type="button"
                 onClick={() => setShowPassword(p => !p)}
-                className="auth-password-toggle absolute right-3.5 p-1 focus:outline-none focus:text-primary"
+                className="absolute right-2.5 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-1 text-secondary transition duration-200 hover:scale-105 hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 <Icon icon={showPassword ? 'visibility' : 'visibility_off'} size="lg" aria-hidden="true" />

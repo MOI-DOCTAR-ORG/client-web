@@ -5,4 +5,12 @@ dist
 .env.local
 core-backend/.env
 *.log
-.DS_Store
+
+# Package manager lock files
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+bun.lockb
+.

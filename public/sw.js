@@ -16,21 +16,3 @@ self.addEventListener('activate', (event) => {
   )
 })
 
-self.addEventListener('fetch', (event) => {
-  const { request } = event
-  if (request.method !== 'GET') return
-  if (request.url.includes('chrome-extension')) return
-
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      const fetched = fetch(request).then((response) => {
-        if (response && response.status === 200) {
-          const copy = response.clone()
-          caches.open(CACHE).then((cache) => cache.put(request, copy))
-        }
-        return response
-      }).catch(() => cached)
-      return cached || fetched
-    })
-  )
-})

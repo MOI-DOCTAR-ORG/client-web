@@ -26,6 +26,7 @@ export default function App() {
     <Routes>
       {/* Auth pages - no sidebar, redirect to app if authenticated */}
       <Route element={<AuthLayout />}>
+        <Route path="/login" element={<SignIn />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/verify-email" element={<OtpVerification />} />

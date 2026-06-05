@@ -1,7 +1,7 @@
-const BASE = import.meta.env.VITE_API_BASE_URL
-  ? `${import.meta.env.VITE_API_BASE_URL}/api/v1`
-  : '/api/v1'
-const ACCESS_TOKEN_KEY = 'doctarr_access_token'
+import type { AxiosRequestConfig } from 'axios'
+import apiClient from '../lib/axios'
+
+const ACCESS_TOKEN_KEY = 'token'
 const REFRESH_TOKEN_KEY = 'doctarr_refresh_token'
 
 export function getAccessToken(): string | null {
@@ -32,23 +32,28 @@ async function request<T>(
   method: string,
   path: string,
   body?: unknown,
-  token?: string | null,
+  _token?: string | null,
 ): Promise<T> {
-  const authToken = token !== undefined ? token : getAccessToken()
-  const res = await fetch(`${BASE}${path}`, {
+  const config: AxiosRequestConfig = {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(authToken ? { authorization: authToken } : {}),
-    },
-    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-  })
-  const data = await res.json()
-  if (!res.ok) {
-    const err: ApiError = { status: res.status, ...data }
+    url: path,
+  }
+
+  if (body !== undefined) {
+    config.data = body
+  }
+
+  try {
+    const res = await apiClient.request<T>(config)
+    return res.data
+  } catch (error) {
+    const maybeError = error as { response?: { status?: number; data?: Record<string, unknown> } }
+    const err: ApiError = {
+      status: maybeError.response?.status ?? 0,
+      ...(maybeError.response?.data ?? {}),
+    }
     throw err
   }
-  return data as T
 }
 
 export const api = {

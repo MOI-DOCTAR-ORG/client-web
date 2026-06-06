@@ -79,7 +79,7 @@ export default function AuthShell({
       <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(var(--color-outline-variant)_1px,transparent_1px),linear-gradient(90deg,var(--color-outline-variant)_1px,transparent_1px)] [background-size:42px_42px]" />
 
       <div className={`relative mx-auto grid min-h-[calc(100dvh-1.5rem)] w-full max-w-[1240px] overflow-hidden rounded-[28px] border border-outline-variant bg-surface-container-lowest/80 shadow-[0_30px_90px_rgba(15,23,42,0.16)] backdrop-blur-xl sm:min-h-[calc(100dvh-2.5rem)] lg:min-h-[calc(100dvh-3rem)] ${gridClass} dark:bg-surface-container-low/80 dark:shadow-[0_34px_100px_rgba(0,0,0,0.42)]`}>
-        <section className={`relative flex min-h-full items-center justify-center overflow-y-auto px-4 py-6 sm:px-8 sm:py-8 lg:px-11 ${formOrderClass}`}>
+        <section className={`relative flex min-h-full items-start justify-center overflow-y-auto px-4 py-6 sm:px-8 sm:py-8 lg:px-11 ${formOrderClass}`}>
           <div className={`w-full ${maxWidthClass} motion-safe:animate-[auth-rise-in_520ms_cubic-bezier(0.16,1,0.3,1)_both]`}>
             <header className="mb-6 flex flex-col gap-5 sm:mb-7">
               <div className="flex items-center justify-between gap-4">

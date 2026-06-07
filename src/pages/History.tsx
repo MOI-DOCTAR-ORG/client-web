@@ -466,25 +466,12 @@ function MedicalForm() {
 }
 
 export default function History() {
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const initialTab = searchParams.get('tab') === 'medical' ? 'medical' : 'sessions'
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   return (
     <main className="h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
-      <header className="flex justify-between items-center w-full mb-8 flex-shrink-0">
-        <div>
-          <h2 className="font-headline-lg text-headline-lg text-on-surface">History</h2>
-          <p className="font-body-md text-secondary">View your triage sessions or update your medical profile.</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all text-secondary">
-            <Icon icon="notifications" size="md" />
-          </button>
-        </div>
-      </header>
-
       <div className="overflow-x-auto mb-8 flex-shrink-0">
         <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max">
           {tabs.map(tab => (

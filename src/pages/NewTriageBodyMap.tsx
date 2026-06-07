@@ -35,7 +35,7 @@ export default function NewTriageBodyMap() {
   ]
 
   return (
-    <main className="h-screen flex overflow-hidden relative">
+    <main className="h-[calc(100vh-56px)] md:h-[calc(100vh-64px)] flex overflow-hidden relative">
       {/* Left Info Panel */}
       {showPanel && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
@@ -78,7 +78,15 @@ export default function NewTriageBodyMap() {
 
       {/* Right Chat Panel */}
       <section className="flex-grow flex flex-col bg-surface relative">
-        <header className="h-16 flex items-center justify-between px-gutter border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md sticky top-0 z-20">
+        <button
+          type="button"
+          className="md:hidden absolute left-4 top-4 z-20 inline-flex items-center gap-2 rounded-full border border-outline-variant/50 bg-surface-container-lowest/90 px-3 py-2 text-xs font-bold text-secondary shadow-sm backdrop-blur-md"
+          onClick={() => setShowPanel(true)}
+        >
+          <Icon icon="info" size="sm" />
+          Session details
+        </button>
+        <header className="hidden">
           <div className="flex items-center gap-3">
             <LianaAvatar size="sm" />
             <div>
@@ -102,7 +110,7 @@ export default function NewTriageBodyMap() {
           </div>
         </header>
 
-        <div className="flex-grow overflow-y-auto p-gutter space-y-8 chat-container pb-32">
+        <div className="flex-grow overflow-y-auto px-gutter pb-32 pt-16 md:pt-gutter space-y-8 chat-container">
           {messages.map((msg, i) => (
             msg.role === 'ai' ? (
               <div key={i} className="flex gap-4 max-w-full md:max-w-2xl">

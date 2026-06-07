@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext'
 import { useToastContext } from '../context/ToastContext'
 import Icon from '../components/Icon'
 import { scopeKey } from '../utils/storage'
-import { getUserInitials } from '../utils/getUserInitials'
 import { api } from '../services/api'
 import {
   type PatientProfile,
@@ -251,25 +250,13 @@ export default function Profile() {
 
   return (
     <main className="min-h-screen flex flex-col items-center">
-      <header className="flex justify-between items-center w-full px-gutter h-16 sticky top-0 bg-surface/80 backdrop-blur-md z-30">
-        <h2 className="font-headline-md text-headline-md text-primary font-bold">Profile</h2>
-        <div className="flex items-center gap-stack-md">
-          {dirty && (
-            <span className="hidden sm:inline-flex items-center gap-1 text-caption text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-3 py-1 rounded-full">
-              <Icon icon="edit_note" size="sm" />
-              Unsaved
-            </span>
-          )}
-          <button onClick={() => navigate('/notifications')} className="hover:bg-surface-variant rounded-full p-2 transition-all">
-            <Icon icon="notifications" size="lg" className="text-secondary" />
-          </button>
-          <div className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
-            {getUserInitials()}
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-[900px] w-full px-4 md:px-gutter py-stack-lg flex flex-col gap-gutter">
+        {dirty && (
+          <div className="self-end inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-caption text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+            <Icon icon="edit_note" size="sm" />
+            Unsaved
+          </div>
+        )}
 
         {/* Profile Header Card */}
         <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-sm">

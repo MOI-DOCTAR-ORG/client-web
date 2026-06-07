@@ -21,27 +21,7 @@ export default function NewTriageInterface() {
 
   return (
     <div className="flex flex-col h-full relative z-10">
-      <header className="flex justify-between items-center w-full px-margin-mobile md:px-gutter h-16 max-w-container-max-width mx-auto bg-surface/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-4 md:hidden">
-          <button className="text-on-surface p-2 rounded-full hover:bg-surface-variant transition-colors">
-            <Icon icon="menu" size="lg" />
-          </button>
-          <h1 className="font-headline-md text-headline-md font-extrabold text-primary">MoiDoctar</h1>
-        </div>
-        <div className="hidden md:block">
-          <h2 className="font-headline-md text-headline-md font-bold text-on-surface">New Triage Session</h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="text-secondary hover:bg-surface-variant dark:hover:bg-surface-container-highest rounded-full p-2 transition-all">
-            <Icon icon="notifications" size="lg" />
-          </button>
-          <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-bold text-xs cursor-pointer hover:opacity-80 transition-opacity">
-            {getUserInitials()}
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-1 max-w-container-max-width mx-auto w-full p-margin-mobile md:p-gutter flex flex-col md:flex-row gap-gutter h-[calc(100vh-64px)] pb-6 overflow-hidden">
+      <main className="flex-1 max-w-container-max-width mx-auto w-full p-margin-mobile md:p-gutter flex flex-col md:flex-row gap-gutter h-[calc(100vh-56px)] md:h-[calc(100vh-64px)] pb-6 overflow-hidden">
         <aside className="w-full md:w-80 flex-shrink-0 flex flex-col gap-stack-md">
           <div className="bg-surface-container rounded-xl p-6 shadow-sm border border-outline-variant/20 flex-1 flex flex-col relative overflow-hidden">
             <div className="mb-6">

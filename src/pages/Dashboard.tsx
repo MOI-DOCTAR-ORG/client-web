@@ -6,7 +6,6 @@ import ReminderBanner from '../components/ReminderBanner'
 import SessionGrid from '../components/SessionGrid'
 import QuickActions from '../components/QuickActions'
 import { scopeKey } from '../utils/storage'
-import { getUserInitials } from '../utils/getUserInitials'
 
 const greeting = () => {
   const h = new Date().getHours()
@@ -73,9 +72,6 @@ export default function Dashboard() {
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{greeting()}</h2>
           <p className="font-body-md text-secondary">Here is your health overview for today.</p>
         </div>
-        <button onClick={() => navigate('/profile')} className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center font-bold hover:opacity-80 transition-opacity">
-          {getUserInitials()}
-        </button>
       </header>
 
       <ReminderBanner />

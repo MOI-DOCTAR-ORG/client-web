@@ -65,7 +65,7 @@ export default {
         'stack-sm': '8px',
         'margin-mobile': '16px',
         'container-max-width': '1200px',
-        'sidebar-width': '280px',
+        'sidebar-width': '232px',
         'stack-md': '16px',
         'stack-lg': '32px',
         gutter: '24px',

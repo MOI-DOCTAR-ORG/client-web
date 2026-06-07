@@ -108,23 +108,6 @@ export default function Notifications() {
 
   return (
     <main className="min-h-screen bg-surface text-on-background">
-      {/* <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md px-margin-mobile md:px-gutter h-16 flex justify-between items-center border-b border-outline-variant md:border-none">
-        <div className="flex items-center gap-4">
-          <button className="md:hidden p-2 text-secondary">
-            <Icon icon="menu" size="lg" />
-          </button>
-          <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Notifications</h2>
-        </div>
-        <div className="flex items-center gap-stack-md">
-          <button onClick={() => navigate('/profile')} className="p-2 text-secondary hover:bg-surface-variant rounded-full transition-all">
-            <Icon icon="settings" size="lg" />
-          </button>
-          <div className="w-10 h-10 rounded-full bg-secondary-container overflow-hidden flex items-center justify-center text-on-secondary-container font-bold">
-            {getUserInitials()}
-          </div>
-        </div>
-      </header> */}
-
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-gutter py-stack-lg">
         <div className="overflow-x-auto mb-8"><div className="flex gap-2">
           {tabs.map((tab) => (

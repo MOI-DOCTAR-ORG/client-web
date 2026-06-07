@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import Icon from '../components/Icon'
+import { PremiumInput, PremiumSelect, PremiumTimeInput } from '../components/ui/PremiumFormControls'
 import { api } from '../services/api'
 import { useToastContext } from '../context/ToastContext'
 
@@ -122,27 +123,27 @@ export default function MedicationTracker() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Medication Name</label>
-                <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="e.g. Lisinopril" value={medName} onChange={e => setMedName(e.target.value)} />
+                <PremiumInput placeholder="e.g. Lisinopril" value={medName} onChange={e => setMedName(e.target.value)} />
               </div>
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Dosage</label>
-                <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="e.g. 10mg" value={medDosage} onChange={e => setMedDosage(e.target.value)} />
+                <PremiumInput placeholder="e.g. 10mg" value={medDosage} onChange={e => setMedDosage(e.target.value)} />
               </div>
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Time</label>
-                <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" type="time" value={medTime} onChange={e => setMedTime(e.target.value)} />
+                <PremiumTimeInput value={medTime} onChange={e => setMedTime(e.target.value)} />
               </div>
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Frequency</label>
-                <select className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" value={medFrequency} onChange={e => setMedFrequency(e.target.value as typeof medFrequency)}>
+                <PremiumSelect value={medFrequency} onChange={e => setMedFrequency(e.target.value as typeof medFrequency)}>
                   <option value="morning">Morning</option>
                   <option value="afternoon">Afternoon</option>
                   <option value="night">Night</option>
-                </select>
+                </PremiumSelect>
               </div>
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Supply (pills)</label>
-                <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" type="number" min="1" value={medSupply} onChange={e => setMedSupply(e.target.value)} />
+                <PremiumInput type="number" min="1" value={medSupply} onChange={e => setMedSupply(e.target.value)} />
               </div>
               <div className="flex items-end">
                 <button onClick={addMedication} disabled={saving || !medName.trim() || !medDosage.trim()} className="w-full bg-primary text-white py-3 rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-40">

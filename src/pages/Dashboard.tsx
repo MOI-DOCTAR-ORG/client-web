@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
+import { PremiumInput } from '../components/ui/PremiumFormControls'
 import ReminderBanner from '../components/ReminderBanner'
 import SessionGrid from '../components/SessionGrid'
 import QuickActions from '../components/QuickActions'
@@ -10,7 +11,7 @@ import { scopeKey } from '../utils/storage'
 const greeting = () => {
   const h = new Date().getHours()
   if (h < 12) return 'Good morning'
-  if (h < 17) return 'Good afternoon'
+  if (h < 16) return 'Good afternoon'
   return 'Good evening'
 }
 
@@ -93,7 +94,7 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="flex gap-1.5">
-            <input className="flex-1 bg-surface-container-low border border-outline-variant rounded-full px-3 py-1.5 text-xs outline-none focus:border-primary" placeholder="Any notes?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
+            <PremiumInput compact variant="pill" containerClassName="flex-1" className="min-h-9 text-xs" placeholder="Any notes?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
             <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-1">
               <Icon icon="check" size="sm" />
               Save

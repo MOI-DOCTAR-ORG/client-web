@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
+import { PremiumDateInput, PremiumInput, PremiumSelect, PremiumTextarea } from '../components/ui/PremiumFormControls'
 import { usePersistState } from '../hooks/usePersistState'
 import { api } from '../services/api'
 
@@ -289,11 +290,11 @@ function MedicalForm() {
                 <label className="block font-label-md text-label-md text-on-surface-variant mb-2" htmlFor="hist-dob">
                   Date of Birth <span className="text-error">*</span>
                 </label>
-                <input className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="hist-dob" type="date" value={dob} onChange={e => setDob(e.target.value)} required />
+                <PremiumDateInput id="hist-dob" value={dob} onChange={e => setDob(e.target.value)} required />
               </div>
               <div>
                 <label className="block font-label-md text-label-md text-on-surface-variant mb-2" htmlFor="hist-blood">Blood Type</label>
-                <select className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none" id="hist-blood" value={bloodType} onChange={e => setBloodType(e.target.value)}>
+                <PremiumSelect id="hist-blood" value={bloodType} onChange={e => setBloodType(e.target.value)}>
                   <option value="">Select Blood Type</option>
                   <option value="a+">A+</option>
                   <option value="a-">A-</option>
@@ -304,13 +305,13 @@ function MedicalForm() {
                   <option value="o+">O+</option>
                   <option value="o-">O-</option>
                   <option value="unknown">Unknown</option>
-                </select>
+                </PremiumSelect>
               </div>
               <div className="md:col-span-2">
                 <label className="block font-label-md text-label-md text-error mb-2" htmlFor="hist-emergency">
                   Emergency Contact Number <span className="text-error">*</span>
                 </label>
-                <input className="w-full bg-error-container/20 border border-error rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none" id="hist-emergency" type="tel" placeholder="(555) 000-0000" value={emergencyContact} onChange={e => setEmergencyContact(e.target.value)} />
+                <PremiumInput tone="danger" id="hist-emergency" type="tel" placeholder="(555) 000-0000" value={emergencyContact} onChange={e => setEmergencyContact(e.target.value)} />
                 {!emergencyContact && (
                   <p className="font-caption text-caption text-error mt-1 flex items-center gap-1">
                     <Icon icon="error" size="xs" />
@@ -358,7 +359,7 @@ function MedicalForm() {
                 </button>
               ) : (
                 <div className="flex gap-2 items-center flex-wrap">
-                  <input className="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md outline-none focus:border-primary min-w-0 flex-1" placeholder="Condition name" value={customConditionInput} onChange={e => setCustomConditionInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomCondition() } }} />
+                  <PremiumInput compact containerClassName="min-w-0 flex-1" placeholder="Condition name" value={customConditionInput} onChange={e => setCustomConditionInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomCondition() } }} />
                   <button onClick={addCustomCondition} className="bg-primary text-white px-3 py-2 rounded-lg font-label-md text-sm" type="button">Add</button>
                   <button onClick={() => { setShowCustomCondition(false); setCustomConditionInput('') }} className="text-secondary px-2 py-2 text-sm" type="button">Cancel</button>
                 </div>
@@ -385,7 +386,7 @@ function MedicalForm() {
               {allergies.length === 0 && <p className="font-body-md text-secondary text-sm">No allergies listed.</p>}
             </div>
             <div className="flex gap-2 max-w-full">
-              <input className="flex-1 min-w-0 bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-2 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Type allergy to add..." type="text" value={allergyInput} onChange={e => setAllergyInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }} />
+              <PremiumInput compact containerClassName="flex-1 min-w-0" placeholder="Type allergy to add..." type="text" value={allergyInput} onChange={e => setAllergyInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addAllergy() } }} />
               <button className="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md hover:bg-surface-variant transition-colors" type="button" onClick={addAllergy}>Add</button>
             </div>
           </section>
@@ -414,13 +415,13 @@ function MedicalForm() {
                     medications.map((med, i) => (
                       <tr key={i} className="border-b border-outline-variant/20 hover:bg-surface-container-lowest/50 transition-colors">
                         <td className="py-2 px-4">
-                          <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="Medication name" value={med.name} onChange={e => updateMedication(i, 'name', e.target.value)} />
+                          <PremiumInput compact variant="inline" placeholder="Medication name" value={med.name} onChange={e => updateMedication(i, 'name', e.target.value)} />
                         </td>
                         <td className="py-2 px-4">
-                          <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="e.g. 10mg" value={med.dosage} onChange={e => updateMedication(i, 'dosage', e.target.value)} />
+                          <PremiumInput compact variant="inline" placeholder="e.g. 10mg" value={med.dosage} onChange={e => updateMedication(i, 'dosage', e.target.value)} />
                         </td>
                         <td className="py-2 px-4">
-                          <input className="w-full bg-transparent border-b border-dashed border-outline-variant focus:border-primary outline-none font-body-md py-2" placeholder="e.g. Once daily" value={med.frequency} onChange={e => updateMedication(i, 'frequency', e.target.value)} />
+                          <PremiumInput compact variant="inline" placeholder="e.g. Once daily" value={med.frequency} onChange={e => updateMedication(i, 'frequency', e.target.value)} />
                         </td>
                         <td className="py-2 px-4 text-right">
                           <button onClick={() => removeMedication(i)} aria-label="Delete row" className="text-secondary hover:text-error transition-colors" type="button">
@@ -445,7 +446,7 @@ function MedicalForm() {
               </div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Past Surgeries</h3>
             </div>
-            <textarea className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-y" placeholder="List any past surgeries and approximate dates..." rows={4} value={pastSurgeries} onChange={e => setPastSurgeries(e.target.value)} />
+            <PremiumTextarea placeholder="List any past surgeries and approximate dates..." rows={4} value={pastSurgeries} onChange={e => setPastSurgeries(e.target.value)} />
           </section>
         </div>
 

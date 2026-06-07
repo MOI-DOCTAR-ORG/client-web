@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { PremiumInput } from '../components/ui/PremiumFormControls'
 import { useTheme } from '../context/ThemeContext'
 
 type View = 'Front' | 'Back' | 'Left' | 'Right'
@@ -216,8 +217,9 @@ export default function BodyMap() {
                       </div>
                     </div>
                     <div>
-                      <input
-                        className="w-full bg-surface-container-low border border-outline-variant/30 rounded-[12px] px-3 py-2 text-caption font-caption text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-outline"
+                      <PremiumInput
+                        compact
+                        className="text-caption font-caption"
                         placeholder="Add notes (e.g. sharp, dull ache)..."
                         type="text"
                         value={area.notes}

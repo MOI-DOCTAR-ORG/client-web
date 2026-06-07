@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Icon from '../components/Icon'
+import { PremiumInput, PremiumSelect } from '../components/ui/PremiumFormControls'
 import { usePersistState } from '../hooks/usePersistState'
 
 interface SymptomReport {
@@ -108,7 +109,7 @@ export default function CareDetails() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <div className="flex flex-col gap-1">
             <label className="font-label-md text-caption text-secondary">SYMPTOM</label>
-            <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="e.g. Fever, Cough, Headache" value={symptom} onChange={e => setSymptom(e.target.value)} />
+            <PremiumInput placeholder="e.g. Fever, Cough, Headache" value={symptom} onChange={e => setSymptom(e.target.value)} />
           </div>
           <div className="flex flex-col gap-1">
             <label className="font-label-md text-caption text-secondary">SEVERITY</label>
@@ -120,18 +121,18 @@ export default function CareDetails() {
           </div>
           <div className="flex flex-col gap-1">
             <label className="font-label-md text-caption text-secondary">DURATION</label>
-            <select className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" value={duration} onChange={e => setDuration(e.target.value)}>
+            <PremiumSelect value={duration} onChange={e => setDuration(e.target.value)}>
               <option value="">Select duration</option>
               <option value="Few hours">Few hours</option>
               <option value="1 day">1 day</option>
               <option value="2-3 days">2-3 days</option>
               <option value="1 week">1 week</option>
               <option value="2+ weeks">2+ weeks</option>
-            </select>
+            </PremiumSelect>
           </div>
           <div className="flex flex-col gap-1">
             <label className="font-label-md text-caption text-secondary">NOTES (optional)</label>
-            <input className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md outline-none focus:border-primary" placeholder="Additional details..." value={notes} onChange={e => setNotes(e.target.value)} />
+            <PremiumInput placeholder="Additional details..." value={notes} onChange={e => setNotes(e.target.value)} />
           </div>
         </div>
         <div className="flex justify-end">

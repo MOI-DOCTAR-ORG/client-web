@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { PremiumInput } from '../components/ui/PremiumFormControls'
 import { usePersistState } from '../hooks/usePersistState'
 
 type Severity = 'Mild' | 'Moderate' | 'Severe'
@@ -60,8 +61,8 @@ export default function SymptomTrackerBodyMap() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
             <div className="space-y-4">
               <label className="font-label-md block text-secondary">WHAT ARE YOU FEELING?</label>
-              <input
-                className="w-full h-14 px-4 rounded-lg bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-outline-variant/60 font-body-md"
+              <PremiumInput
+                className="h-14"
                 placeholder="e.g., Migraine, Chest Tightness, Fatigue"
                 type="text"
                 value={symptomName}

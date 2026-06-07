@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToastContext } from '../context/ToastContext'
 import Icon from '../components/Icon'
+import { PremiumDateInput, PremiumSelect, premiumControlClass } from '../components/ui/PremiumFormControls'
 import { scopeKey } from '../utils/storage'
 import { api } from '../services/api'
 import {
@@ -237,11 +238,7 @@ export default function Profile() {
   const scopedKey = scopeKey(STORAGE_KEY)
 
   function inputClass(error?: string) {
-    return `w-full bg-surface-container-low border ${error ? 'border-error' : 'border-outline-variant'} rounded-lg px-4 py-3 font-body-md text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-secondary`
-  }
-
-  function selectClass(error?: string) {
-    return `w-full bg-surface-container-low border ${error ? 'border-error' : 'border-outline-variant'} rounded-lg px-4 py-3 font-body-md text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all`
+    return premiumControlClass({ tone: error ? 'danger' : 'default' })
   }
 
   function badgeClass() {
@@ -333,30 +330,28 @@ export default function Profile() {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Date of Birth">
-              <input
-                type="date"
-                className={inputClass()}
+              <PremiumDateInput
                 value={form.dateOfBirth}
                 onChange={e => updateField('dateOfBirth', e.target.value)}
               />
             </Field>
             <Field label="Gender">
-              <select className={selectClass()} value={form.gender} onChange={e => updateField('gender', e.target.value)}>
+              <PremiumSelect value={form.gender} onChange={e => updateField('gender', e.target.value)}>
                 <option value="">Select gender</option>
                 {genderOptions.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
+              </PremiumSelect>
             </Field>
             <Field label="Blood Group">
-              <select className={selectClass()} value={form.bloodGroup} onChange={e => updateField('bloodGroup', e.target.value)}>
+              <PremiumSelect value={form.bloodGroup} onChange={e => updateField('bloodGroup', e.target.value)}>
                 <option value="">Select blood group</option>
                 {bloodGroupOptions.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
+              </PremiumSelect>
             </Field>
             <Field label="Genotype">
-              <select className={selectClass()} value={form.genotype} onChange={e => updateField('genotype', e.target.value)}>
+              <PremiumSelect value={form.genotype} onChange={e => updateField('genotype', e.target.value)}>
                 <option value="">Select genotype</option>
                 {genotypeOptions.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
+              </PremiumSelect>
             </Field>
           </div>
         </SectionCard>
@@ -406,10 +401,10 @@ export default function Profile() {
               />
             </Field>
             <Field label="State / Region">
-              <select className={selectClass()} value={form.state} onChange={e => updateField('state', e.target.value)}>
+              <PremiumSelect value={form.state} onChange={e => updateField('state', e.target.value)}>
                 <option value="">Select state</option>
                 {stateOptions.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
+              </PremiumSelect>
             </Field>
           </div>
         </SectionCard>

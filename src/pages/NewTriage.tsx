@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
 import { getUserInitials } from '../utils/getUserInitials'
 import LianaAvatar from '../components/LianaAvatar'
+import { useCreateTriageChat } from '../hooks/useMoiDoctor'
+import type { TriageChatResponse } from '../types/triage'
 
 type Severity = 'Mild' | 'Moderate' | 'Severe'
 
 export default function NewTriage() {
   const navigate = useNavigate()
   const { addSession } = useAuth()
+  const createTriage = useCreateTriageChat()
   const sessionId = Date.now().toString(36).toUpperCase()
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>('Moderate')
   const [inputValue, setInputValue] = useState('')
@@ -21,12 +24,76 @@ export default function NewTriage() {
       time: 'Sent at ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
     },
   ])
+  const [assessment, setAssessment] = useState<TriageChatResponse | null>(null)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const turnCountRef = useRef(0)
 
-  const handleSend = () => {
-    if (!inputValue.trim()) return
-    setMessages(prev => [...prev, { role: 'user', text: inputValue, time: 'Just now' }])
-    setInputValue('')
+  const userSymptoms = messages.filter(m => m.role === 'user').map(m => m.text).join('\n')
+  const messagesJson = JSON.stringify(messages.map(m => ({ role: m.role, content: m.text })))
+
+  const triggerAssessment = useCallback(() => {
+    if (userSymptoms.length < 1) return
+    createTriage.mutate(
+      {
+        symptoms: userSymptoms,
+        messages: messagesJson,
+        image: selectedImage ?? undefined,
+      },
+      {
+        onSuccess: (res) => {
+          setAssessment(res.data)
+        },
+      },
+    )
+  }, [userSymptoms, messagesJson, selectedImage])
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) setSelectedImage(file)
   }
+
+  useEffect(() => {
+    if (selectedSeverity && userSymptoms.length >= 1 && turnCountRef.current === 0) {
+      turnCountRef.current = 1
+      triggerAssessment()
+    }
+  }, [selectedSeverity, messages.length])
+
+  useEffect(() => {
+    if (turnCountRef.current > 1) {
+      triggerAssessment()
+    }
+  }, [messages.length])
+
+  const handleSend = (text?: string) => {
+    const msg = (text ?? inputValue).trim()
+    if (!msg) return
+    setMessages(prev => [...prev, { role: 'user', text: msg, time: 'Just now' }])
+    setInputValue('')
+    if (assessment) {
+      turnCountRef.current++
+    }
+  }
+
+  const handleFollowUpClick = (question: string) => {
+    handleSend(question)
+  }
+
+  const urgencyColor = (level: string) => {
+    switch (level.toLowerCase()) {
+      case 'high':
+      case 'emergency':
+      case 'urgent':
+        return 'bg-error text-on-error'
+      case 'moderate':
+        return 'bg-tertiary-fixed text-on-tertiary-fixed-variant'
+      default:
+        return 'bg-blue-400 text-white'
+    }
+  }
+
+  const confidencePercent = (score: number) => Math.round(Math.max(0, Math.min(1, score)) * 100)
 
   const severityOptions: { label: Severity; dot: string; border: string; hover: string }[] = [
     { label: 'Mild', dot: 'bg-blue-400', border: 'border-blue-400', hover: 'hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20' },
@@ -172,23 +239,134 @@ export default function NewTriage() {
                 <LianaAvatar size="sm" />
               </div>
               <div className="bg-surface-container-low border border-outline-variant rounded-2xl rounded-tl-none p-6 shadow-md w-full border-l-4 border-l-tertiary-container">
-                <div className="flex justify-between items-start mb-4">
-                  <h4 className="font-headline-md text-headline-md text-on-surface">Preliminary Assessment</h4>
-                  <span className="bg-tertiary-container text-white px-3 py-1 rounded-full text-caption font-label-md uppercase tracking-wide">
-                    {selectedSeverity === 'Severe' ? 'High Urgency' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Low'}
-                  </span>
-                </div>
-                <p className="font-body-md text-on-surface-variant mb-6">
-                  Based on your reports, we recommend monitoring your symptoms and consulting a healthcare professional if they persist.
-                </p>
-                <div className="flex gap-3">
-                  <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
-                    View Care Details
-                  </button>
-                  <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
-                    <Icon icon="share" size="md" />
-                  </button>
-                </div>
+                {createTriage.isPending ? (
+                  <div className="flex flex-col items-center py-8">
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                    <p className="font-body-md text-on-surface-variant">Analyzing your symptoms...</p>
+                  </div>
+                ) : createTriage.isError ? (
+                  <div className="flex flex-col items-center py-6">
+                    <Icon icon="error" size="lg" />
+                    <p className="font-body-md text-on-surface-variant mt-3 mb-4">
+                      Unable to complete assessment. Please try again.
+                    </p>
+                    <button
+                      className="bg-primary text-on-primary px-6 py-2 rounded-xl font-label-md text-label-md"
+                      onClick={() => {
+                        createTriage.reset()
+                        triggerAssessment()
+                      }}
+                    >
+                      Retry
+                    </button>
+                  </div>
+                ) : assessment ? (
+                  <>
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className="font-headline-md text-headline-md text-on-surface">Preliminary Assessment</h4>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-3 py-1 rounded-full text-caption font-label-md uppercase tracking-wide ${urgencyColor(assessment.urgency_level)}`}>
+                          {assessment.urgency_level}
+                        </span>
+                        <span className="text-caption font-label-md text-on-surface-variant" title="Confidence Score">
+                          {confidencePercent(assessment.confidence_score)}%
+                        </span>
+                      </div>
+                    </div>
+
+                    {assessment.needs_more_info && (
+                      <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2">
+                        <Icon icon="info" size="sm" />
+                        <p className="text-caption text-amber-800">
+                          Additional details would help refine this assessment. Consider answering the follow-up questions below.
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="mb-4">
+                      <div className="w-full bg-surface-container-high rounded-full h-1.5">
+                        <div
+                          className="h-1.5 rounded-full bg-primary transition-all"
+                          style={{ width: `${confidencePercent(assessment.confidence_score)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <p className="font-body-md text-on-surface-variant mb-4">{assessment.rationale}</p>
+
+                    {assessment.possible_conditions.length > 0 && (
+                      <div className="mb-4">
+                        <h5 className="font-label-md text-label-md text-on-surface-variant mb-2">Possible Conditions</h5>
+                        <div className="flex flex-wrap gap-2">
+                          {assessment.possible_conditions.map((cond, i) => (
+                            <span key={i} className="px-3 py-1 bg-surface-container-high rounded-full text-caption font-medium">
+                              {cond}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {assessment.recommended_actions.length > 0 && (
+                      <div className="mb-4">
+                        <h5 className="font-label-md text-label-md text-on-surface-variant mb-2">Recommended Actions</h5>
+                        <ul className="space-y-1.5">
+                          {assessment.recommended_actions.map((action, i) => (
+                            <li key={i} className="flex items-start gap-2 font-body-md text-on-surface-variant">
+                              <span className="text-primary mt-0.5 shrink-0">•</span>
+                              {action}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {assessment.follow_up_questions.length > 0 && (
+                      <div className="mb-4">
+                        <h5 className="font-label-md text-label-md text-on-surface-variant mb-2">Follow-up Questions</h5>
+                        <div className="flex flex-wrap gap-2">
+                          {assessment.follow_up_questions.map((q, i) => (
+                            <button
+                              key={i}
+                              onClick={() => handleFollowUpClick(q)}
+                              className="px-3 py-1.5 bg-surface-container-high hover:bg-primary-container/20 rounded-full text-caption font-medium text-primary border border-outline-variant/40 transition-colors"
+                            >
+                              {q}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {assessment.red_flags_to_watch.length > 0 && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl">
+                        <h5 className="font-label-md text-label-md text-error mb-2 flex items-center gap-1.5">
+                          <Icon icon="warning" size="sm" />
+                          Red Flags to Watch
+                        </h5>
+                        <ul className="space-y-1">
+                          {assessment.red_flags_to_watch.map((flag, i) => (
+                            <li key={i} className="flex items-start gap-1.5 text-caption text-red-700">
+                              <span className="mt-0.5 shrink-0">⚠</span>
+                              {flag}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <p className="text-caption text-secondary italic mb-6">{assessment.disclaimer}</p>
+
+                    <div className="flex gap-3">
+                      <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
+                        View Care Details
+                      </button>
+                      <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
+                        <Icon icon="share" size="md" />
+                      </button>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           )}
@@ -198,9 +376,17 @@ export default function NewTriage() {
         <div className="absolute bottom-0 left-0 right-0 p-gutter bg-surface pt-12 pointer-events-none">
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
             <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-              <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
+              <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl relative" onClick={() => fileInputRef.current?.click()} title="Attach Image">
                 <Icon icon="attach_file" size="md" />
+                {selectedImage && <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />}
               </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileSelect}
+              />
               <input
                 className="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-secondary px-2"
                 placeholder="Type your symptoms or questions..."

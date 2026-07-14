@@ -1,9 +1,8 @@
 import { useState, useMemo, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGoogleLogin } from '@react-oauth/google'
+import { GoogleLogin } from '@react-oauth/google'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
-import GoogleIcon from '../components/GoogleIcon'
 import AppleIcon from '../components/AppleIcon'
 import AuthShell from '../components/auth/AuthShell'
 import {
@@ -32,7 +31,7 @@ export default function SignUp() {
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null)
+  const [oauthLoading, setOauthLoading] = useState<'apple' | null>(null)
   const [shakeKey, setShakeKey] = useState(0)
   const [touched, setTouched] = useState({ name: false, email: false, password: false, confirm: false })
 
@@ -61,22 +60,6 @@ export default function SignUp() {
     if (strengthScore <= 3) return 'bg-blue-500'
     return 'bg-green-500'
   }, [strengthScore, password.length])
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const result = await signInWithGoogle(tokenResponse.access_token)
-      setOauthLoading(null)
-      if (!result.success) {
-        setError(result.error)
-        setShakeKey(k => k + 1)
-      }
-    },
-    onError: () => {
-      setOauthLoading(null)
-      setError('Google sign-in failed. Please try again.')
-      setShakeKey(k => k + 1)
-    },
-  })
 
   const validate = () => {
     if (!fullName.trim() || !email.trim() || !password || !confirmPassword) {
@@ -162,20 +145,25 @@ export default function SignUp() {
         )}
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <button
-            type="button"
-            onClick={() => { setError(''); setOauthLoading('google'); googleLogin() }}
-            disabled={oauthLoading !== null}
-            aria-label="Continue with Google"
-            className={authSecondaryButton}
-          >
-            {oauthLoading === 'google' ? (
-              <span className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" aria-hidden="true" />
-            ) : (
-              <GoogleIcon size="lg" />
-            )}
-            Google
-          </button>
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              setError('')
+              const result = await signInWithGoogle(credentialResponse.credential ?? '')
+              if (!result.success) {
+                setError(result.error)
+                setShakeKey(k => k + 1)
+              }
+            }}
+            onError={() => {
+              setError('Google sign-in failed. Please try again.')
+              setShakeKey(k => k + 1)
+            }}
+            theme="outline"
+            size="large"
+            text="continue_with"
+            shape="rectangular"
+            width="100%"
+          />
           <button
             type="button"
             onClick={handleApple}

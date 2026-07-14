@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import apiClient from '../lib/axios'
+import modelClient from '../lib/modelAxios'
+import type { TriageRequest, TriageResponse, TriageChatRequest, TriageChatResponse, CacheStats, CacheClearResponse } from '../types/triage'
 
 type MutationPayload = unknown
 
@@ -80,7 +82,25 @@ export function useStopMedication() {
 
 export function useCreateTriage() {
   return useMutation({
-    mutationFn: (payload: MutationPayload) => apiClient.post('/triage', payload),
+    mutationFn: (payload: TriageRequest) => {
+      const fd = new FormData()
+      fd.append('symptoms', payload.symptoms)
+      if (payload.clinical_context) fd.append('clinical_context', payload.clinical_context)
+      if (payload.image) fd.append('image', payload.image)
+      return modelClient.post<TriageResponse>('/triage', fd)
+    },
+  })
+}
+
+export function useCreateTriageChat() {
+  return useMutation({
+    mutationFn: (payload: TriageChatRequest) => {
+      const fd = new FormData()
+      fd.append('symptoms', payload.symptoms)
+      fd.append('messages', payload.messages ?? '[]')
+      if (payload.image) fd.append('image', payload.image)
+      return modelClient.post<TriageChatResponse>('/triage/chat', fd)
+    },
   })
 }
 
@@ -135,5 +155,18 @@ export function useGetUserById(id?: string | number | null) {
     queryKey: ['admin-user', id],
     queryFn: () => apiClient.get(`/admin/user/${encodeURIComponent(String(id))}`),
     enabled: Boolean(id),
+  })
+}
+
+export function useCacheStats() {
+  return useQuery({
+    queryKey: ['cache-stats'],
+    queryFn: () => modelClient.get<CacheStats>('/cache/stats'),
+  })
+}
+
+export function useClearCache() {
+  return useMutation({
+    mutationFn: () => modelClient.post<CacheClearResponse>('/cache/clear'),
   })
 }

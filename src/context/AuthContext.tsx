@@ -100,6 +100,7 @@ function mapApiError(err: unknown): string {
   switch (e?.err) {
     case 'account_exist': return 'This email is already registered. Log in instead?'
     case 'invalid_account': return 'Incorrect email or password'
+    case 'invalid_google_token': return 'Google sign-in failed. Please try again or use email login.'
     case 'account_restricted': return 'Your account has been restricted. Contact support.'
     case 'account_not_verified': return 'Please verify your email before signing in.'
     default: return 'Something went wrong. Please try again.'

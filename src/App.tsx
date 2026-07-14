@@ -18,6 +18,7 @@ import Profile from './pages/Profile'
 import NewTriageInterface from './pages/NewTriageInterface'
 import NewTriageBodyMap from './pages/NewTriageBodyMap'
 import SymptomTrackerBodyMap from './pages/SymptomTrackerBodyMap'
+import AdminCache from './pages/AdminCache'
 import NotFound from './pages/NotFound'
 import ForgotPassword from './pages/ForgotPassword'
 
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/new-triage-interface" element={<NewTriageInterface />} />
         <Route path="/new-triage-body-map" element={<NewTriageBodyMap />} />
         <Route path="/symptom-tracker-body-map" element={<SymptomTrackerBodyMap />} />
+        <Route path="/admin/cache" element={<AdminCache />} />
       </Route>
 
       {/* Catch-all 404 */}

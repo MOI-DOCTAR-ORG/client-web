@@ -309,7 +309,7 @@ export default function NewTriageInterface() {
               <button className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-variant shrink-0" title="Voice Input">
                 <Icon icon="mic" size="md" />
               </button>
-              <button className="p-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors shrink-0 ml-1 shadow-sm flex items-center justify-center w-10 h-10" title="Send" onClick={handleSend}>
+              <button className="p-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors shrink-0 ml-1 shadow-sm flex items-center justify-center w-10 h-10" title="Send" onClick={() => handleSend()}>
                 <Icon icon="send" size="md" />
               </button>
             </div>

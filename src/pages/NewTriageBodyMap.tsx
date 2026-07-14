@@ -423,7 +423,7 @@ export default function NewTriageBodyMap() {
                 </button>
                 <button
                   className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center"
-                  onClick={handleSend}
+                  onClick={() => handleSend()}
                 >
                   <Icon icon="send" size="md" />
                 </button>

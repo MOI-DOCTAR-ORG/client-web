@@ -399,7 +399,7 @@ export default function NewTriage() {
                 <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
                   <Icon icon="mic" size="md" />
                 </button>
-                <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center" onClick={handleSend}>
+                <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center" onClick={() => handleSend()}>
                   <Icon icon="send" size="md" />
                 </button>
               </div>

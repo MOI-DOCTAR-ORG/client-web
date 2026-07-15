@@ -107,38 +107,38 @@ export default function NewTriage() {
       {showPanel && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
       )}
-      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-[85vw] max-w-[320px] md:w-80 bg-primary p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
+      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-[85vw] max-w-[320px] md:w-80 bg-surface-container border border-outline-variant/20 shadow-sm p-stack-lg text-on-surface flex-col shrink-0 overflow-hidden`}>
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
+          <div className="inline-flex items-center gap-2 bg-surface-container-high/70 backdrop-blur-md px-3 py-1 rounded-full mb-8">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-caption font-caption uppercase tracking-wider">Active Session</span>
           </div>
           <h2 className="font-headline-md text-headline-md mb-8">Triage Summary</h2>
           <div className="space-y-6">
             <div className="flex flex-col gap-1">
-              <span className="text-white/60 text-caption font-label-md">START TIME</span>
+              <span className="text-secondary text-caption font-label-md">START TIME</span>
               <span className="font-body-md">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-white/60 text-caption font-label-md">PATIENT ID</span>
+              <span className="text-secondary text-caption font-label-md">PATIENT ID</span>
               <span className="font-body-md">#--</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-white/60 text-caption font-label-md">PRIMARY CHIEF COMPLAINT</span>
+              <span className="text-secondary text-caption font-label-md">PRIMARY CHIEF COMPLAINT</span>
               <span className="font-body-md">--</span>
             </div>
           </div>
-          <div className="mt-12 bg-surface-container-lowest/10 rounded-xl p-4 border border-white/10">
+          <div className="mt-12 bg-surface-container-low rounded-xl p-4 border border-outline-variant/20">
             <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2">
               <Icon icon="info" size="md" />
               Clinical Context
             </h3>
-            <p className="text-caption font-caption leading-relaxed text-white/80">
+            <p className="text-caption font-caption leading-relaxed text-on-surface-variant">
               Please describe the onset and nature of symptoms clearly. The system uses clinical-grade reasoning to suggest next steps.
             </p>
           </div>
         </div>
-        <div className="mt-auto pt-6 border-t border-white/20 text-white/40 text-caption italic">
+        <div className="mt-auto pt-6 border-t border-outline-variant/30 text-on-surface-variant/60 text-caption italic">
           Secure 256-bit HIPAA compliant session
         </div>
       </aside>

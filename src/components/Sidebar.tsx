@@ -31,19 +31,29 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
   const sidebarContent = (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="px-3 pb-3">
-        <Link
-          to="/"
-          onClick={handleNav}
-          className="flex h-11 items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-surface-container-high"
-        >
-          <img src="/moidoctar-logo.svg" alt="MoiDoctar" className="h-8 w-8 object-contain" />
-          <div className="min-w-0">
-            <h1 className="truncate font-headline-md text-lg font-extrabold text-primary">
-              MoiDoctar
-            </h1>
-          </div>
-        </Link>
+      <div className="relative px-3 pb-3">
+        <div className="flex items-center justify-between">
+          <Link
+            to="/"
+            onClick={handleNav}
+            className="flex h-11 items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-surface-container-high"
+          >
+            <img src="/moidoctar-logo.svg" alt="MoiDoctar" className="h-8 w-8 object-contain" />
+            <div className="min-w-0">
+              <h1 className="truncate font-headline-md text-lg font-extrabold text-primary">
+                MoiDoctar
+              </h1>
+            </div>
+          </Link>
+          <button
+            type="button"
+            onClick={onClose}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-secondary hover:bg-surface-container-high hover:text-primary md:hidden"
+            aria-label="Close sidebar"
+          >
+            <Icon icon="close" size="md" />
+          </button>
+        </div>
       </div>
 
       <nav className="no-scrollbar flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2.5 pb-3" aria-label="Primary navigation">
@@ -104,7 +114,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-[236px] bg-surface-container-low flex flex-col py-3 border-r border-outline-variant/30 z-50 transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 left-0 h-screen w-[85vw] max-w-[236px] bg-surface-container-low flex flex-col py-3 border-r border-outline-variant/30 z-50 transition-transform duration-300 md:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

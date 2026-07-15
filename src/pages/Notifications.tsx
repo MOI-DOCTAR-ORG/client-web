@@ -140,7 +140,7 @@ export default function Notifications() {
                   </div>
                   <div className="space-y-4">
                     {items.map((n) => (
-                      <div key={n.id} className="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm flex items-start gap-4 transition-all hover:border-primary/30 relative group">
+                      <div key={n.id} className="bg-surface-container-lowest border border-outline-variant rounded-xl p-3 md:p-5 shadow-sm flex items-start gap-3 md:gap-4 transition-all hover:border-primary/30 relative group">
                         <div className={`w-12 h-12 rounded-full ${n.iconBg} flex items-center justify-center shrink-0`}>
                           <Icon icon={n.icon} size="lg" className={n.iconColor} />
                         </div>
@@ -156,11 +156,11 @@ export default function Notifications() {
                           {n.actions && (
                             <div className="flex gap-3">
                               {n.actions.map((a) => a.primary ? (
-                                <button key={a.label} onClick={() => a.to && navigate(a.to)} className="bg-primary text-white px-6 py-2 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors">
+                                <button key={a.label} onClick={() => a.to && navigate(a.to)} className="bg-primary text-white px-6 py-2.5 rounded-full font-label-md text-label-md hover:bg-primary/90 transition-colors min-h-[44px]">
                                   {a.label}
                                 </button>
                               ) : (
-                                <button key={a.label} onClick={() => a.to && navigate(a.to)} className="bg-surface text-primary border border-primary px-6 py-2 rounded-full font-label-md text-label-md hover:bg-primary/5 transition-colors">
+                                <button key={a.label} onClick={() => a.to && navigate(a.to)} className="bg-surface text-primary border border-primary px-6 py-2.5 rounded-full font-label-md text-label-md hover:bg-primary/5 transition-colors min-h-[44px]">
                                   {a.label}
                                 </button>
                               ))}

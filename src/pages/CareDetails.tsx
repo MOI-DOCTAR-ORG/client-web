@@ -66,7 +66,7 @@ export default function CareDetails() {
       </header>
 
       {/* Severity Status Overview */}
-      <div className="grid grid-cols-3 gap-4 mb-stack-lg">
+      <div className="grid grid-cols-3 gap-2 md:gap-4 mb-stack-lg">
         {(['Mild', 'Moderate', 'Severe'] as const).map(sev => {
           const count = reports.filter(r => r.severity === sev).length
           const colors = {
@@ -80,7 +80,7 @@ export default function CareDetails() {
             Severe: { label: 'Urgent', icon: 'warning' },
           }
           return (
-            <div key={sev} className={`rounded-xl border p-4 ${colors[sev]}`}>
+            <div key={sev} className={`rounded-xl border p-3 md:p-4 ${colors[sev]}`}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] uppercase font-bold tracking-widest">{sev}</span>
                 <div className={`w-2 h-2 rounded-full ${sev === 'Mild' ? 'bg-green-500' : sev === 'Moderate' ? 'bg-amber-500' : 'bg-red-500'} ${count > 0 ? 'animate-pulse' : ''}`} />
@@ -99,14 +99,14 @@ export default function CareDetails() {
       </div>
 
       {/* Symptom Report Form */}
-      <section className="bg-surface-container-lowest rounded-xl p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
+      <section className="bg-surface-container-lowest rounded-xl p-4 sm:p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
             <Icon icon="edit_note" size="lg" />
           </div>
           <h3 className="font-headline-md text-headline-md">Report Your Symptoms</h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
           <div className="flex flex-col gap-1">
             <label className="font-label-md text-caption text-secondary">SYMPTOM</label>
             <PremiumInput placeholder="e.g. Fever, Cough, Headache" value={symptom} onChange={e => setSymptom(e.target.value)} />
@@ -136,7 +136,7 @@ export default function CareDetails() {
           </div>
         </div>
         <div className="flex justify-end">
-          <button onClick={submitReport} className="bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all flex items-center gap-2">
+          <button onClick={submitReport} className="w-full sm:w-auto bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
             <Icon icon="clinical_notes" size="lg" />
             Submit Report
           </button>
@@ -157,7 +157,7 @@ export default function CareDetails() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
         <div className="lg:col-span-2 space-y-gutter">
-          <section className="bg-surface-container-lowest rounded-xl p-8 lifted-card transition-all duration-700 opacity-100 translate-y-0 border border-outline-variant/20 shadow-sm">
+          <section className="bg-surface-container-lowest rounded-xl p-4 md:p-8 lifted-card transition-all duration-700 opacity-100 translate-y-0 border border-outline-variant/20 shadow-sm">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
                 <Icon icon="psychology" size="xl" />
@@ -218,7 +218,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
         </div>
 
         <div className="lg:col-span-1 flex flex-col gap-gutter">
-          <section className="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/20 shadow-sm h-full">
+          <section className="bg-surface-container-lowest rounded-xl p-4 md:p-6 border border-outline-variant/20 shadow-sm h-full">
             <div className="flex items-center gap-3 mb-6">
               <Icon icon="assignment_turned_in" size="lg" className="text-primary" />
               <h3 className="font-headline-md text-headline-md">Next Steps</h3>
@@ -250,7 +250,7 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
         </div>
       </div>
 
-      <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-6 bg-surface-container rounded-xl gap-4">
+      <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-6 bg-surface-container rounded-xl gap-4">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-surface-container-lowest rounded-lg">
               <Icon icon="verified_user" size="lg" className="text-primary" />

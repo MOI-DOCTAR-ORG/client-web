@@ -120,7 +120,7 @@ export default function MedicationTracker() {
         {showForm && (
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm mb-6">
             <h3 className="font-headline-md text-headline-md text-on-surface mb-4">New Medication</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               <div className="flex flex-col gap-1">
                 <label className="font-label-md text-caption text-secondary">Medication Name</label>
                 <PremiumInput placeholder="e.g. Lisinopril" value={medName} onChange={e => setMedName(e.target.value)} />
@@ -163,7 +163,7 @@ export default function MedicationTracker() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
             {/* Today's Schedule */}
             <div className="lg:col-span-4 flex flex-col gap-gutter">
-              <div className="bg-surface rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col h-full">
+              <div className="bg-surface rounded-xl border border-outline-variant p-4 md:p-6 shadow-sm flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-headline-md text-headline-md text-on-surface">Today's Schedule</h3>
                   <span className="bg-surface-container-high text-on-surface font-label-md text-label-md px-3 py-1 rounded-full text-xs">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
@@ -211,12 +211,12 @@ export default function MedicationTracker() {
                   <p className="font-caption text-caption text-outline mt-1">Add medications to track your prescriptions and refill schedule.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-gutter">
                   {active.map(med => {
                     const supplyNum = parseInt(med.supply) || 0
                     const cfg = freqConfig[med.frequent]
                     return (
-                      <div key={med.id} className="bg-surface rounded-xl border border-outline-variant p-6 shadow-sm flex flex-col hover:border-primary/50 transition-colors group relative overflow-hidden">
+                      <div key={med.id} className="bg-surface rounded-xl border border-outline-variant p-4 md:p-6 shadow-sm flex flex-col hover:border-primary/50 transition-colors group relative overflow-hidden">
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">

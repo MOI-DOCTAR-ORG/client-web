@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import MobileBottomNav from '../components/MobileBottomNav'
 import OfflineBanner from '../components/OfflineBanner'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
@@ -60,7 +61,7 @@ export default function AppLayout() {
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-secondary hover:bg-surface-variant hover:text-primary md:hidden"
+              className="grid h-10 w-10 md:h-9 md:w-9 shrink-0 place-items-center rounded-full bg-primary-container text-primary md:hidden"
               aria-label="Open sidebar"
             >
               <Icon icon="menu" size="lg" />
@@ -79,21 +80,21 @@ export default function AppLayout() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="grid h-9 w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-surface-variant hover:text-primary"
+              className="grid h-10 w-10 md:h-9 md:w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-surface-variant hover:text-primary"
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               <Icon icon={isDark ? 'light_mode' : 'dark_mode'} size="lg" />
             </button>
             <Link
               to="/notifications"
-              className="grid h-9 w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-surface-variant hover:text-primary"
+              className="grid h-10 w-10 md:h-9 md:w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-surface-variant hover:text-primary"
               aria-label="Notifications"
             >
               <Icon icon="notifications" size="lg" />
             </Link>
             <Link
               to="/profile"
-              className="grid h-9 w-9 place-items-center rounded-full bg-primary-container text-sm font-bold text-primary transition hover:ring-2 hover:ring-primary/30"
+              className="grid h-10 w-10 md:h-9 md:w-9 place-items-center rounded-full bg-primary-container text-sm font-bold text-primary transition hover:ring-2 hover:ring-primary/30"
               aria-label="Profile"
               title={user?.userName || 'Profile'}
             >
@@ -102,7 +103,7 @@ export default function AppLayout() {
             <button
               type="button"
               onClick={handleSignOut}
-              className="grid h-9 w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-error-container hover:text-error"
+              className="grid h-10 w-10 md:h-9 md:w-9 place-items-center rounded-full text-secondary transition-colors hover:bg-error-container hover:text-error"
               aria-label="Sign out"
             >
               <Icon icon="logout" size="lg" />
@@ -114,9 +115,11 @@ export default function AppLayout() {
       <OfflineBanner />
 
       {/* Content */}
-      <div className="md:ml-[var(--spacing-sidebar-width,232px)] pt-14 md:pt-16 min-h-screen">
+      <div className="md:ml-[var(--spacing-sidebar-width,232px)] pt-14 md:pt-16 pb-16 md:pb-0 min-h-screen min-h-[100dvh]">
         <Outlet key={userChangeKey} />
       </div>
+
+      <MobileBottomNav />
     </div>
   )
 }

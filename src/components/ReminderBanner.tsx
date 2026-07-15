@@ -27,7 +27,7 @@ export default function ReminderBanner() {
   return (
     <div className="space-y-3">
       {reminders.map((r, i) => (
-        <div key={i} className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex items-center gap-4">
+        <div key={i} className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3 md:p-4 flex items-center gap-3 md:gap-4">
           <Icon icon="priority_high" size="lg" className="text-amber-600 dark:text-amber-400" />
           <p className="font-body-md text-amber-800 dark:text-amber-200 flex-1">
             <strong>Reminder:</strong> {r.text}

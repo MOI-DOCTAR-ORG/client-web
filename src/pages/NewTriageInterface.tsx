@@ -88,7 +88,7 @@ export default function NewTriageInterface() {
 
   return (
     <div className="flex flex-col h-full relative z-10">
-      <main className="flex-1 max-w-container-max-width mx-auto w-full p-margin-mobile md:p-gutter flex flex-col md:flex-row gap-gutter h-[calc(100vh-56px)] md:h-[calc(100vh-64px)] pb-6 overflow-hidden">
+      <main className="flex-1 max-w-container-max-width mx-auto w-full p-margin-mobile md:p-gutter flex flex-col md:flex-row gap-4 md:gap-gutter h-[calc(100vh-56px)] h-[calc(100dvh-56px)] md:h-[calc(100vh-64px)] md:h-[calc(100dvh-64px)] pb-6 overflow-hidden">
         <aside className="w-full md:w-80 flex-shrink-0 flex flex-col gap-stack-md">
           <div className="bg-surface-container rounded-xl p-6 shadow-sm border border-outline-variant/20 flex-1 flex flex-col relative overflow-hidden">
             <div className="mb-6">
@@ -124,7 +124,7 @@ export default function NewTriageInterface() {
           <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 custom-scrollbar">
             {messages.map((msg, i) => (
               msg.role === 'ai' ? (
-                <div key={i} className="flex gap-4 max-w-[85%]">
+                <div key={i} className="flex gap-3 md:gap-4 max-w-[90%] md:max-w-[85%]">
                   <div className="mt-1">
                     <LianaAvatar size="sm" />
                   </div>
@@ -285,7 +285,7 @@ export default function NewTriageInterface() {
             <div className="h-4" />
           </div>
 
-          <div className="p-4 bg-surface-container-lowest border-t border-outline-variant/30">
+          <div className="p-3 md:p-4 bg-surface-container-lowest border-t border-outline-variant/30">
             <div className="flex items-center gap-2 bg-surface-container-low rounded-xl p-2 border border-outline-variant/40 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
               <button className="p-2 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-variant shrink-0 relative" onClick={() => fileInputRef.current?.click()} title="Attach Photo">
                 <Icon icon="add_a_photo" size="md" />

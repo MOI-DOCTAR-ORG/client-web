@@ -65,7 +65,7 @@ export default function SymptomTracker() {
                     key={s}
                     onClick={() => setSeverity(s)}
                     className={
-                      'flex-1 py-3 px-4 rounded-full border transition-all font-label-md ' +
+                      'flex-1 py-3 px-2 md:px-4 rounded-full border transition-all font-label-md text-xs md:text-sm ' +
                       (severity === s
                         ? 'bg-primary text-white border-primary'
                         : 'border-outline-variant hover:border-primary')
@@ -78,7 +78,7 @@ export default function SymptomTracker() {
             </div>
           </div>
           <div className="mt-8 flex justify-end">
-            <button onClick={handleSaveEntry} className="bg-primary text-white font-label-md px-8 py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center gap-2">
+            <button onClick={handleSaveEntry} className="w-full sm:w-auto bg-primary text-white font-label-md px-6 md:px-8 py-3 md:py-4 rounded-full hover:bg-opacity-90 transition-transform active:scale-95 flex items-center justify-center gap-2">
               <span>Save Entry</span>
               <Icon icon="arrow_forward" size="md" />
             </button>
@@ -92,7 +92,7 @@ export default function SymptomTracker() {
               <span className="w-3 h-3 rounded-full bg-primary" /> Severity
             </span>
           </div>
-          <div className="flex-1 min-h-[300px] relative mt-4">
+          <div className="flex-1 min-h-[200px] md:min-h-[300px] relative mt-4">
             <svg className="w-full h-full" viewBox="0 0 800 300">
               <line stroke="#E5E7EB" strokeDasharray="4" x1="0" x2="800" y1="50" y2="50" />
               <line stroke="#E5E7EB" strokeDasharray="4" x1="0" x2="800" y1="150" y2="150" />
@@ -109,7 +109,7 @@ export default function SymptomTracker() {
           </div>
         </section>
 
-        <section className="lg:col-span-4 bg-surface-container-lowest rounded-[16px] border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col h-full">
+        <section className="lg:col-span-4 bg-surface-container-lowest rounded-[16px] border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
           <div className="p-stack-lg border-b border-outline-variant/30">
             <h2 className="font-headline-md text-headline-md">Past Entries</h2>
           </div>

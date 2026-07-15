@@ -90,7 +90,7 @@ function SessionsView() {
 
   return (
     <section className="max-w-container-max-width w-full mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6 mb-6 md:mb-10">
         <div className="overflow-x-auto w-full md:w-auto">
           <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max">
             {sessionFilters.map(f => (
@@ -145,7 +145,7 @@ function SessionsView() {
             return (
               <div
                 key={s.id}
-                className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/50 flex flex-col lg:flex-row items-start lg:items-center gap-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/5"
+                className="bg-surface-container-lowest p-4 md:p-6 rounded-xl border border-outline-variant/50 flex flex-col lg:flex-row items-start lg:items-center gap-4 md:gap-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/5"
               >
                 <div className="flex flex-col min-w-[120px]">
                   <span className="font-label-md text-label-md text-primary">{s.date}</span>
@@ -472,7 +472,7 @@ export default function History() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
 
   return (
-    <main className="h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
+    <main className="min-h-screen flex flex-col bg-surface p-4 md:p-6 overflow-x-hidden">
       <div className="overflow-x-auto mb-8 flex-shrink-0">
         <div className="flex p-1 bg-surface-container-low rounded-full border border-outline-variant/30 w-max">
           {tabs.map(tab => (

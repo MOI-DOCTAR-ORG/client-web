@@ -102,12 +102,12 @@ export default function NewTriage() {
   ]
 
   return (
-    <main className="h-[calc(100vh-56px)] md:h-[calc(100vh-64px)] flex overflow-hidden relative">
+    <main className="h-[calc(100vh-56px)] h-[calc(100dvh-56px)] md:h-[calc(100vh-64px)] md:h-[calc(100dvh-64px)] flex overflow-hidden relative">
       {/* Left Info Panel */}
       {showPanel && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
       )}
-      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-80 bg-primary p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
+      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-[85vw] max-w-[320px] md:w-80 bg-primary p-stack-lg text-on-primary flex-col shrink-0 overflow-hidden`}>
         <div className="relative z-10">
           <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-md px-3 py-1 rounded-full mb-8">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -177,7 +177,7 @@ export default function NewTriage() {
           </div>
         </header>
 
-        <div className="flex-grow overflow-y-auto px-gutter pb-32 pt-16 md:pt-gutter space-y-8 chat-container">
+        <div className="flex-grow overflow-y-auto px-4 md:px-gutter pb-32 pt-14 md:pt-gutter space-y-6 md:space-y-8 chat-container">
           {messages.map((msg, i) => (
             msg.role === 'ai' ? (
               <div key={i} className="flex gap-4 max-w-full md:max-w-2xl">
@@ -373,7 +373,7 @@ export default function NewTriage() {
         </div>
 
         {/* Bottom Input Bar */}
-        <div className="absolute bottom-0 left-0 right-0 p-gutter bg-surface pt-12 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 p-3 md:p-gutter bg-surface pt-8 md:pt-12 pointer-events-none">
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
             <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl relative" onClick={() => fileInputRef.current?.click()} title="Attach Image">

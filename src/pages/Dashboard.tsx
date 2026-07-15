@@ -67,7 +67,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen p-4 md:p-gutter max-w-[1400px] mx-auto flex flex-col gap-6">
+    <main className="min-h-screen p-4 sm:p-5 md:p-gutter max-w-[1400px] mx-auto flex flex-col gap-4 md:gap-6">
       <header className="flex justify-between items-center">
         <div>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">{greeting()}</h2>
@@ -95,7 +95,7 @@ export default function Dashboard() {
           </div>
           <div className="flex gap-1.5">
             <PremiumInput compact variant="pill" containerClassName="flex-1" className="min-h-9 text-xs" placeholder="Any notes?" value={feeling} onChange={e => setFeeling(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveCheckIn() }} />
-            <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-1">
+            <button onClick={saveCheckIn} disabled={!mood} className="bg-primary text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-primary/90 transition-all disabled:opacity-40 flex items-center gap-1 shrink-0">
               <Icon icon="check" size="sm" />
               Save
             </button>
@@ -110,15 +110,15 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-blue-700 rounded-[24px] p-8 md:p-10 text-on-primary shadow-level-2 relative overflow-hidden flex flex-col justify-between min-h-[260px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="lg:col-span-2 bg-blue-700 rounded-[24px] p-5 sm:p-8 md:p-10 text-on-primary shadow-level-2 relative overflow-hidden flex flex-col justify-between min-h-[220px] md:min-h-[260px]">
           <div className="relative z-10 max-w-md">
             <div className="inline-flex items-center gap-2 bg-surface-container-lowest/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 border border-white/10">
               <Icon icon="verified_user" size="sm" />
               <span className="text-sm font-medium tracking-wide">AI-Powered Assessment</span>
             </div>
-            <h3 className="font-headline-lg text-headline-lg mb-3">Feeling unwell?</h3>
-            <p className="font-body-md text-body-md text-primary-fixed-dim mb-6 opacity-90 leading-relaxed">
+            <h3 className="font-headline-lg-mobile md:text-headline-lg mb-2 md:mb-3">Feeling unwell?</h3>
+            <p className="font-body-md text-body-md text-primary-fixed-dim mb-4 md:mb-6 opacity-90 leading-relaxed">
               Start a new triage session to evaluate your symptoms instantly and receive medical-grade guidance on your next steps.
             </p>
           </div>
@@ -130,7 +130,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/30 shadow-level-1 flex flex-col justify-between min-h-[260px]">
+        <div className="bg-surface-container-lowest rounded-[24px] p-4 md:p-6 border border-outline-variant/30 shadow-level-1 flex flex-col justify-between min-h-[200px] md:min-h-[260px]">
           <div className="flex justify-between items-start mb-6">
             <div>
               <h3 className="font-headline-md text-headline-md text-on-surface">Wellness Score</h3>
@@ -172,8 +172,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-container-lowest rounded-[16px] p-5 border border-outline-variant/30 shadow-level-1 flex items-center gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+        <div className="bg-surface-container-lowest rounded-[16px] p-4 md:p-5 border border-outline-variant/30 shadow-level-1 flex items-center gap-3 md:gap-4">
           <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
             <Icon icon="forum" size="xl" className="icon-fill" />
           </div>

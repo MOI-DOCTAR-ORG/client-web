@@ -66,25 +66,25 @@ export default function QuickActions() {
         onChange={handleFileSelect}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
+          className="md:col-span-1 p-4 md:p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
-          <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
-            <Icon icon="upload_file" size="xl" />
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-2 md:mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
+            <Icon icon="upload_file" size="lg" />
           </div>
-          <p className="font-label-md text-on-surface">Upload Lab Results</p>
+          <p className="font-label-md text-label-md text-on-surface">Upload Lab Results</p>
         </button>
 
         <button
           onClick={() => navigate('/medication-tracker')}
-          className="md:col-span-1 p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
+          className="md:col-span-1 p-4 md:p-6 bg-surface-container rounded-[16px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-surface-variant transition-colors"
         >
-          <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
-            <Icon icon="pill" size="xl" />
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-surface-container-lowest rounded-full flex items-center justify-center mb-2 md:mb-3 text-primary shadow-sm group-hover:scale-110 transition-transform">
+            <Icon icon="pill" size="lg" />
           </div>
-          <p className="font-label-md text-on-surface">Medication List</p>
+          <p className="font-label-md text-label-md text-on-surface">Medication List</p>
         </button>
 
         <button
@@ -92,7 +92,7 @@ export default function QuickActions() {
             setShowWearableMsg(true)
             setTimeout(() => setShowWearableMsg(false), 4000)
           }}
-          className="md:col-span-2 p-6 border-2 border-dashed border-outline-variant rounded-[16px] flex items-center justify-center gap-4 text-secondary hover:bg-surface-container-lowest hover:border-primary transition-all cursor-pointer"
+          className="md:col-span-2 p-4 md:p-6 border-2 border-dashed border-outline-variant rounded-[16px] flex items-center justify-center gap-3 md:gap-4 text-secondary hover:bg-surface-container-lowest hover:border-primary transition-all cursor-pointer"
         >
           <Icon icon="add_circle" size="lg" />
           <p className="font-body-md">Connect external wearable data (Apple Health, Fitbit)</p>

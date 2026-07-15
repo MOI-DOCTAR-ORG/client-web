@@ -256,8 +256,8 @@ export default function Profile() {
         )}
 
         {/* Profile Header Card */}
-        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 md:p-8 shadow-sm">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-8 shadow-sm">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             {/* Photo */}
             <div className="relative group">
               <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold border-4 border-white overflow-hidden">
@@ -505,15 +505,15 @@ export default function Profile() {
                   value={newMedication.dosage}
                   onChange={e => setNewMedication(p => ({ ...p, dosage: e.target.value }))}
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-2 sm:col-span-1">
                   <input
-                    className={inputClass() + ' flex-1'}
+                    className={inputClass() + ' flex-1 min-w-0'}
                     placeholder="Frequency"
                     value={newMedication.frequency}
                     onChange={e => setNewMedication(p => ({ ...p, frequency: e.target.value }))}
                     onKeyDown={e => { if (e.key === 'Enter') addMedication() }}
                   />
-                  <button onClick={addMedication} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors self-stretch">
+                  <button onClick={addMedication} className="bg-primary text-white px-4 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors self-stretch shrink-0">
                     <Icon icon="add" size="md" />
                   </button>
                 </div>
@@ -652,7 +652,7 @@ export default function Profile() {
         </SectionCard>
 
         {/* Save + Delete */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-4">
           <button
             onClick={handleSave}
             disabled={saving || !dirty}
@@ -806,7 +806,7 @@ function SectionCard({
     <div className="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-6 py-4 hover:bg-surface-container-low transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 hover:bg-surface-container-low transition-colors text-left"
       >
         <Icon icon={icon} size="lg" className="text-primary" />
         <h3 className="font-headline-md text-headline-md text-on-surface flex-1">{title}</h3>
@@ -818,7 +818,7 @@ function SectionCard({
         <Icon icon={isOpen ? 'expand_less' : 'expand_more'} size="lg" className="text-secondary" />
       </button>
       {isOpen && (
-        <div className="px-6 pb-6">
+        <div className="px-4 md:px-6 pb-4 md:pb-6">
           {children}
         </div>
       )}

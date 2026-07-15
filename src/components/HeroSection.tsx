@@ -4,14 +4,14 @@ import Icon from './Icon'
 export default function HeroSection() {
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-gutter">
-      <div className="md:col-span-2 relative overflow-hidden rounded-[16px] p-10 bg-primary text-on-primary shadow-lg flex flex-col justify-center min-h-[300px]">
+      <div className="md:col-span-2 relative overflow-hidden rounded-[16px] p-6 md:p-10 bg-primary text-on-primary shadow-lg flex flex-col justify-center min-h-[220px] md:min-h-[300px]">
         <div className="absolute right-[-5%] top-[-10%] opacity-20 transform rotate-12">
           <Icon icon="health_and_safety" size="3xl" />
         </div>
-        <h3 className="font-headline-xl text-headline-xl mb-4 relative z-10">
+        <h3 className="font-headline-lg-mobile md:font-headline-xl text-headline-lg-mobile md:text-headline-xl mb-2 md:mb-4 relative z-10">
           Check your symptoms now.
         </h3>
-        <p className="font-body-lg text-body-lg mb-8 max-w-md opacity-90 relative z-10">
+        <p className="font-body-md md:font-body-lg text-body-md md:text-body-lg mb-6 md:mb-8 max-w-md opacity-90 relative z-10">
           Our AI-driven triage system provides clinical-grade guidance in under
           3 minutes.
         </p>
@@ -42,7 +42,7 @@ const dayData = [
 
 function TrendChart() {
   return (
-    <div className="bg-surface-container-lowest card-shadow rounded-[16px] p-6 flex flex-col justify-between">
+    <div className="bg-surface-container-lowest card-shadow rounded-[16px] p-4 md:p-6 flex flex-col justify-between">
       <div>
         <h4 className="font-label-md text-label-md text-secondary mb-1">
           Symptom Trend

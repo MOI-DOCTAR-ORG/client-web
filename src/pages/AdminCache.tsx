@@ -61,7 +61,7 @@ export default function AdminCache() {
 
             <div className="border-t border-outline-variant pt-6">
               {confirming ? (
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <p className="font-body-md text-on-surface-variant">Are you sure you want to clear the cache?</p>
                   <button
                     className="bg-error text-on-error px-4 py-2 rounded-xl font-label-md text-label-md"

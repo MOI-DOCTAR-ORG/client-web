@@ -53,13 +53,13 @@ export default function CareDetails() {
   }
 
   return (
-    <main className="min-h-screen p-4 md:p-6 max-w-container-max-width mx-auto bg-surface text-on-surface font-body-md">
+    <main className="min-h-[100dvh] p-4 md:p-6 max-w-container-max-width mx-auto bg-background text-on-surface font-body-md">
       <header className="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <nav className="flex items-center gap-2 text-secondary mb-2">
-            <button onClick={() => navigate('/history')} className="text-caption font-caption">History</button>
+            <button onClick={() => navigate('/history')} className="text-caption font-caption hover:text-[var(--neon-primary)] transition-colors">History</button>
             <Icon icon="chevron_right" size="sm" />
-            <span className="text-caption font-caption text-primary font-bold">Care Details</span>
+            <span className="text-caption font-caption text-[var(--neon-primary)] font-bold">Care Details</span>
           </nav>
           <h2 className="font-headline-lg text-headline-lg text-on-surface">Care Details</h2>
         </div>
@@ -70,9 +70,9 @@ export default function CareDetails() {
         {(['Mild', 'Moderate', 'Severe'] as const).map(sev => {
           const count = reports.filter(r => r.severity === sev).length
           const colors = {
-            Mild: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400',
-            Moderate: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400',
-            Severe: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400',
+            Mild: 'bg-green-500/15 border-green-500/30 text-green-400',
+            Moderate: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+            Severe: 'bg-error/15 border-error/30 text-error',
           }
           const statuses = {
             Mild: { label: 'Active Monitoring', icon: 'check_circle' },
@@ -83,7 +83,7 @@ export default function CareDetails() {
             <div key={sev} className={`rounded-xl border p-3 md:p-4 ${colors[sev]}`}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] uppercase font-bold tracking-widest">{sev}</span>
-                <div className={`w-2 h-2 rounded-full ${sev === 'Mild' ? 'bg-green-500' : sev === 'Moderate' ? 'bg-amber-500' : 'bg-red-500'} ${count > 0 ? 'animate-pulse' : ''}`} />
+                <div className={`w-2 h-2 rounded-full ${sev === 'Mild' ? 'bg-green-500' : sev === 'Moderate' ? 'bg-amber-500' : 'bg-error'} ${count > 0 ? 'animate-pulse' : ''}`} />
               </div>
               <span className="font-headline-lg text-headline-lg font-bold">{count}</span>
               <span className="text-caption ml-1 opacity-70">{count === 1 ? 'report' : 'reports'}</span>
@@ -99,9 +99,9 @@ export default function CareDetails() {
       </div>
 
       {/* Symptom Report Form */}
-      <section className="bg-surface-container-lowest rounded-xl p-4 sm:p-6 md:p-8 border border-outline-variant/20 shadow-sm mb-gutter">
+      <section className="bg-[var(--glass-bg)] backdrop-blur-xl rounded-xl p-4 sm:p-6 md:p-8 border border-[var(--glass-border)] shadow-[0_0_20px_rgba(0,240,255,0.08)] mb-gutter">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white">
+          <div className="w-10 h-10 rounded-full bg-[var(--neon-primary)]/15 flex items-center justify-center text-[var(--neon-primary)]">
             <Icon icon="edit_note" size="lg" />
           </div>
           <h3 className="font-headline-md text-headline-md">Report Your Symptoms</h3>
@@ -115,7 +115,7 @@ export default function CareDetails() {
             <label className="font-label-md text-caption text-secondary">SEVERITY</label>
             <div className="flex gap-2">
               {['Mild', 'Moderate', 'Severe'].map(s => (
-                <button key={s} onClick={() => setSeverity(s)} className={`flex-1 py-3 rounded-lg border font-label-md transition-all ${severity === s ? 'bg-primary text-white border-primary' : 'border-outline-variant hover:border-primary'}`}>{s}</button>
+                <button key={s} onClick={() => setSeverity(s)} className={`flex-1 py-3 rounded-lg border font-label-md transition-all min-h-[44px] ${severity === s ? 'bg-[var(--neon-primary)] text-white border-[var(--neon-primary)]' : 'border-[var(--glass-border)] hover:border-[var(--neon-primary)]'}`}>{s}</button>
               ))}
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function CareDetails() {
           </div>
         </div>
         <div className="flex justify-end">
-          <button onClick={submitReport} className="w-full sm:w-auto bg-primary text-white px-8 py-3 rounded-full font-label-md hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+          <button onClick={submitReport} className="w-full sm:w-auto bg-[var(--neon-primary)] text-white px-8 py-3 rounded-full font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-[0_0_16px_rgba(0,240,255,0.2)] min-h-[44px]">
             <Icon icon="clinical_notes" size="lg" />
             Submit Report
           </button>
@@ -147,7 +147,7 @@ export default function CareDetails() {
       {reports.length > 0 && (
         <section className="flex flex-nowrap overflow-x-auto gap-2 mb-stack-lg pb-2">
           {reports.slice(0, 5).map(r => (
-            <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error-container text-error' : r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' : 'bg-surface-container text-primary'}`}>
+            <span key={r.id} className={`px-4 py-2 rounded-full text-label-md font-label-md flex items-center gap-2 ${r.severity === 'Severe' ? 'bg-error/15 text-error border border-error/20' : r.severity === 'Moderate' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20' : 'bg-[var(--neon-primary)]/15 text-[var(--neon-primary)] border border-[var(--neon-primary)]/20'}`}>
               <Icon icon={r.severity === 'Severe' ? 'warning' : r.severity === 'Moderate' ? 'info' : 'check_circle'} size="sm" />
               {r.symptom}
             </span>
@@ -157,9 +157,9 @@ export default function CareDetails() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
         <div className="lg:col-span-2 space-y-gutter">
-          <section className="bg-surface-container-lowest rounded-xl p-4 md:p-8 lifted-card transition-all duration-700 opacity-100 translate-y-0 border border-outline-variant/20 shadow-sm">
+          <section className="bg-[var(--glass-bg)] backdrop-blur-xl rounded-xl p-4 md:p-8 lifted-card transition-all duration-700 opacity-100 translate-y-0 border border-[var(--glass-border)] shadow-[0_0_20px_rgba(0,240,255,0.08)]">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary">
+              <div className="w-12 h-12 rounded-lg bg-[var(--neon-primary)]/15 flex items-center justify-center text-[var(--neon-primary)]">
                 <Icon icon="psychology" size="xl" />
               </div>
               <h3 className="font-headline-md text-headline-md">Your Reports</h3>
@@ -167,15 +167,15 @@ export default function CareDetails() {
             {reports.length === 0 ? (
               <div className="space-y-4 text-on-surface-variant leading-relaxed font-body-md">
                 <p>No symptoms have been reported yet. Use the form above to log your symptoms and get AI-powered guidance.</p>
-                <div className="p-4 bg-surface-bright border-l-4 border-primary rounded-r-lg">
-                  <p className="text-label-md font-label-md text-primary mb-1">Key Insight</p>
+                <div className="p-4 bg-[var(--neon-primary)]/5 border-l-4 border-[var(--neon-primary)] rounded-r-lg">
+                  <p className="text-label-md font-label-md text-[var(--neon-primary)] mb-1">Key Insight</p>
                   <p className="text-body-md">Complete a symptom assessment to unlock personalized health insights.</p>
                 </div>
               </div>
             ) : (
               <div className="space-y-4">
                 {reports.map(r => (
-                  <div key={r.id} className="bg-surface-container-low rounded-lg p-4 border border-outline-variant/30 group">
+                  <div key={r.id} className="bg-[var(--glass-bg)] backdrop-blur-xl rounded-lg p-4 border border-[var(--glass-border)] group">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h4 className="font-label-md text-label-md text-on-surface font-bold">{r.symptom}</h4>
@@ -183,13 +183,13 @@ export default function CareDetails() {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={`px-3 py-0.5 rounded-full text-caption font-bold uppercase ${
-                          r.severity === 'Severe' ? 'bg-error text-on-error' :
-r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
-                          'bg-secondary-container text-secondary'
+                          r.severity === 'Severe' ? 'bg-error/15 text-error border border-error/20' :
+r.severity === 'Moderate' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20' :
+                          'bg-[var(--neon-primary)]/15 text-[var(--neon-primary)] border border-[var(--neon-primary)]/20'
                         }`}>{r.severity}</span>
                         <button
                           onClick={() => setReports(prev => prev.filter(x => x.id !== r.id))}
-                          className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10"
+                          className="opacity-0 group-hover:opacity-100 text-secondary hover:text-error transition-all p-1 rounded-full hover:bg-error/10 min-h-[44px] min-w-[44px] flex items-center justify-center"
                         >
                           <Icon icon="close" size="xs" />
                         </button>
@@ -218,49 +218,49 @@ r.severity === 'Moderate' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 da
         </div>
 
         <div className="lg:col-span-1 flex flex-col gap-gutter">
-          <section className="bg-surface-container-lowest rounded-xl p-4 md:p-6 border border-outline-variant/20 shadow-sm h-full">
+          <section className="bg-[var(--glass-bg)] backdrop-blur-xl rounded-xl p-4 md:p-6 border border-[var(--glass-border)] shadow-[0_0_20px_rgba(0,240,255,0.08)] h-full">
             <div className="flex items-center gap-3 mb-6">
-              <Icon icon="assignment_turned_in" size="lg" className="text-primary" />
+              <Icon icon="assignment_turned_in" size="lg" className="text-[var(--neon-primary)]" />
               <h3 className="font-headline-md text-headline-md">Next Steps</h3>
             </div>
             <ul className="space-y-6">
               {[
-                'Log your symptoms in the <strong class="text-primary">report form</strong> above to get AI-powered guidance.',
+                'Log your symptoms in the <strong class="text-[var(--neon-primary)]">report form</strong> above to get AI-powered guidance.',
                 'Use the <strong>Symptom Tracker</strong> to monitor and record your health daily.',
                 'Set up medication reminders and track your prescriptions.',
                 'Review your <strong>Medical History</strong> and update your conditions.',
               ].map((step, i) => (
                 <li key={i} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">{i + 1}</div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--neon-primary)] text-white flex items-center justify-center font-bold text-sm">{i + 1}</div>
                   <p className="text-body-md" dangerouslySetInnerHTML={{ __html: step }} />
                 </li>
               ))}
             </ul>
 
-            <div className="mt-10 pt-6 border-t border-outline-variant flex items-center justify-between">
+            <div className="mt-10 pt-6 border-t border-[var(--glass-border)] flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="font-label-md text-label-md text-on-surface">Follow-up Reminder</span>
                 <span className="text-caption text-secondary">Notify me after my next session</span>
               </div>
-              <button onClick={() => setFollowUp(!followUp)} className={'relative inline-flex h-6 w-12 items-center rounded-full transition-colors ' + (followUp ? 'bg-primary' : 'bg-surface-container-high')}>
-                <span className={'inline-block h-5 w-5 transform rounded-full bg-white border-2 border-outline-variant transition-transform ' + (followUp ? 'translate-x-6' : 'translate-x-0.5')} />
+              <button onClick={() => setFollowUp(!followUp)} className={'relative inline-flex h-6 w-12 items-center rounded-full transition-colors ' + (followUp ? 'bg-[var(--neon-primary)]' : 'bg-[var(--glass-border)]')}>
+                <span className={'inline-block h-5 w-5 transform rounded-full bg-white border-2 border-[var(--glass-border)] transition-transform ' + (followUp ? 'translate-x-6' : 'translate-x-0.5')} />
               </button>
             </div>
           </section>
         </div>
       </div>
 
-      <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-6 bg-surface-container rounded-xl gap-4">
+      <footer className="mt-stack-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-6 bg-[var(--glass-bg)] backdrop-blur-xl rounded-xl gap-4 border border-[var(--glass-border)]">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-surface-container-lowest rounded-lg">
-              <Icon icon="verified_user" size="lg" className="text-primary" />
+          <div className="p-3 bg-[var(--neon-primary)]/10 rounded-lg">
+              <Icon icon="verified_user" size="lg" className="text-[var(--neon-primary)]" />
           </div>
           <div>
             <h4 className="font-label-md text-label-md">Medical Disclaimer</h4>
             <p className="text-caption text-secondary">This analysis is AI-driven and for informational purposes only. In case of emergency, call local medical services immediately.</p>
           </div>
         </div>
-        <button onClick={() => navigate('/new-triage')} className="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all transform active:scale-95 shadow-lg shadow-primary/20">
+        <button onClick={() => navigate('/new-triage')} className="w-full md:w-auto px-10 py-4 bg-[var(--neon-primary)] text-white rounded-full font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-all transform active:scale-95 shadow-[0_0_20px_rgba(0,240,255,0.25)] min-h-[44px]">
           <Icon icon="add" size="md" />
           Start New Triage
         </button>

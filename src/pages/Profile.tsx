@@ -242,25 +242,25 @@ export default function Profile() {
   }
 
   function badgeClass() {
-    return 'bg-surface-container-low border border-surface-variant px-3 py-1 rounded-full text-label-md font-label-md text-on-surface flex items-center gap-2'
+    return 'bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] px-3 py-1 rounded-full text-label-md font-label-md text-on-surface flex items-center gap-2'
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center">
+    <main className="min-h-[100dvh] flex flex-col items-center">
       <div className="max-w-[900px] w-full px-4 md:px-gutter py-stack-lg flex flex-col gap-gutter">
         {dirty && (
-          <div className="self-end inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-caption text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+          <div className="self-end inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-3 py-1 text-caption text-amber-400 border border-amber-500/20">
             <Icon icon="edit_note" size="sm" />
             Unsaved
           </div>
         )}
 
         {/* Profile Header Card */}
-        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-8 shadow-sm">
+        <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-xl p-4 md:p-8 shadow-[0_0_20px_rgba(0,240,255,0.08)]">
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             {/* Photo */}
             <div className="relative group">
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-primary-fixed-dim text-primary flex items-center justify-center text-4xl font-extrabold border-4 border-white overflow-hidden">
+              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-[var(--neon-primary)]/15 text-[var(--neon-primary)] flex items-center justify-center text-4xl font-extrabold border-4 border-[var(--glass-border)] overflow-hidden">
                 {form.photo ? (
                   <img src={form.photo} alt="" className="w-full h-full object-cover" />
                 ) : (
@@ -289,13 +289,13 @@ export default function Profile() {
             {/* Name / Email / Completion */}
             <div className="flex-1 text-center md:text-left w-full">
               <input
-                className="text-center md:text-left font-headline-md text-headline-md font-bold text-on-surface bg-transparent border-b-2 border-transparent focus:border-primary outline-none w-full mb-1 transition-colors"
+                className="text-center md:text-left font-headline-md text-headline-md font-bold text-on-surface bg-transparent border-b-2 border-transparent focus:border-[var(--neon-primary)] outline-none w-full mb-1 transition-colors"
                 value={form.fullName}
                 onChange={e => updateField('fullName', e.target.value)}
                 placeholder="Your full name"
               />
               <input
-                className="text-center md:text-left font-body-md text-secondary bg-transparent border-b-2 border-transparent focus:border-primary outline-none w-full mb-4 transition-colors"
+                className="text-center md:text-left font-body-md text-secondary bg-transparent border-b-2 border-transparent focus:border-[var(--neon-primary)] outline-none w-full mb-4 transition-colors"
                 type="email"
                 value={form.email}
                 onChange={e => updateField('email', e.target.value)}
@@ -304,10 +304,10 @@ export default function Profile() {
 
               {/* Completion bar */}
               <div className="flex items-center gap-3">
-                <div className="flex-1 h-2 bg-surface-variant rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-[var(--glass-border)] rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
-                      completion === 100 ? 'bg-green-500' : 'bg-primary'
+                      completion === 100 ? 'bg-green-500' : 'bg-[var(--neon-primary)]'
                     }`}
                     style={{ width: `${completion}%` }}
                   />
@@ -480,12 +480,12 @@ export default function Profile() {
               {form.currentMedications.length > 0 && (
                 <div className="space-y-2 mb-3">
                   {form.currentMedications.map((m, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3">
+                    <div key={i} className="flex items-center gap-3 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-lg px-4 py-3">
                       <div className="flex-1">
                         <p className="font-label-md text-on-surface">{m.name}</p>
                         <p className="text-caption text-secondary">{m.dosage} &middot; {m.frequency}</p>
                       </div>
-                      <button onClick={() => removeMedication(i)} className="text-secondary hover:text-error transition-colors">
+                      <button onClick={() => removeMedication(i)} className="text-secondary hover:text-error transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
                         <Icon icon="close" size="sm" />
                       </button>
                     </div>
@@ -620,8 +620,8 @@ export default function Profile() {
                 <p className="font-label-md text-label-md text-secondary mb-2">Appointment History</p>
                 <div className="space-y-2">
                   {form.appointmentHistory.map((a, i) => (
-                    <div key={i} className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
-                      <Icon icon="event" size="lg" className="text-primary" />
+                    <div key={i} className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-lg px-4 py-3 flex items-center gap-3">
+                      <Icon icon="event" size="lg" className="text-[var(--neon-primary)]" />
                       <div className="flex-1">
                         <p className="font-label-md text-on-surface">{a.reason}</p>
                         <p className="text-caption text-secondary">{a.date} &middot; {a.doctor}</p>
@@ -637,8 +637,8 @@ export default function Profile() {
                 <p className="font-label-md text-label-md text-secondary mb-2">Medical Records</p>
                 <div className="space-y-2">
                   {form.medicalRecords.map((r, i) => (
-                    <div key={i} className="bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 flex items-center gap-3">
-                      <Icon icon="description" size="lg" className="text-primary" />
+                    <div key={i} className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-lg px-4 py-3 flex items-center gap-3">
+                      <Icon icon="description" size="lg" className="text-[var(--neon-primary)]" />
                       <div className="flex-1">
                         <p className="font-label-md text-on-surface">{r.name}</p>
                         <p className="text-caption text-secondary">{r.type} &middot; {new Date(r.uploadedAt).toLocaleDateString()}</p>
@@ -656,7 +656,7 @@ export default function Profile() {
           <button
             onClick={handleSave}
             disabled={saving || !dirty}
-            className="flex-1 py-3 px-6 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-3 px-6 rounded-full bg-[var(--neon-primary)] text-white font-label-md text-label-md hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_16px_rgba(0,240,255,0.2)] min-h-[44px]"
           >
             <Icon icon={saving ? 'hourglass_top' : dirty ? 'save' : 'check_circle'} size="md" />
             {saving ? 'Saving...' : dirty ? 'Save Changes' : 'Saved'}
@@ -675,14 +675,14 @@ export default function Profile() {
                 <p className="text-caption text-secondary">Permanently remove all data and triage history</p>
               </div>
             </div>
-            <div className="bg-error-container/10 border border-error/20 rounded-lg p-4 mb-5 flex items-start gap-3">
+            <div className="bg-error/10 border border-error/20 rounded-lg p-4 mb-5 flex items-start gap-3">
               <Icon icon="warning" size="lg" className="text-error shrink-0 mt-0.5" />
               <p className="text-caption text-on-surface-variant">
                 This action <strong>cannot be undone</strong>. All your medical records, triage sessions, medication data, and personal information will be permanently deleted.
               </p>
             </div>
             {!showDeleteConfirm ? (
-              <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
+              <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors flex items-center justify-center gap-2 min-h-[44px]">
                 <Icon icon="delete" size="lg" />
                 Delete My Account
               </button>
@@ -693,7 +693,7 @@ export default function Profile() {
                     Type <strong className="text-error">DELETE</strong> to confirm
                   </label>
                   <input
-                    className="w-full bg-surface-container-low border border-error/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none placeholder:text-secondary"
+                    className="w-full bg-[var(--glass-bg)] border border-error/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:border-error focus:ring-2 focus:ring-error/20 transition-all outline-none placeholder:text-secondary"
                     placeholder="Type DELETE here..."
                     value={deleteConfirmText}
                     onChange={e => setDeleteConfirmText(e.target.value)}
@@ -702,14 +702,14 @@ export default function Profile() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setShowDeleteConfirm(false); setDeleteConfirmText('') }}
-                    className="flex-1 py-3 px-6 rounded-full border border-outline-variant text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors"
+                    className="flex-1 py-3 px-6 rounded-full border border-[var(--glass-border)] text-secondary font-label-md text-label-md hover:bg-[var(--glass-bg)] transition-colors min-h-[44px]"
                   >
                     Cancel
                   </button>
                   <button
                     disabled={deleteConfirmText !== 'DELETE'}
                     onClick={() => { signOut(); navigate('/sign-in') }}
-                    className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 py-3 px-6 rounded-full bg-error text-white font-label-md text-label-md hover:bg-red-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[44px]"
                   >
                     <Icon icon="delete_forever" size="lg" />
                     Permanently Delete
@@ -721,20 +721,12 @@ export default function Profile() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-8 mb-12 flex flex-col md:flex-row items-center justify-between py-6 border-t border-outline-variant gap-4">
+        <footer className="mt-8 mb-12 flex flex-col md:flex-row items-center justify-between py-6 border-t border-[var(--glass-border)] gap-4">
           <div className="flex items-center gap-6">
-            {/* <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="verified" size="lg" className="text-primary" />
-              <span className="font-label-md text-on-surface">HIPAA COMPLIANT</span>
-            </div> */}
-            {/* <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-lg border border-outline-variant">
-              <Icon icon="lock" size="lg" className="text-primary" />
-              <span className="font-label-md text-on-surface">AES-256 ENCRYPTED</span>
-            </div> */}
           </div>
           <div className="flex gap-stack-lg">
-            <a className="text-caption text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
-            <a className="text-caption text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+            <a className="text-caption text-secondary hover:text-[var(--neon-primary)] transition-colors" href="#">Privacy Policy</a>
+            <a className="text-caption text-secondary hover:text-[var(--neon-primary)] transition-colors" href="#">Terms of Service</a>
           </div>
         </footer>
       </div>
@@ -742,9 +734,9 @@ export default function Profile() {
       {/* Password Confirm Modal */}
       {showPasswordModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => { setShowPasswordModal(false); setPasswordConfirmValue(''); setPasswordConfirmError('') }}>
-          <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl modal-animate" onClick={e => e.stopPropagation()}>
+          <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl modal-animate" onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <div className="w-10 h-10 rounded-full bg-[var(--neon-primary)]/10 flex items-center justify-center text-[var(--neon-primary)]">
                 <Icon icon="lock" size="lg" />
               </div>
               <div>
@@ -767,14 +759,14 @@ export default function Profile() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => { setShowPasswordModal(false); setPasswordConfirmValue(''); setPasswordConfirmError('') }}
-                className="flex-1 py-3 px-6 rounded-full border border-outline-variant text-secondary font-label-md text-label-md hover:bg-surface-container transition-colors"
+                className="flex-1 py-3 px-6 rounded-full border border-[var(--glass-border)] text-secondary font-label-md text-label-md hover:bg-[var(--glass-bg)] transition-colors min-h-[44px]"
               >
                 Cancel
               </button>
               <button
                 onClick={handlePasswordConfirm}
                 disabled={!passwordConfirmValue}
-                className="flex-1 py-3 px-6 rounded-full bg-primary text-white font-label-md text-label-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-3 px-6 rounded-full bg-[var(--neon-primary)] text-white font-label-md text-label-md hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
               >
                 Confirm
               </button>
@@ -803,15 +795,15 @@ function SectionCard({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-xl shadow-[0_0_20px_rgba(0,240,255,0.08)] overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 hover:bg-surface-container-low transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 hover:bg-[rgba(0,240,255,0.04)] transition-colors text-left min-h-[44px]"
       >
-        <Icon icon={icon} size="lg" className="text-primary" />
+        <Icon icon={icon} size="lg" className="text-[var(--neon-primary)]" />
         <h3 className="font-headline-md text-headline-md text-on-surface flex-1">{title}</h3>
         {completed && (
-          <span className="text-green-600 dark:text-green-400">
+          <span className="text-green-400">
             <Icon icon="check_circle" size="lg" />
           </span>
         )}

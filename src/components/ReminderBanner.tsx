@@ -27,32 +27,35 @@ export default function ReminderBanner() {
   return (
     <div className="space-y-3">
       {reminders.map((r, i) => (
-        <div key={i} className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3 md:p-4 flex items-center gap-3 md:gap-4">
-          <Icon icon="priority_high" size="lg" className="text-amber-600 dark:text-amber-400" />
-          <p className="font-body-md text-amber-800 dark:text-amber-200 flex-1">
+        <div
+          key={i}
+          className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] border-l-4 border-l-[var(--neon-accent)] rounded-xl p-3 md:p-4 flex items-center gap-3 md:gap-4 shadow-[0_0_20px_rgba(0,240,255,0.08)]"
+        >
+          <Icon icon="priority_high" size="lg" className="text-[var(--neon-accent)] drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]" />
+          <p className="font-body-md flex-1">
             <strong>Reminder:</strong> {r.text}
             {r.date && <span className="text-sm ml-2 opacity-70">({r.date})</span>}
           </p>
-          <button onClick={() => dismissReminder(i)} className="font-label-md text-primary underline underline-offset-4">Dismiss</button>
+          <button onClick={() => dismissReminder(i)} className="font-label-md text-[var(--neon-primary)] underline underline-offset-4">Dismiss</button>
         </div>
       ))}
 
       {!dismissed && (
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
           {!showForm ? (
             <>
               <p className="font-body-md text-secondary text-sm">No reminders set.</p>
-              <button onClick={() => setShowForm(true)} className="text-primary font-label-md text-sm flex items-center gap-1 hover:underline">
+              <button onClick={() => setShowForm(true)} className="text-[var(--neon-primary)] font-label-md text-sm flex items-center gap-1 hover:underline">
                 <Icon icon="add" size="sm" />
                 Add a health reminder
               </button>
             </>
           ) : (
-            <div className="flex flex-wrap gap-2 w-full bg-surface-container-lowest rounded-xl border border-outline-variant p-3">
-              <PremiumInput compact containerClassName="flex-1 min-w-[200px]" placeholder="e.g. Drink more water" value={reminderText} onChange={e => setReminderText(e.target.value)} />
-              <PremiumDateInput compact containerClassName="min-w-[170px]" value={reminderDate} onChange={e => setReminderDate(e.target.value)} />
-              <button onClick={addReminder} className="bg-primary text-white px-5 py-2 rounded-lg font-label-md hover:bg-primary/90 transition-colors">Save</button>
-              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-secondary font-label-md hover:text-primary">Cancel</button>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 w-full bg-[var(--glass-bg)] backdrop-blur-xl rounded-xl border border-[var(--glass-border)] p-3 shadow-[0_0_16px_rgba(0,240,255,0.06)]">
+              <PremiumInput compact containerClassName="flex-1 min-w-0" placeholder="e.g. Drink more water" value={reminderText} onChange={e => setReminderText(e.target.value)} />
+              <PremiumDateInput compact containerClassName="min-w-0 sm:min-w-[170px]" value={reminderDate} onChange={e => setReminderDate(e.target.value)} />
+              <button onClick={addReminder} className="bg-[var(--neon-primary)] text-[#050816] px-5 py-2 rounded-lg font-label-md hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all min-h-[44px]">Save</button>
+              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-secondary font-label-md hover:text-[var(--neon-primary)] min-h-[44px]">Cancel</button>
             </div>
           )}
         </div>

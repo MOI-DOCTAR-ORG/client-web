@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { useBodyMap } from '../context/BodyMapContext'
 
 interface BodyRegion {
   id: string
@@ -29,12 +30,27 @@ const bodyRegions: BodyRegion[] = [
 
 export default function PinpointPain() {
   const navigate = useNavigate()
+  const { setSelectedAreas } = useBodyMap()
   const [selected, setSelected] = useState<string[]>([])
 
   const toggleRegion = (id: string) => {
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
     )
+  }
+
+  const handleConfirm = () => {
+    const areas = selected.map(id => {
+      const region = bodyRegions.find(r => r.id === id)
+      return {
+        id,
+        label: region?.label || id,
+        severity: 'Moderate' as const,
+        notes: '',
+      }
+    })
+    setSelectedAreas(areas)
+    navigate('/new-triage')
   }
 
   const anteriorRegions = bodyRegions.filter((r) => r.view === 'anterior')
@@ -124,7 +140,7 @@ export default function PinpointPain() {
               {selected.length} Region{selected.length !== 1 ? 's' : ''} Selected
             </span>
           </div>
-          <button className="order-1 md:order-2 w-full md:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 px-10 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.39)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.23)] hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" onClick={() => navigate('/')}>
+          <button className="order-1 md:order-2 w-full md:w-auto bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 px-10 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.39)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.23)] hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" onClick={handleConfirm}>
             Confirm Location
             <Icon icon="arrow_forward" size="sm" />
           </button>

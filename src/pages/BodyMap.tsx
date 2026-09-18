@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { PremiumInput } from '../components/ui/PremiumFormControls'
 import { useTheme } from '../context/ThemeContext'
+import { useBodyMap } from '../context/BodyMapContext'
 
 type View = 'Front' | 'Back' | 'Left' | 'Right'
 type Severity = 'Mild' | 'Moderate' | 'Severe'
@@ -33,6 +34,7 @@ export default function BodyMap() {
   const navigate = useNavigate()
   const [currentView, setCurrentView] = useState<View>('Front')
   const { theme } = useTheme()
+  const { setSelectedAreas: setContextAreas } = useBodyMap()
   const [selectedAreas, setSelectedAreas] = useState<SelectedArea[]>([])
   const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null)
 
@@ -245,7 +247,10 @@ export default function BodyMap() {
           </div>
           <button
             className="bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-3 px-8 rounded-full transition-all duration-200 shadow-[0_4px_14px_0_rgba(0,27,212,0.2)] hover:shadow-[0_6px_20px_rgba(0,27,212,0.3)] hover:-translate-y-0.5 flex items-center justify-center gap-2 font-medium"
-            onClick={() => navigate('/pinpoint-pain')}
+            onClick={() => {
+              setContextAreas(selectedAreas)
+              navigate('/pinpoint-pain')
+            }}
           >
             Confirm Pain Areas
             <Icon icon="arrow_forward" size="sm" />

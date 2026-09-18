@@ -2,8 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
+import { useBodyMap } from '../context/BodyMapContext'
 import { getUserInitials } from '../utils/getUserInitials'
 import LianaAvatar from '../components/LianaAvatar'
+import EmergencyEscalation from '../components/EmergencyEscalation'
+import TriageFeedback from '../components/TriageFeedback'
 import { useCreateTriageChat } from '../hooks/useMoiDoctor'
 import type { TriageChatResponse } from '../types/triage'
 
@@ -12,6 +15,7 @@ type Severity = 'Mild' | 'Moderate' | 'Severe'
 export default function NewTriageBodyMap() {
   const navigate = useNavigate()
   const { addSession } = useAuth()
+  const { selectedAreas, hasAreas } = useBodyMap()
   const createTriage = useCreateTriageChat()
   const sessionId = Date.now().toString(36).toUpperCase()
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>(null)
@@ -29,7 +33,11 @@ export default function NewTriageBodyMap() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const turnCountRef = useRef(0)
 
-  const userSymptoms = messages.filter(m => m.role === 'user').map(m => m.text).join('\n')
+  const bodyMapContext = hasAreas
+    ? '\n[Affected body areas: ' + selectedAreas.map(a => `${a.label} (${a.severity}${a.notes ? ', ' + a.notes : ''})`).join('; ') + ']'
+    : ''
+
+  const userSymptoms = messages.filter(m => m.role === 'user').map(m => m.text).join('\n') + bodyMapContext
   const messagesJson = JSON.stringify(messages.map(m => ({ role: m.role, content: m.text })))
 
   const triggerAssessment = useCallback(() => {
@@ -125,8 +133,20 @@ export default function NewTriageBodyMap() {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-secondary text-caption font-label-md">PRIMARY CHIEF COMPLAINT</span>
-              <span className="font-body-md">--</span>
+              <span className="font-body-md">{hasAreas ? selectedAreas.map(a => a.label).join(', ') : '--'}</span>
             </div>
+            {hasAreas && (
+              <div className="flex flex-col gap-1">
+                <span className="text-secondary text-caption font-label-md">AFFECTED AREAS</span>
+                <div className="flex flex-wrap gap-1">
+                  {selectedAreas.map((area) => (
+                    <span key={area.id} className="px-2 py-0.5 bg-primary-container/20 text-primary rounded-full text-caption font-medium">
+                      {area.label} ({area.severity})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="mt-12 bg-surface-container-low rounded-xl p-4 border border-outline-variant/20">
             <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2">
@@ -321,7 +341,22 @@ export default function NewTriageBodyMap() {
                           {assessment.recommended_actions.map((action, i) => (
                             <li key={i} className="flex items-start gap-2 font-body-md text-on-surface-variant">
                               <span className="text-primary mt-0.5 shrink-0">•</span>
-                              {action}
+                              <span className="flex-1">{action}</span>
+                              {action.toLowerCase().includes('hospital') || action.toLowerCase().includes('emergency') || action.toLowerCase().includes('doctor') || action.toLowerCase().includes('clinic') ? (
+                                <button
+                                  onClick={() => navigate('/local-care')}
+                                  className="shrink-0 px-2 py-0.5 text-caption font-bold text-primary bg-primary-container/15 rounded-lg hover:bg-primary-container/25 transition-colors"
+                                >
+                                  Find Near Me
+                                </button>
+                              ) : action.toLowerCase().includes('pharmacy') || action.toLowerCase().includes('medication') ? (
+                                <button
+                                  onClick={() => navigate('/medication-tracker')}
+                                  className="shrink-0 px-2 py-0.5 text-caption font-bold text-purple-500 bg-purple-500/10 rounded-lg hover:bg-purple-500/15 transition-colors"
+                                >
+                                  Track Meds
+                                </button>
+                              ) : null}
                             </li>
                           ))}
                         </ul>
@@ -364,7 +399,13 @@ export default function NewTriageBodyMap() {
 
                     <p className="text-caption text-secondary italic mb-6">{assessment.disclaimer}</p>
 
-                    <div className="flex gap-3">
+                    <EmergencyEscalation urgencyLevel={assessment.urgency_level} redFlags={assessment.red_flags_to_watch} />
+
+                    <div className="mt-4">
+                      <TriageFeedback assessmentId={assessment.assessment_id} />
+                    </div>
+
+                    <div className="flex gap-3 mt-4">
                       <button
                         className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20"
                         onClick={() => {

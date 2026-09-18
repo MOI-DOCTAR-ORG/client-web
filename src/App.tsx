@@ -21,6 +21,7 @@ import SymptomTrackerBodyMap from './pages/SymptomTrackerBodyMap'
 import AdminCache from './pages/AdminCache'
 import NotFound from './pages/NotFound'
 import ForgotPassword from './pages/ForgotPassword'
+import LocalCareDiscovery from './pages/LocalCareDiscovery'
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/new-triage" element={<NewTriage />} />
         <Route path="/history" element={<History />} />
         <Route path="/care-details" element={<CareDetails />} />
+        <Route path="/local-care" element={<LocalCareDiscovery />} />
         <Route path="/symptom-tracker" element={<SymptomTracker />} />
         <Route path="/medication-tracker" element={<MedicationTracker />} />
         <Route path="/notifications" element={<Notifications />} />

@@ -6,6 +6,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
+import { BodyMapProvider } from './context/BodyMapContext'
 import { ToastProvider } from './context/ToastContext'
 import ErrorBoundary from './components/ui/ErrorBoundary'
 import App from './App'
@@ -37,12 +38,14 @@ createRoot(document.getElementById('root')!).render(
         <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
           <BrowserRouter>
             <ThemeProvider>
-              <AuthProvider>
-                <ToastProvider>
-                  <App />
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </ToastProvider>
-              </AuthProvider>
+              <BodyMapProvider>
+                <AuthProvider>
+                  <ToastProvider>
+                    <App />
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </ToastProvider>
+                </AuthProvider>
+              </BodyMapProvider>
             </ThemeProvider>
           </BrowserRouter>
         </GoogleOAuthProvider>

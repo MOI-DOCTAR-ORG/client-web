@@ -2,8 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { useAuth } from '../context/AuthContext'
+import { useBodyMap } from '../context/BodyMapContext'
 import { getUserInitials } from '../utils/getUserInitials'
 import LianaAvatar from '../components/LianaAvatar'
+import EmergencyEscalation from '../components/EmergencyEscalation'
+import TriageFeedback from '../components/TriageFeedback'
 import { useCreateTriageChat } from '../hooks/useMoiDoctor'
 import type { TriageChatResponse } from '../types/triage'
 
@@ -12,6 +15,7 @@ type Severity = 'Mild' | 'Moderate' | 'Severe'
 export default function NewTriage() {
   const navigate = useNavigate()
   const { addSession } = useAuth()
+  const { selectedAreas, hasAreas } = useBodyMap()
   const createTriage = useCreateTriageChat()
   const sessionId = Date.now().toString(36).toUpperCase()
   const [selectedSeverity, setSelectedSeverity] = useState<Severity | null>('Moderate')
@@ -29,7 +33,11 @@ export default function NewTriage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const turnCountRef = useRef(0)
 
-  const userSymptoms = messages.filter(m => m.role === 'user').map(m => m.text).join('\n')
+  const bodyMapContext = hasAreas
+    ? '\n[Affected body areas: ' + selectedAreas.map(a => `${a.label} (${a.severity}${a.notes ? ', ' + a.notes : ''})`).join('; ') + ']'
+    : ''
+
+  const userSymptoms = messages.filter(m => m.role === 'user').map(m => m.text).join('\n') + bodyMapContext
   const messagesJson = JSON.stringify(messages.map(m => ({ role: m.role, content: m.text })))
 
   const triggerAssessment = useCallback(() => {
@@ -105,31 +113,43 @@ export default function NewTriage() {
     <main className="h-[calc(100vh-56px)] h-[calc(100dvh-56px)] md:h-[calc(100vh-64px)] md:h-[calc(100dvh-64px)] flex overflow-hidden relative">
       {/* Left Info Panel */}
       {showPanel && (
-        <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowPanel(false)} />
+        <div className="md:hidden fixed inset-0 bg-black/30 z-30 backdrop-blur-sm" onClick={() => setShowPanel(false)} />
       )}
-      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-[85vw] max-w-[320px] md:w-80 bg-surface-container border border-outline-variant/20 shadow-sm p-stack-lg text-on-surface flex-col shrink-0 overflow-hidden`}>
+      <aside className={`${showPanel ? 'flex' : 'hidden'} md:flex fixed md:relative inset-y-0 left-0 z-40 md:z-auto w-[85vw] max-w-[320px] md:w-80 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] shadow-xl shadow-[var(--neon-primary)]/5 p-stack-lg text-on-surface flex-col shrink-0 overflow-hidden`}>
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 bg-surface-container-high/70 backdrop-blur-md px-3 py-1 rounded-full mb-8">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-[var(--glass-bg)] backdrop-blur-md px-3 py-1 rounded-full mb-8 border border-[var(--glass-border)]">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_6px_#22c55e]" />
             <span className="text-caption font-caption uppercase tracking-wider">Active Session</span>
           </div>
-          <h2 className="font-headline-md text-headline-md mb-8">Triage Summary</h2>
+          <h2 className="font-headline-md text-headline-md mb-8 bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] bg-clip-text text-transparent">Triage Summary</h2>
           <div className="space-y-6">
             <div className="flex flex-col gap-1">
-              <span className="text-secondary text-caption font-label-md">START TIME</span>
+              <span className="text-secondary text-caption font-label-md uppercase tracking-wider">Start Time</span>
               <span className="font-body-md">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-secondary text-caption font-label-md">PATIENT ID</span>
+              <span className="text-secondary text-caption font-label-md uppercase tracking-wider">Patient ID</span>
               <span className="font-body-md">#--</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-secondary text-caption font-label-md">PRIMARY CHIEF COMPLAINT</span>
-              <span className="font-body-md">--</span>
+              <span className="text-secondary text-caption font-label-md uppercase tracking-wider">Primary Complaint</span>
+              <span className="font-body-md">{hasAreas ? selectedAreas.map(a => a.label).join(', ') : '--'}</span>
             </div>
+            {hasAreas && (
+              <div className="flex flex-col gap-1">
+                <span className="text-secondary text-caption font-label-md uppercase tracking-wider">Affected Areas</span>
+                <div className="flex flex-wrap gap-1">
+                  {selectedAreas.map((area) => (
+                    <span key={area.id} className="px-2 py-0.5 bg-[var(--neon-primary)]/15 text-[var(--neon-primary)] rounded-full text-caption font-medium border border-[var(--neon-primary)]/20">
+                      {area.label} ({area.severity})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-          <div className="mt-12 bg-surface-container-low rounded-xl p-4 border border-outline-variant/20">
-            <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2">
+          <div className="mt-12 bg-[var(--glass-bg)] backdrop-blur-md rounded-xl p-4 border border-[var(--glass-border)]">
+            <h3 className="font-label-md text-label-md mb-3 flex items-center gap-2 text-[var(--neon-primary)]">
               <Icon icon="info" size="md" />
               Clinical Context
             </h3>
@@ -138,7 +158,7 @@ export default function NewTriage() {
             </p>
           </div>
         </div>
-        <div className="mt-auto pt-6 border-t border-outline-variant/30 text-on-surface-variant/60 text-caption italic">
+        <div className="mt-auto pt-6 border-t border-[var(--glass-border)] text-on-surface-variant/60 text-caption italic">
           Secure 256-bit HIPAA compliant session
         </div>
       </aside>
@@ -147,7 +167,7 @@ export default function NewTriage() {
       <section className="flex-grow flex flex-col bg-surface relative">
         <button
           type="button"
-          className="md:hidden absolute left-4 top-4 z-20 inline-flex items-center gap-2 rounded-full border border-outline-variant/50 bg-surface-container-lowest/90 px-3 py-2 text-xs font-bold text-secondary shadow-sm backdrop-blur-md"
+          className="md:hidden absolute left-4 top-4 z-20 inline-flex items-center gap-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl px-3 py-2 text-xs font-bold text-secondary shadow-sm min-h-[44px]"
           onClick={() => setShowPanel(true)}
         >
           <Icon icon="info" size="sm" />
@@ -163,15 +183,15 @@ export default function NewTriage() {
           </div>
           <div className="flex items-center gap-2">
             <button
-              className="md:hidden p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary"
+              className="md:hidden p-2 hover:bg-[var(--glass-bg)] rounded-full transition-colors text-secondary min-h-[44px]"
               onClick={() => setShowPanel(!showPanel)}
             >
               <Icon icon={showPanel ? 'close' : 'info'} size="md" />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary" onClick={() => navigate('/history')}>
+            <button className="p-2 hover:bg-[var(--glass-bg)] rounded-full transition-colors text-secondary min-h-[44px]" onClick={() => navigate('/history')}>
               <Icon icon="history" size="md" />
             </button>
-            <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors text-secondary">
+            <button className="p-2 hover:bg-[var(--glass-bg)] rounded-full transition-colors text-secondary min-h-[44px]">
               <Icon icon="more_vert" size="md" />
             </button>
           </div>
@@ -180,22 +200,23 @@ export default function NewTriage() {
         <div className="flex-grow overflow-y-auto px-4 md:px-gutter pb-32 pt-14 md:pt-gutter space-y-6 md:space-y-8 chat-container">
           {messages.map((msg, i) => (
             msg.role === 'ai' ? (
-              <div key={i} className="flex gap-4 max-w-full md:max-w-2xl">
-                <div className="shrink-0">
+              <div key={i} className="flex gap-4 max-w-[calc(100vw-2rem)] md:max-w-2xl">
+                <div className="shrink-0 relative">
+                  <div className="absolute -inset-1 rounded-full bg-[var(--neon-primary)] opacity-30 blur-md" />
                   <LianaAvatar size="sm" />
                 </div>
-                <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm">
+                <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] border-l-[3px] border-l-[var(--neon-primary)] rounded-2xl rounded-tl-none p-4 shadow-lg shadow-[var(--neon-primary)]/5">
                   <p className="font-body-md text-on-surface">{msg.text}</p>
                   <p className="text-caption text-secondary mt-2">{msg.time}</p>
                 </div>
               </div>
             ) : (
               <div key={i} className="flex gap-4 justify-end">
-                <div className="bg-primary text-on-primary rounded-2xl rounded-tr-none px-6 py-4 shadow-lg max-w-full md:max-w-xl">
+                <div className="bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] text-white rounded-2xl rounded-tr-none px-6 py-4 shadow-lg shadow-[var(--neon-primary)]/20 max-w-[calc(100vw-2rem)] md:max-w-xl">
                   <p className="font-body-md">{msg.text}</p>
-                  <p className="text-caption text-on-primary-container mt-2 opacity-80 text-right">{msg.time}</p>
+                  <p className="text-caption mt-2 opacity-80 text-right">{msg.time}</p>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shrink-0 font-bold text-white text-xs">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--neon-primary)] to-[var(--neon-accent)] flex items-center justify-center shrink-0 font-bold text-white text-xs shadow-[0_0_12px_var(--neon-primary)]">
                   {getUserInitials()}
                 </div>
               </div>
@@ -204,11 +225,12 @@ export default function NewTriage() {
 
           {/* AI Message with Severity Triage */}
           {messages.length > 1 && (
-            <div className="flex gap-4 max-w-full md:max-w-2xl">
-              <div className="shrink-0">
+            <div className="flex gap-4 max-w-[calc(100vw-2rem)] md:max-w-2xl">
+              <div className="shrink-0 relative">
+                <div className="absolute -inset-1 rounded-full bg-[var(--neon-primary)] opacity-30 blur-md" />
                 <LianaAvatar size="sm" />
               </div>
-              <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl rounded-tl-none p-4 shadow-sm space-y-4">
+              <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] border-l-[3px] border-l-[var(--neon-primary)] rounded-2xl rounded-tl-none p-4 shadow-lg shadow-[var(--neon-primary)]/5 space-y-4">
                 <p className="font-body-md text-on-surface">
                   I understand. On a scale of severity, how would you classify this pain right now?
                 </p>
@@ -217,13 +239,13 @@ export default function NewTriage() {
                     <button
                       key={opt.label}
                       onClick={() => setSelectedSeverity(opt.label)}
-                      className={`px-5 py-2 rounded-full font-label-md text-label-md flex items-center gap-2 transition-all ${
+                      className={`px-5 py-2 rounded-full font-label-md text-label-md flex items-center gap-2 transition-all min-h-[44px] ${
                         selectedSeverity === opt.label
-                          ? `border-2 ${opt.border} bg-primary-container/5`
-                          : `border border-outline-variant ${opt.hover}`
+                          ? `border-2 ${opt.border} bg-[var(--glass-bg)] backdrop-blur-md shadow-[0_0_12px_var(--neon-primary)]`
+                          : `border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-md ${opt.hover}`
                       }`}
                     >
-                      <span className={`w-2 h-2 ${opt.dot} rounded-full`} />
+                      <span className={`w-2 h-2 ${opt.dot} rounded-full ${selectedSeverity === opt.label ? 'shadow-[0_0_6px_currentColor]' : ''}`} />
                       {opt.label}
                     </button>
                   ))}
@@ -234,14 +256,15 @@ export default function NewTriage() {
 
           {/* Triage Result Card */}
           {messages.length > 1 && selectedSeverity && (
-            <div className="flex gap-4 max-w-full md:max-w-2xl">
-              <div className="shrink-0">
+            <div className="flex gap-4 max-w-[calc(100vw-2rem)] md:max-w-2xl">
+              <div className="shrink-0 relative">
+                <div className="absolute -inset-1 rounded-full bg-[var(--neon-primary)] opacity-30 blur-md" />
                 <LianaAvatar size="sm" />
               </div>
-              <div className="bg-surface-container-low border border-outline-variant rounded-2xl rounded-tl-none p-6 shadow-md w-full border-l-4 border-l-tertiary-container">
+              <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl rounded-tl-none p-6 shadow-xl shadow-[var(--neon-primary)]/5 w-full border-l-4 border-l-[var(--neon-primary)]">
                 {createTriage.isPending ? (
                   <div className="flex flex-col items-center py-8">
-                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+                    <div className="w-8 h-8 border-4 border-[var(--neon-primary)] border-t-transparent rounded-full animate-spin mb-4 shadow-[0_0_12px_var(--neon-primary)]" />
                     <p className="font-body-md text-on-surface-variant">Analyzing your symptoms...</p>
                   </div>
                 ) : createTriage.isError ? (
@@ -251,7 +274,7 @@ export default function NewTriage() {
                       Unable to complete assessment. Please try again.
                     </p>
                     <button
-                      className="bg-primary text-on-primary px-6 py-2 rounded-xl font-label-md text-label-md"
+                      className="bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] text-white px-6 py-2 rounded-xl font-label-md text-label-md min-h-[44px] shadow-[0_0_16px_var(--neon-primary)]/30"
                       onClick={() => {
                         createTriage.reset()
                         triggerAssessment()
@@ -263,7 +286,7 @@ export default function NewTriage() {
                 ) : assessment ? (
                   <>
                     <div className="flex justify-between items-start mb-4">
-                      <h4 className="font-headline-md text-headline-md text-on-surface">Preliminary Assessment</h4>
+                      <h4 className="font-headline-md text-headline-md text-on-surface bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] bg-clip-text text-transparent">Preliminary Assessment</h4>
                       <div className="flex items-center gap-2">
                         <span className={`px-3 py-1 rounded-full text-caption font-label-md uppercase tracking-wide ${urgencyColor(assessment.urgency_level)}`}>
                           {assessment.urgency_level}
@@ -284,9 +307,9 @@ export default function NewTriage() {
                     )}
 
                     <div className="mb-4">
-                      <div className="w-full bg-surface-container-high rounded-full h-1.5">
+                      <div className="w-full bg-[var(--glass-bg)] backdrop-blur-md rounded-full h-1.5 border border-[var(--glass-border)]">
                         <div
-                          className="h-1.5 rounded-full bg-primary transition-all"
+                          className="h-1.5 rounded-full bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] transition-all shadow-[0_0_8px_var(--neon-primary)]"
                           style={{ width: `${confidencePercent(assessment.confidence_score)}%` }}
                         />
                       </div>
@@ -299,7 +322,7 @@ export default function NewTriage() {
                         <h5 className="font-label-md text-label-md text-on-surface-variant mb-2">Possible Conditions</h5>
                         <div className="flex flex-wrap gap-2">
                           {assessment.possible_conditions.map((cond, i) => (
-                            <span key={i} className="px-3 py-1 bg-surface-container-high rounded-full text-caption font-medium">
+                            <span key={i} className="px-3 py-1 bg-[var(--glass-bg)] backdrop-blur-md rounded-full text-caption font-medium border border-[var(--glass-border)]">
                               {cond}
                             </span>
                           ))}
@@ -313,8 +336,23 @@ export default function NewTriage() {
                         <ul className="space-y-1.5">
                           {assessment.recommended_actions.map((action, i) => (
                             <li key={i} className="flex items-start gap-2 font-body-md text-on-surface-variant">
-                              <span className="text-primary mt-0.5 shrink-0">•</span>
-                              {action}
+                              <span className="text-[var(--neon-primary)] mt-0.5 shrink-0">•</span>
+                              <span className="flex-1">{action}</span>
+                              {action.toLowerCase().includes('hospital') || action.toLowerCase().includes('emergency') || action.toLowerCase().includes('doctor') || action.toLowerCase().includes('clinic') ? (
+                                <button
+                                  onClick={() => navigate('/local-care')}
+                                  className="shrink-0 px-2 py-0.5 text-caption font-bold text-[var(--neon-primary)] bg-[var(--neon-primary)]/10 rounded-lg hover:bg-[var(--neon-primary)]/15 transition-colors"
+                                >
+                                  Find Near Me
+                                </button>
+                              ) : action.toLowerCase().includes('pharmacy') || action.toLowerCase().includes('medication') ? (
+                                <button
+                                  onClick={() => navigate('/medication-tracker')}
+                                  className="shrink-0 px-2 py-0.5 text-caption font-bold text-purple-500 bg-purple-500/10 rounded-lg hover:bg-purple-500/15 transition-colors"
+                                >
+                                  Track Meds
+                                </button>
+                              ) : null}
                             </li>
                           ))}
                         </ul>
@@ -329,7 +367,7 @@ export default function NewTriage() {
                             <button
                               key={i}
                               onClick={() => handleFollowUpClick(q)}
-                              className="px-3 py-1.5 bg-surface-container-high hover:bg-primary-container/20 rounded-full text-caption font-medium text-primary border border-outline-variant/40 transition-colors"
+                              className="px-3 py-1.5 bg-[var(--glass-bg)] backdrop-blur-md hover:bg-[var(--neon-primary)]/10 rounded-full text-caption font-medium text-[var(--neon-primary)] border border-[var(--glass-border)] hover:border-[var(--neon-primary)] transition-all min-h-[44px] shadow-[0_0_8px_var(--neon-primary)]/10 hover:shadow-[0_0_12px_var(--neon-primary)]/20"
                             >
                               {q}
                             </button>
@@ -357,11 +395,17 @@ export default function NewTriage() {
 
                     <p className="text-caption text-secondary italic mb-6">{assessment.disclaimer}</p>
 
-                    <div className="flex gap-3">
-                      <button className="flex-grow bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md shadow-primary/20" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
+                    <EmergencyEscalation urgencyLevel={assessment.urgency_level} redFlags={assessment.red_flags_to_watch} />
+
+                    <div className="mt-4">
+                      <TriageFeedback assessmentId={assessment.assessment_id} />
+                    </div>
+
+                    <div className="flex gap-3 mt-4">
+                      <button className="flex-grow bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] text-white py-3 rounded-xl font-label-md text-label-md hover:shadow-[0_0_20px_var(--neon-primary)]/40 transition-all shadow-lg shadow-[var(--neon-primary)]/20 min-h-[44px]" onClick={() => { addSession({ id: 'sess-' + Date.now(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }), condition: 'Self-reported symptoms', description: 'Triage assessment completed.', severity: selectedSeverity === 'Severe' ? 'Urgent' : selectedSeverity === 'Moderate' ? 'Moderate' : 'Stable', statusLabel: 'Review Sent', statusIcon: 'clinical_notes' }); navigate('/care-details') }}>
                         View Care Details
                       </button>
-                      <button className="px-4 py-3 border border-outline rounded-xl hover:bg-surface-container transition-colors">
+                      <button className="px-4 py-3 border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-md rounded-xl hover:border-[var(--neon-primary)] hover:shadow-[0_0_12px_var(--neon-primary)]/20 transition-all min-h-[44px] flex items-center justify-center">
                         <Icon icon="share" size="md" />
                       </button>
                     </div>
@@ -375,10 +419,10 @@ export default function NewTriage() {
         {/* Bottom Input Bar */}
         <div className="absolute bottom-0 left-0 right-0 p-3 md:p-gutter bg-surface pt-8 md:pt-12 pointer-events-none">
           <div className="max-w-4xl mx-auto w-full pointer-events-auto">
-            <div className="bg-surface-container-lowest border border-outline-variant rounded-2xl p-2 shadow-xl flex items-center gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-              <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl relative" onClick={() => fileInputRef.current?.click()} title="Attach Image">
+            <div className="bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-2 shadow-xl shadow-[var(--neon-primary)]/10 flex items-center gap-2 group focus-within:ring-2 focus-within:ring-[var(--neon-primary)]/30 transition-all">
+              <button className="p-3 text-secondary hover:text-[var(--neon-primary)] transition-colors hover:bg-[var(--neon-primary)]/10 rounded-xl relative min-h-[44px] min-w-[44px] flex items-center justify-center" onClick={() => fileInputRef.current?.click()} title="Attach Image">
                 <Icon icon="attach_file" size="md" />
-                {selectedImage && <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />}
+                {selectedImage && <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--neon-primary)] rounded-full shadow-[0_0_6px_var(--neon-primary)]" />}
               </button>
               <input
                 ref={fileInputRef}
@@ -388,7 +432,7 @@ export default function NewTriage() {
                 onChange={handleFileSelect}
               />
               <input
-                className="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-secondary px-2"
+                className="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-secondary px-2 min-h-[44px]"
                 placeholder="Type your symptoms or questions..."
                 type="text"
                 value={inputValue}
@@ -396,10 +440,10 @@ export default function NewTriage() {
                 onKeyDown={(e) => { if (e.key === 'Enter') handleSend() }}
               />
               <div className="flex items-center gap-1">
-                <button className="p-3 text-secondary hover:text-primary transition-colors hover:bg-surface-container-low rounded-xl">
+                <button className="p-3 text-secondary hover:text-[var(--neon-primary)] transition-colors hover:bg-[var(--neon-primary)]/10 rounded-xl min-h-[44px] min-w-[44px] flex items-center justify-center">
                   <Icon icon="mic" size="md" />
                 </button>
-                <button className="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center" onClick={() => handleSend()}>
+                <button className="bg-gradient-to-r from-[var(--neon-primary)] to-[var(--neon-accent)] text-white p-3 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[var(--neon-primary)]/30 flex items-center justify-center min-h-[44px] min-w-[44px] hover:shadow-[0_0_20px_var(--neon-primary)]/50" onClick={() => handleSend()}>
                   <Icon icon="send" size="md" />
                 </button>
               </div>

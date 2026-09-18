@@ -6,6 +6,7 @@ const primaryNav = [
   { label: 'New Triage', icon: 'medical_services', to: '/new-triage' },
   { label: 'History', icon: 'history', to: '/history' },
   { label: 'Care Details', icon: 'local_hospital', to: '/care-details' },
+  { label: 'Nearby Care', icon: 'location_on', to: '/local-care' },
   { label: 'Symptom Tracker', icon: 'monitor_heart', to: '/symptom-tracker' },
   { label: 'Medications', icon: 'pill', to: '/medication-tracker' },
 ]
@@ -36,11 +37,15 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <Link
             to="/"
             onClick={handleNav}
-            className="flex h-11 items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-surface-container-high"
+            className="flex h-11 items-center gap-2.5 rounded-xl px-2 transition-all duration-300 hover:bg-[rgba(0,240,255,0.04)] group"
           >
-            <img src="/moidoctar-logo.svg" alt="MoiDoctar" className="h-8 w-8 object-contain" />
+            <img
+              src="/moidoctar-logo.svg"
+              alt="MoiDoctar"
+              className="h-8 w-8 object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_var(--neon-primary)]"
+            />
             <div className="min-w-0">
-              <h1 className="truncate font-headline-md text-lg font-extrabold text-primary">
+              <h1 className="truncate font-headline-md text-lg font-extrabold text-[var(--neon-primary)]">
                 MoiDoctar
               </h1>
             </div>
@@ -48,7 +53,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <button
             type="button"
             onClick={onClose}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-secondary hover:bg-surface-container-high hover:text-primary md:hidden"
+            className="grid min-h-[44px] min-w-[44px] shrink-0 place-items-center rounded-xl text-secondary hover:bg-[rgba(0,240,255,0.04)] hover:text-[var(--neon-primary)] md:hidden transition-colors"
             aria-label="Close sidebar"
           >
             <Icon icon="close" size="md" />
@@ -65,14 +70,14 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               to={item.to}
               onClick={handleNav}
               aria-current={isActive ? 'page' : undefined}
-              className={`sidebar-active-pill flex h-10 shrink-0 items-center gap-2.5 rounded-lg px-2.5 text-sm transition-colors ${
+              className={`sidebar-active-pill flex h-11 shrink-0 items-center gap-2.5 rounded-xl px-2.5 text-sm transition-all duration-200 border-l-2 ${
                 isActive
-                  ? 'bg-primary-container text-primary shadow-sm'
-                  : 'text-secondary hover:bg-surface-container-high hover:text-on-surface'
+                  ? 'border-l-[var(--neon-primary)] bg-[rgba(0,240,255,0.06)] text-[var(--neon-primary)] shadow-[inset_0_0_12px_rgba(0,240,255,0.04)]'
+                  : 'border-l-transparent text-secondary hover:bg-[rgba(0,240,255,0.04)] hover:text-on-surface'
               }`}
             >
-              <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg ${
-                isActive ? 'bg-surface-container-lowest/70' : 'bg-transparent'
+              <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg transition-colors ${
+                isActive ? 'bg-[rgba(0,240,255,0.1)]' : 'bg-transparent'
               }`}>
                 <Icon icon={item.icon} size="md" />
               </span>
@@ -82,14 +87,14 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="mt-auto space-y-1 border-t border-outline-variant/40 px-2.5 pt-3">
+      <div className="mt-auto space-y-1 border-t border-[var(--glass-border)] px-2.5 pt-3">
         {bottomNav.map((item) => {
           return (
             <button
               key={item.label}
               type="button"
               onClick={handleNav}
-              className="flex h-10 w-full items-center gap-2.5 rounded-lg px-2.5 text-left text-sm text-secondary transition-colors hover:bg-surface-container-high hover:text-on-surface"
+              className="flex h-11 w-full items-center gap-2.5 rounded-xl px-2.5 text-left text-sm text-secondary transition-colors hover:bg-[rgba(0,240,255,0.04)] hover:text-on-surface"
             >
               <span className="grid h-7 w-7 shrink-0 place-items-center">
                 <Icon icon={item.icon} size="md" />
@@ -107,14 +112,14 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       {/* Mobile overlay */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={onClose}
         />
       )}
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-[85vw] max-w-[236px] bg-surface-container-low flex flex-col py-3 border-r border-outline-variant/30 z-50 transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 left-0 h-screen w-[85vw] max-w-[236px] bg-[rgba(10,15,30,0.85)] backdrop-blur-2xl flex flex-col py-3 border-r border-[var(--glass-border)] z-50 transition-transform duration-300 md:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -122,7 +127,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       </aside>
 
       {/* Desktop sidebar */}
-      <aside className="fixed top-0 left-0 h-screen w-[var(--spacing-sidebar-width,232px)] bg-surface-container-low hidden md:flex flex-col py-4 border-r border-outline-variant/30 z-50">
+      <aside className="fixed top-0 left-0 h-screen w-[var(--spacing-sidebar-width,232px)] bg-[rgba(10,15,30,0.85)] backdrop-blur-2xl hidden md:flex flex-col py-4 border-r border-[var(--glass-border)] z-50">
         {sidebarContent}
       </aside>
     </>
